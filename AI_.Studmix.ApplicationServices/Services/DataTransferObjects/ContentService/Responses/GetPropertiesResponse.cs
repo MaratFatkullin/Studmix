@@ -1,0 +1,9 @@
+using System.Collections.Generic;
+
+namespace AI_.Studmix.ApplicationServices.Services.DataTransferObjects.ContentService.Responses
+{
+    public class GetPropertiesResponse
+    {
+        public Dictionary<int, string> Properties { get; set; }
+    }
+}
