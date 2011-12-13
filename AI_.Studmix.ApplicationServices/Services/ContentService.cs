@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Linq;
 using AI_.Studmix.ApplicationServices.FileRepository;
 using AI_.Studmix.ApplicationServices.Services.Abstractions;
@@ -37,37 +38,43 @@ namespace AI_.Studmix.ApplicationServices.Services
             User owner = userRepository.Get(new GetUserByUserName(request.OwnerUserName)).Single();
 
             var factory = new ContentPackageFactory();
-            var contentPackage = factory.CreateContentPackage(request.Caption,
-                                                              request.Description,
-                                                              owner,
-                                                              request.Price);
-
+            
 
 
             //property states
             var propertyRepository = UnitOfWork.GetRepository<Property>();
+            var propertyStates = new Collection<PropertyState>();
             foreach (var state in request.States)
             {
                 var property = propertyRepository.GetByID(state.Key);
                 var propertyState = property.GetState(state.Value);
 
-                contentPackage.AddPropertyState(propertyState);
+                propertyStates.Add(propertyState);
             }
 
             //files
             var contentFileFactory = new ContentFileFactory();
+            var contentFiles = new Collection<ContentFile>();
             foreach (var fileInfo in request.PreviewContentFiles)
             {
                 var contentFile = contentFileFactory.CreateContentFile(fileInfo.FileName, true);
-                contentPackage.AddContentFile(contentFile);
+                contentFiles.Add(contentFile);
                 FileRepository.Store(contentFile, fileInfo.Stream);
             }
             foreach (var fileInfo in request.ContentFiles)
             {
                 var contentFile = contentFileFactory.CreateContentFile(fileInfo.FileName, false);
-                contentPackage.AddContentFile(contentFile);
+                contentFiles.Add(contentFile);
                 FileRepository.Store(contentFile, fileInfo.Stream);
             }
+
+            var contentPackage = factory.CreateContentPackage(request.Caption,
+                                                              request.Description,
+                                                              owner,
+                                                              request.Price,
+                                                              propertyStates,
+                                                              contentFiles);
+
 
             var repository = UnitOfWork.GetRepository<ContentPackage>();
             repository.Insert(contentPackage);

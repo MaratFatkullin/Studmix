@@ -14,7 +14,7 @@ namespace AI_.Studmix.IntegrationTests
     {
         public void InitDatabase()
         {
-            Database.SetInitializer(new CustomDatabaseInitializer());
+            Database.SetInitializer(new TemporaryDatabaseInitializer());
         }
     }
 

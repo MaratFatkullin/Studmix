@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using AI_.Studmix.Domain.Factories;
 
@@ -20,10 +21,9 @@ namespace AI_.Studmix.Domain.Entities
                 return existingPropertyStates;
 
             int index = States.Count == 0 ? 1 : States.Max(x => x.Index) + 1;
-            var factory = new PropertyStateFactory();
-            var propertyState = factory.CreatePropertyState(this, value, index, false);
-
+            var propertyState = new PropertyState(this, value, index);
             States.Add(propertyState);
+
             return propertyState;
         }
     }

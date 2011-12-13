@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Factories;
 
@@ -27,19 +29,42 @@ namespace AI_.Studmix.Domain.Tests
             return property;
         }
 
+        protected ContentPackage CreateContentPackage(ICollection<PropertyState> states)
+        {
+            var factory = new ContentPackageFactory();
+            return factory.CreateContentPackage("caption",
+                                                "description",
+                                                null,
+                                                100,
+                                                states,
+                                                new Collection<ContentFile>());
+        }
+
+        protected ContentPackage CreateContentPackage(ICollection<ContentFile> files)
+        {
+            var factory = new ContentPackageFactory();
+            return factory.CreateContentPackage("caption",
+                                                "description",
+                                                null,
+                                                100,
+                                                new Collection<PropertyState>(),
+                                                files);
+        }
+
         protected ContentPackage CreateContentPackage(User owner = null)
         {
             var factory = new ContentPackageFactory();
-            return factory.CreateContentPackage("caption", "description", owner, 100);
+            return factory.CreateContentPackage("caption",
+                                                "description",
+                                                owner,
+                                                100,
+                                                new Collection<PropertyState>(),
+                                                new Collection<ContentFile>());
         }
 
-        protected PropertyState CreatePropertyState(Property property, string value, int index)
-        {
-            var factory = new PropertyStateFactory();
-            return factory.CreatePropertyState(property,value,index);
-        }
-
-        protected ContentFile CreateContentFile(string filename = "filename", bool isPreview = false, Guid globalId = default(Guid))
+        protected ContentFile CreateContentFile(string filename = "filename",
+                                                bool isPreview = false,
+                                                Guid globalId = default(Guid))
         {
             var contentFileFactory = new ContentFileFactory();
             var contentFile = contentFileFactory.CreateContentFile(filename, isPreview);
