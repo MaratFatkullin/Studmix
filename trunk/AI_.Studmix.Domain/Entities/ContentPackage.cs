@@ -17,16 +17,5 @@ namespace AI_.Studmix.Domain.Entities
         public decimal Price { get; set; }
 
         public string Path { get; set; }
-
-        public void AddPropertyState(PropertyState state)
-        {
-            PropertyStates.Add(state);
-        }
-
-        public void AddContentFile(ContentFile file)
-        {
-            Files.Add(file);
-            file.ContentPackage = this;
-        }
     }
 }

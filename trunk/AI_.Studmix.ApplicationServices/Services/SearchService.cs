@@ -33,7 +33,6 @@ namespace AI_.Studmix.ApplicationServices.Services
 
         {
             IEnumerable<ContentPackage> contentPackages = UnitOfWork.GetRepository<ContentPackage>().Get();
-            var propertyStateRepository = UnitOfWork.GetRepository<PropertyState>();
 
             foreach (var propertyStateInfo in request.PropertyStates)
             {

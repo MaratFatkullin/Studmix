@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using AI_.Studmix.ApplicationServices.Services;
 using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.SearchService.Requests;
 using AI_.Studmix.ApplicationServices.Tests.Mocks;
@@ -29,17 +30,13 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             var property1 = CreateProperty(order: 1);
             var property2 = CreateProperty(order: 2);
 
-            var state1 = CreatePropertyState(property1, "state1", 1);
-            var state2 = CreatePropertyState(property1, "state2", 2);
-            var state3 = CreatePropertyState(property2, "state3", 3);
+            var state1 = property1.GetState("state1");
+            var state2 = property1.GetState("state2");
+            var state3 = property2.GetState("state3");
 
-            var package1 = CreateContentPackage();
-            package1.AddPropertyState(state1);
-            package1.AddPropertyState(state3);
+            var package1 = CreateContentPackage(new Collection<PropertyState> {state1, state3});
 
-            var package2 = CreateContentPackage();
-            package2.AddPropertyState(state2);
-            package2.AddPropertyState(state3);
+            var package2 = CreateContentPackage(new Collection<PropertyState> {state2, state3});
 
             //
             //storing to repositories

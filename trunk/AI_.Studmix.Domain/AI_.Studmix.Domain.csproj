@@ -31,7 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,7 +52,6 @@
     <Compile Include="Factories\ContentFileFactory.cs" />
     <Compile Include="Factories\ContentPackageFactory.cs" />
     <Compile Include="Factories\PropertyFactory.cs" />
-    <Compile Include="Factories\PropertyStateFactory.cs" />
     <Compile Include="Factories\UserFactory.cs" />
     <Compile Include="IIdentifiable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

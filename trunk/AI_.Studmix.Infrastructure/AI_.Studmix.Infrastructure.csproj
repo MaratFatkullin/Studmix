@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessObject.cs" />
-    <Compile Include="Database\CustomDatabaseInitializer.asax.cs" />
+    <Compile Include="Database\TemporaryDatabaseInitializer.asax.cs" />
     <Compile Include="Database\DataContext.cs" />
     <Compile Include="FileSystem\FileSystemLocator.cs" />
     <Compile Include="FileSystem\FileSystemProvider.cs" />

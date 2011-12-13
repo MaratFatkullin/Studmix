@@ -2,7 +2,7 @@
 
 namespace AI_.Studmix.Domain.Entities
 {
-    public class PropertyState : AggregationRoot
+    public class PropertyState : Entity
     {
         public Property Property { get; protected set; }
 
@@ -15,10 +15,6 @@ namespace AI_.Studmix.Domain.Entities
             Property = property;
             Value = value;
             Index = index;
-        }
-
-        public PropertyState()
-        {
         }
     }
 }
