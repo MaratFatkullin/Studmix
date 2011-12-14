@@ -2,7 +2,7 @@
 
 namespace AI_.Studmix.ApplicationServices.Services.DataTransferObjects.SearchService.Responses
 {
-    public class FindPackagesWithSamePropertyStatesResponse
+    public class FindPackagesByPropertyStatesResponse
     {
         public IDictionary<int, string> Packages { get; set; }
     }

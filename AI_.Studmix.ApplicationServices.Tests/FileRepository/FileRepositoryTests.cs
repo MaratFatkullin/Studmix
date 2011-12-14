@@ -53,7 +53,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.FileRepository
         }
 
         [Fact]
-        public void Get_Simple_FileStreamReturned()
+        public void GetFileStream_Simple_FileStreamReturned()
         {
             // Arrange
             Stream expectedStream = CreateStream();
