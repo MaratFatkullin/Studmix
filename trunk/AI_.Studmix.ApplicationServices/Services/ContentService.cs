@@ -37,10 +37,6 @@ namespace AI_.Studmix.ApplicationServices.Services
             var userRepository = UnitOfWork.GetRepository<User>();
             User owner = userRepository.Get(new GetUserByUserName(request.OwnerUserName)).Single();
 
-            var factory = new ContentPackageFactory();
-            
-
-
             //property states
             var propertyRepository = UnitOfWork.GetRepository<Property>();
             var propertyStates = new Collection<PropertyState>();
@@ -68,13 +64,13 @@ namespace AI_.Studmix.ApplicationServices.Services
                 FileRepository.Store(contentFile, fileInfo.Stream);
             }
 
+            var factory = new ContentPackageFactory();
             var contentPackage = factory.CreateContentPackage(request.Caption,
                                                               request.Description,
                                                               owner,
                                                               request.Price,
                                                               propertyStates,
                                                               contentFiles);
-
 
             var repository = UnitOfWork.GetRepository<ContentPackage>();
             repository.Insert(contentPackage);

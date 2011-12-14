@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace AI_.Studmix.Domain.Entities
+﻿namespace AI_.Studmix.Domain.Entities
 {
-    public class PropertyState : Entity
+    public class PropertyState : ValueObject
     {
         public Property Property { get; protected set; }
 

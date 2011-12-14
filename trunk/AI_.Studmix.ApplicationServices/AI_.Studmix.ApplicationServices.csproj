@@ -55,10 +55,12 @@
     <Compile Include="Services\DataTransferObjects\MembershipService\Requests\ValidateUserRequest.cs" />
     <Compile Include="Services\DataTransferObjects\MembershipService\Requests\CreateUserRequest.cs" />
     <Compile Include="Services\DataTransferObjects\MembershipService\Responses\CreateUserResponse.cs" />
+    <Compile Include="Services\DataTransferObjects\SearchService\Requests\GetBoundedStatesRequest.cs" />
+    <Compile Include="Services\DataTransferObjects\SearchService\Responses\GetBoundedStatesResponse.cs" />
     <Compile Include="Specifications\GetUserByUserName.cs" />
     <Compile Include="Services\MembershipService.cs" />
-    <Compile Include="Services\DataTransferObjects\SearchService\Requests\FindPackagesWithSamePropertyStatesRequest.cs" />
-    <Compile Include="Services\DataTransferObjects\SearchService\Responses\FindPackagesWithSamePropertyStatesResponse.cs" />
+    <Compile Include="Services\DataTransferObjects\SearchService\Requests\FindPackagesByPropertyStatesRequest.cs" />
+    <Compile Include="Services\DataTransferObjects\SearchService\Responses\FindPackagesByPropertyStatesResponse.cs" />
     <Compile Include="Services\SearchService.cs" />
     <Compile Include="Specifications\GetRoleByRoleName.cs" />
     <Compile Include="Specifications\GetStateByPropertyIdAndStateValue.cs" />
