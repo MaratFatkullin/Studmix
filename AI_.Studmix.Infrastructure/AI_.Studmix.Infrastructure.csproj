@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
+    <Reference Include="EntityFramework, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.4.2.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -39,6 +39,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,17 +50,18 @@
     <Compile Include="DataAccessObject.cs" />
     <Compile Include="Database\TemporaryDatabaseInitializer.asax.cs" />
     <Compile Include="Database\DataContext.cs" />
-    <Compile Include="FileSystem\FileSystemLocator.cs" />
     <Compile Include="FileSystem\FileSystemProvider.cs" />
     <Compile Include="FileSystem\GuidProvider.cs" />
-    <Compile Include="FileSystem\IFileSystemLocator.cs" />
-    <Compile Include="FileSystem\IFileSystemProvider.cs" />
     <Compile Include="FileSystem\IGuidProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EntityFrameworkRepository.cs" />
     <Compile Include="Repository\EntityFrameworkUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AI_.Studmix.ApplicationServices\AI_.Studmix.ApplicationServices.csproj">
+      <Project>{5B50C8BF-24A6-4099-A923-E6481B10166A}</Project>
+      <Name>AI_.Studmix.ApplicationServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AI_.Studmix.Domain\AI_.Studmix.Domain.csproj">
       <Project>{1C15DCB5-A1AF-4B97-A6E0-AC6AB47F536F}</Project>
       <Name>AI_.Studmix.Domain</Name>

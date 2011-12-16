@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Security;
 using AI_.Studmix.ApplicationServices.Services;
-using AI_.Studmix.ApplicationServices.Services.Abstractions;
 using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Requests;
 using AI_.Studmix.ApplicationServices.Tests.Mocks;
 using AI_.Studmix.Domain.Entities;
@@ -22,7 +21,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             MembershipConfiguration = new MembershipConfigurationMock();
         }
 
-        protected MembershipService CreateService()
+        protected MembershipService CreateSut()
         {
             return new MembershipService(UnitOfWork, MembershipConfiguration);
         }
@@ -52,7 +51,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
         {
             // Arrange
             var request = CreateUserRequest();
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
 
             // Act
             var response = membershipService.CreateUser(request);
@@ -70,7 +69,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
         {
             // Arrange
             var request = CreateUserRequest();
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
             membershipService.CreateUser(request);
 
             // Act
@@ -86,11 +85,10 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
         [Fact]
         public void CreateUser_UniqueEmailConstraintViolated_UserNotCreated()
         {
-
             // Arrange
             MembershipConfiguration.RequiresUniqueEmail = true;
             var request = CreateUserRequest("username1");
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
             membershipService.CreateUser(request);
             request.UserName = "username2";
 
@@ -111,7 +109,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             // Arrange
             MembershipConfiguration.MinRequiredPasswordLength = 4;
             var request = CreateUserRequest(password: "123");
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
 
             // Act
             var response = membershipService.CreateUser(request);
@@ -128,7 +126,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
         {
             // Arrange
             var request = CreateUserRequest(password: "pass word");
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
 
             // Act
             var response = membershipService.CreateUser(request);
@@ -146,7 +144,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             // Arrange
             MembershipConfiguration.RequiresEmail = true;
             var request = CreateUserRequest(email: string.Empty);
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
 
             // Act
             var response = membershipService.CreateUser(request);
@@ -164,7 +162,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             // Arrange
             MembershipConfiguration.RequiresQuestionAndAnswer = true;
             var request = CreateUserRequest(passwordQuestion: string.Empty);
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
 
             // Act
             var response = membershipService.CreateUser(request);
@@ -182,7 +180,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             // Arrange
             MembershipConfiguration.RequiresQuestionAndAnswer = true;
             var request = CreateUserRequest(passwordAnswer: string.Empty);
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
 
             // Act
             var response = membershipService.CreateUser(request);
@@ -202,7 +200,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             UnitOfWork.GetRepository<User>().Insert(user);
             UnitOfWork.Save();
 
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
             var request = new ValidateUserRequest(user.UserName, user.Password);
 
             // Act
@@ -219,7 +217,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             // Arrange
             var user = CreateUser();
 
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
             var request = new ValidateUserRequest(user.UserName, user.Password);
 
             // Act
@@ -238,7 +236,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             user.IsApproved = false;
             UnitOfWork.GetRepository<User>().Insert(user);
             UnitOfWork.Save();
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
             var request = new ValidateUserRequest(user.UserName, user.Password);
 
             // Act
@@ -256,7 +254,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             user.IsLocked = true;
             UnitOfWork.GetRepository<User>().Insert(user);
             UnitOfWork.Save();
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
             var request = new ValidateUserRequest(user.UserName, user.Password);
 
             // Act
@@ -273,7 +271,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             var user = CreateUser();
             UnitOfWork.GetRepository<User>().Insert(user);
             UnitOfWork.Save();
-            var membershipService = CreateService();
+            var membershipService = CreateSut();
             var request = new ValidateUserRequest(user.UserName, "incorrectPassword");
 
             // Act
@@ -281,6 +279,59 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
 
             // Assert
             responce.IsValid.Should().BeFalse();
+        }
+
+        [Fact]
+        public void ChangePassword_RequestDataCorrect_PasswordChanged()
+        {
+            // Arrange
+            var user = CreateUser();
+            UnitOfWork.GetRepository<User>().Insert(user);
+            UnitOfWork.Save();
+
+            var request = new ChangePasswordRequest(user.UserName, user.Password, "newPassword");
+            var service = CreateSut();
+
+            // Act
+            var response = service.ChangePassword(request);
+
+            // Assert
+            response.ChangePasswordSucceeded.Should().BeTrue();
+            user.Password.Should().Be("newPassword");
+        }
+
+        [Fact]
+        public void ChangePassword_OldPasswordIncorrect_PasswordNotChanged()
+        {
+            // Arrange
+            var user = CreateUser();
+            user.Password = "old";
+            UnitOfWork.GetRepository<User>().Insert(user);
+            UnitOfWork.Save();
+
+            var request = new ChangePasswordRequest(user.UserName, "wrongOldPassword", "newPassword");
+            var service = CreateSut();
+
+            // Act
+            var response = service.ChangePassword(request);
+
+            // Assert
+            response.ChangePasswordSucceeded.Should().BeFalse();
+            user.Password.Should().Be("old");
+        }
+
+        [Fact]
+        public void ChangePassword_UserNameIncorrect_PasswordNotChanged()
+        {
+            // Arrange
+            var request = new ChangePasswordRequest("incorrectUserName", "OldPassword", "newPassword");
+            var service = CreateSut();
+
+            // Act
+            var response = service.ChangePassword(request);
+
+            // Assert
+            response.ChangePasswordSucceeded.Should().BeFalse();
         }
     }
 }

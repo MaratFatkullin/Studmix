@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace AI_.Studmix.Infrastructure.FileSystem
+namespace AI_.Studmix.ApplicationServices.FileRepository
 {
     public interface IFileSystemProvider
     {

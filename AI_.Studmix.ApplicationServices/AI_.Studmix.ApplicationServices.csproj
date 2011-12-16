@@ -42,7 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileRepository\FileRepository.cs" />
+    <Compile Include="FileRepository\FileSystemLocator.cs" />
     <Compile Include="FileRepository\IFileRepository.cs" />
+    <Compile Include="FileRepository\IFileSystemLocator.cs" />
+    <Compile Include="FileRepository\IFileSystemProvider.cs" />
     <Compile Include="Services\DataTransferObjects\ContentService\Responses\GetPropertiesResponse.cs" />
     <Compile Include="Services\ContentService.cs" />
     <Compile Include="Services\DataTransferObjects\ContentService\Requests\StoreRequest.cs" />
@@ -51,12 +54,15 @@
     <Compile Include="Services\Abstractions\IMembershipConfiguration.cs" />
     <Compile Include="Services\Abstractions\IMembershipService.cs" />
     <Compile Include="Services\Abstractions\ISearchService.cs" />
+    <Compile Include="Services\DataTransferObjects\MembershipService\Requests\ChangePasswordRequest.cs" />
+    <Compile Include="Services\DataTransferObjects\MembershipService\Responses\ChangePasswordResponse.cs" />
     <Compile Include="Services\DataTransferObjects\MembershipService\Responses\ValidateUserResponce.cs" />
     <Compile Include="Services\DataTransferObjects\MembershipService\Requests\ValidateUserRequest.cs" />
     <Compile Include="Services\DataTransferObjects\MembershipService\Requests\CreateUserRequest.cs" />
     <Compile Include="Services\DataTransferObjects\MembershipService\Responses\CreateUserResponse.cs" />
     <Compile Include="Services\DataTransferObjects\SearchService\Requests\GetBoundedStatesRequest.cs" />
     <Compile Include="Services\DataTransferObjects\SearchService\Responses\GetBoundedStatesResponse.cs" />
+    <Compile Include="Services\MembershipConfiguration.cs" />
     <Compile Include="Specifications\GetUserByUserName.cs" />
     <Compile Include="Services\MembershipService.cs" />
     <Compile Include="Services\DataTransferObjects\SearchService\Requests\FindPackagesByPropertyStatesRequest.cs" />
@@ -69,10 +75,6 @@
     <ProjectReference Include="..\AI_.Studmix.Domain\AI_.Studmix.Domain.csproj">
       <Project>{1C15DCB5-A1AF-4B97-A6E0-AC6AB47F536F}</Project>
       <Name>AI_.Studmix.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AI_.Studmix.Infrastructure\AI_.Studmix.Infrastructure.csproj">
-      <Project>{DE98E0D9-C77E-4964-B604-CE4F15F699C6}</Project>
-      <Name>AI_.Studmix.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
