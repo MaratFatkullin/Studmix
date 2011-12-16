@@ -73,7 +73,9 @@ namespace AI_.Studmix.ApplicationServices.Services
             foreach (var state in states)
             {
                 var property = properties.Where(p => p.ID == state.Key).Single();
-                response.Add(property.GetState(state.Value));
+                var propertyState = property.States.SingleOrDefault(s => s.Value == state.Value);
+                if(propertyState!=null)
+                response.Add(propertyState);
             }
             return response;
         }

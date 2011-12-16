@@ -14,9 +14,6 @@ namespace AI_.Studmix.Infrastructure.FileSystem
 
         public string GetLocation(ContentFile file)
         {
-            if (file.GlobalID == Guid.Empty)
-                throw new InvalidOperationException("File not stored");
-
             var path = GetPath(file);
             var extension = Path.GetExtension(file.Name);
             var fileName = Path.GetFileNameWithoutExtension(file.Name);

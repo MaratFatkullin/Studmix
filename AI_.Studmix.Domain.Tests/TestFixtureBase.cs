@@ -36,19 +36,7 @@ namespace AI_.Studmix.Domain.Tests
                                                 "description",
                                                 null,
                                                 100,
-                                                states,
-                                                new Collection<ContentFile>());
-        }
-
-        protected ContentPackage CreateContentPackage(ICollection<ContentFile> files)
-        {
-            var factory = new ContentPackageFactory();
-            return factory.CreateContentPackage("caption",
-                                                "description",
-                                                null,
-                                                100,
-                                                new Collection<PropertyState>(),
-                                                files);
+                                                states);
         }
 
         protected ContentPackage CreateContentPackage(User owner = null)
@@ -58,8 +46,7 @@ namespace AI_.Studmix.Domain.Tests
                                                 "description",
                                                 owner,
                                                 100,
-                                                new Collection<PropertyState>(),
-                                                new Collection<ContentFile>());
+                                                new Collection<PropertyState>());
         }
 
         protected ContentFile CreateContentFile(string filename = "filename",

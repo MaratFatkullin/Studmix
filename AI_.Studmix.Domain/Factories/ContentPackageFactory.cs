@@ -10,8 +10,7 @@ namespace AI_.Studmix.Domain.Factories
                                                    string description,
                                                    User owner,
                                                    int price,
-                                                   ICollection<PropertyState> propertyStates,
-                                                   ICollection<ContentFile> files)
+                                                   ICollection<PropertyState> propertyStates)
         {
             var contentPackage = new ContentPackage
                                  {
@@ -22,12 +21,6 @@ namespace AI_.Studmix.Domain.Factories
                                      PropertyStates = new Collection<PropertyState>(),
                                      Files = new Collection<ContentFile>()
                                  };
-
-            foreach (var contentFile in files)
-            {
-                contentPackage.Files.Add(contentFile);
-                contentFile.ContentPackage = contentPackage;
-            }
 
             foreach (var propertyState in propertyStates)
             {

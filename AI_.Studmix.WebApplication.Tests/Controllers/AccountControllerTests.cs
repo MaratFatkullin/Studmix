@@ -5,6 +5,7 @@ using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipSer
 using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Responses;
 using AI_.Studmix.WebApplication.Controllers;
 using AI_.Studmix.WebApplication.Infrastructure.Authentication;
+using AI_.Studmix.WebApplication.Tests.Controllers;
 using AI_.Studmix.WebApplication.ViewModels.Account;
 using FluentAssertions;
 using Moq;
@@ -13,7 +14,7 @@ using Xunit.Extensions;
 
 namespace AI_.Studmix.WebApplication.Tests
 {
-    public class AccountControllerTestFixture
+    public class AccountControllerTestFixture : TestFixtureBase
     {
         protected Mock<IAuthenticationProvider> AuthenticationProvider = new Mock<IAuthenticationProvider>();
         protected Mock<IMembershipService> MembershipService = new Mock<IMembershipService>();
@@ -21,14 +22,6 @@ namespace AI_.Studmix.WebApplication.Tests
         public AccountController CreateSut()
         {
             return new AccountController(MembershipService.Object, AuthenticationProvider.Object);
-        }
-
-        public ControllerContext CreateContext(string username)
-        {
-            var mock = new Mock<ControllerContext>();
-            mock.SetupGet(p => p.HttpContext.User.Identity.Name).Returns(username);
-            mock.SetupGet(p => p.HttpContext.Request.IsAuthenticated).Returns(true);
-            return mock.Object;
         }
 
         //public IPrincipal CreatePrincipal(string username)

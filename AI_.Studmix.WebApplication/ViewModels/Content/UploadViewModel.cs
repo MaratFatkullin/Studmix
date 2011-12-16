@@ -7,7 +7,7 @@ namespace AI_.Studmix.WebApplication.ViewModels.Content
 {
     public class UploadViewModel : IValidatableObject
     {
-        //public IEnumerable<Property> Properties { get; set; }
+        public Dictionary<int, string> Properties { get; set; }
 
         /// <summary>
         ///   Словарь пары ID свойства - состояние.
@@ -29,6 +29,7 @@ namespace AI_.Studmix.WebApplication.ViewModels.Content
         [Required]
         [Display(Name = "Цена")]
         public int Price { get; set; }
+
 
         public UploadViewModel()
         {
