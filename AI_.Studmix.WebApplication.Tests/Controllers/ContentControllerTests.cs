@@ -2,11 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
-using AI_.Studmix.ApplicationServices.Services.Abstractions;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.ContentService.Requests;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.ContentService.Responses;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.SearchService.Requests;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.SearchService.Responses;
+using AI_.Studmix.ApplicationServices.Services.ContentService;
+using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
+using AI_.Studmix.ApplicationServices.Services.ContentService.Responses;
+using AI_.Studmix.ApplicationServices.Services.SearchService;
+using AI_.Studmix.ApplicationServices.Services.SearchService.Requests;
+using AI_.Studmix.ApplicationServices.Services.SearchService.Responses;
 using AI_.Studmix.WebApplication.Controllers;
 using AI_.Studmix.WebApplication.ViewModels.Content;
 using FluentAssertions;

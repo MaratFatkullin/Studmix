@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
-namespace AI_.Studmix.ApplicationServices.Services.DataTransferObjects.ContentService.Requests
+namespace AI_.Studmix.ApplicationServices.Services.ContentService.Requests
 {
     public class StoreRequest
     {

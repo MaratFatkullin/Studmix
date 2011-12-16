@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using AI_.Studmix.Domain.Entities;
+﻿using AI_.Studmix.ApplicationServices.FileRepository;
 using AI_.Studmix.Domain.Tests;
-using AI_.Studmix.Infrastructure.FileSystem;
 using FluentAssertions;
 using Xunit;
 
@@ -86,7 +83,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.FileRepository
         {
             // Arrange
             var contentPackage = CreateContentPackage();
-            var contentFile = contentPackage.AddFile("file.txt",false);
+            var contentFile = contentPackage.AddFile("file.txt", false);
 
             var fileSystemLocator = CreateSut();
 

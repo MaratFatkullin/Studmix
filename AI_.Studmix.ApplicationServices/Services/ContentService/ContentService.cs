@@ -1,15 +1,14 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using AI_.Studmix.ApplicationServices.FileRepository;
-using AI_.Studmix.ApplicationServices.Services.Abstractions;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.ContentService.Requests;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.ContentService.Responses;
+using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
+using AI_.Studmix.ApplicationServices.Services.ContentService.Responses;
 using AI_.Studmix.ApplicationServices.Specifications;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Factories;
 using AI_.Studmix.Domain.Repository;
 
-namespace AI_.Studmix.ApplicationServices.Services
+namespace AI_.Studmix.ApplicationServices.Services.ContentService
 {
     public class ContentService : IContentService
     {

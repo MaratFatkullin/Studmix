@@ -1,7 +1,7 @@
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Requests;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Responses;
+using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
+using AI_.Studmix.ApplicationServices.Services.MembershipService.Responses;
 
-namespace AI_.Studmix.ApplicationServices.Services.Abstractions
+namespace AI_.Studmix.ApplicationServices.Services.MembershipService
 {
     public interface IMembershipService
     {

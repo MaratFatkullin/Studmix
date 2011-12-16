@@ -1,4 +1,4 @@
-﻿using AI_.Studmix.ApplicationServices.Services.Abstractions;
+﻿using AI_.Studmix.ApplicationServices.Services.MembershipService;
 
 namespace AI_.Studmix.ApplicationServices.Tests.Mocks
 {

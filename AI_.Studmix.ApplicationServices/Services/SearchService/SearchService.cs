@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AI_.Studmix.ApplicationServices.Services.Abstractions;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.SearchService.Requests;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.SearchService.Responses;
+using AI_.Studmix.ApplicationServices.Services.SearchService.Requests;
+using AI_.Studmix.ApplicationServices.Services.SearchService.Responses;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Repository;
 
-namespace AI_.Studmix.ApplicationServices.Services
+namespace AI_.Studmix.ApplicationServices.Services.SearchService
 {
     public class SearchService : ISearchService
     {

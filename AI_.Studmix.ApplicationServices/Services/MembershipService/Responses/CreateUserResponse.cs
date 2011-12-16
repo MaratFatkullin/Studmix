@@ -1,6 +1,6 @@
 ﻿using System.Web.Security;
 
-namespace AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Responses
+namespace AI_.Studmix.ApplicationServices.Services.MembershipService.Responses
 {
     public class CreateUserResponse
     {

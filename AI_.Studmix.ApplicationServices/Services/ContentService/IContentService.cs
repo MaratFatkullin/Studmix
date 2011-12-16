@@ -1,7 +1,7 @@
-﻿using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.ContentService.Requests;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.ContentService.Responses;
+﻿using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
+using AI_.Studmix.ApplicationServices.Services.ContentService.Responses;
 
-namespace AI_.Studmix.ApplicationServices.Services.Abstractions
+namespace AI_.Studmix.ApplicationServices.Services.ContentService
 {
     public interface IContentService
     {

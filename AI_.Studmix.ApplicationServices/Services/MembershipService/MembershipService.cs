@@ -1,13 +1,12 @@
 ﻿using System.Linq;
 using System.Web.Security;
-using AI_.Studmix.ApplicationServices.Services.Abstractions;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Requests;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Responses;
+using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
+using AI_.Studmix.ApplicationServices.Services.MembershipService.Responses;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Factories;
 using AI_.Studmix.Domain.Repository;
 
-namespace AI_.Studmix.ApplicationServices.Services
+namespace AI_.Studmix.ApplicationServices.Services.MembershipService
 {
     public class MembershipService : IMembershipService
     {
