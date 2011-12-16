@@ -1,13 +1,11 @@
-﻿using System.Security.Principal;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
 using AI_.Studmix.ApplicationServices.Services.Abstractions;
 using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Requests;
 using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Responses;
 using AI_.Studmix.WebApplication.Controllers;
 using AI_.Studmix.WebApplication.Infrastructure.Authentication;
-using AI_.Studmix.WebApplication.Models;
+using AI_.Studmix.WebApplication.ViewModels.Account;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -154,7 +152,7 @@ namespace AI_.Studmix.WebApplication.Tests
             var result = controller.Register(viewModel);
 
             // Assert
-            var viewResult = (ViewResult)result;
+            var viewResult = (ViewResult) result;
             viewResult.ViewName.Should().BeEmpty();
             controller.ModelState.IsValid.Should().BeFalse();
         }
@@ -204,7 +202,7 @@ namespace AI_.Studmix.WebApplication.Tests
             var result = controller.ChangePassword(viewModel);
 
             // Assert
-            var redirectToRouteResult = ((RedirectToRouteResult)result);
+            var redirectToRouteResult = ((RedirectToRouteResult) result);
             redirectToRouteResult.RouteValues["action"].Should().Be("ChangePasswordSuccess");
         }
     }

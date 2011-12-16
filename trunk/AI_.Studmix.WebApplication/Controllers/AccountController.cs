@@ -3,7 +3,7 @@ using System.Web.Security;
 using AI_.Studmix.ApplicationServices.Services.Abstractions;
 using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Requests;
 using AI_.Studmix.WebApplication.Infrastructure.Authentication;
-using AI_.Studmix.WebApplication.Models;
+using AI_.Studmix.WebApplication.ViewModels.Account;
 
 namespace AI_.Studmix.WebApplication.Controllers
 {
