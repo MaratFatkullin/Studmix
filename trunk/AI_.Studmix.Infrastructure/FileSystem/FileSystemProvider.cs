@@ -1,5 +1,6 @@
 using System.Configuration;
 using System.IO;
+using AI_.Studmix.ApplicationServices.FileRepository;
 
 namespace AI_.Studmix.Infrastructure.FileSystem
 {
@@ -13,9 +14,11 @@ namespace AI_.Studmix.Infrastructure.FileSystem
         public void Write(string path, Stream inputStream)
         {
             var fullPath = Path.Combine(FileStoragePath,path);
-            var directoryName = Path.GetDirectoryName(fullPath);    
+            var directoryName = Path.GetDirectoryName(fullPath);
             if (!Directory.Exists(directoryName))
+            {
                 Directory.CreateDirectory(directoryName);
+            }
             using (Stream file = File.OpenWrite(fullPath))
             {
                 CopyStream(inputStream, file);

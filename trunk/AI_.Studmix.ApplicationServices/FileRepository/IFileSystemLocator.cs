@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using AI_.Studmix.Domain.Entities;
 
-namespace AI_.Studmix.Infrastructure.FileSystem
+namespace AI_.Studmix.ApplicationServices.FileRepository
 {
     public interface IFileSystemLocator
     {

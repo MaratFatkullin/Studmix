@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using AI_.Studmix.Domain.Entities;
-using AI_.Studmix.Infrastructure.FileSystem;
 
 namespace AI_.Studmix.ApplicationServices.FileRepository
 {
@@ -9,7 +8,6 @@ namespace AI_.Studmix.ApplicationServices.FileRepository
     {
         protected IFileSystemProvider Provider { get; set; }
         protected IFileSystemLocator FileSystemLocator { get; set; }
-        protected IGuidProvider GuidProvider { get; set; }
 
         public FileRepository(IFileSystemProvider fileSystemProvider,
                               IFileSystemLocator fileSystemLocator)

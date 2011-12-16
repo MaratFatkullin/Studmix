@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using AI_.Studmix.ApplicationServices.FileRepository;
 using AI_.Studmix.Domain.Tests;
 using AI_.Studmix.Infrastructure.FileSystem;
 using FluentAssertions;

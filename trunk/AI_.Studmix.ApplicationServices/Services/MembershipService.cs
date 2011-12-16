@@ -84,6 +84,21 @@ namespace AI_.Studmix.ApplicationServices.Services
             return new ValidateUserResponce(user.Password == request.Password);
         }
 
+        public ChangePasswordResponse ChangePassword(ChangePasswordRequest request)
+        {
+            var user = GetUser(request.UserName);
+            if (user == null)
+            {
+                return new ChangePasswordResponse(false);
+            }
+            if (user.Password != request.OldPassword)
+            {
+                return new ChangePasswordResponse(false);
+            }
+            user.Password = request.NewPassword;
+            return new ChangePasswordResponse(true);
+        }
+
         private bool ValidatingPassword(string password)
         {
             if (password.Length < Configuration.MinRequiredPasswordLength)
