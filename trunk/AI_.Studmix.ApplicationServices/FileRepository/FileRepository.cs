@@ -26,8 +26,8 @@ namespace AI_.Studmix.ApplicationServices.FileRepository
 
         public void Store(ContentFile file, Stream stream)
         {
-            var location = FileSystemLocator.GetLocation(file);
             file.GlobalID = Guid.NewGuid();
+            var location = FileSystemLocator.GetLocation(file);
             Provider.Write(location, stream);
         }
 

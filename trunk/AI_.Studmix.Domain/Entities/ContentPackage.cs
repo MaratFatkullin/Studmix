@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AI_.Studmix.Domain.Factories;
 
 namespace AI_.Studmix.Domain.Entities
 {
@@ -16,6 +17,14 @@ namespace AI_.Studmix.Domain.Entities
 
         public decimal Price { get; set; }
 
-        public string Path { get; set; }
+        public ContentFile AddFile(string filename, bool isPreview)
+        {
+            var factory = new ContentFileFactory();
+            var contentFile = factory.CreateContentFile(filename, isPreview);
+            Files.Add(contentFile);
+            contentFile.ContentPackage = this;
+
+            return contentFile;
+        }
     }
 }

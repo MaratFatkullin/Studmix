@@ -26,10 +26,9 @@ namespace AI_.Studmix.ApplicationServices.Services
 
         public GetPropertiesResponse GetProperties()
         {
-            var response = new GetPropertiesResponse();
             var properties = UnitOfWork.GetRepository<Property>().Get();
-            response.Properties = properties.OrderBy(pr => pr.Order).ToDictionary(p => p.ID, p => p.Name);
-            return response;
+            var propertiesDictionary = properties.OrderBy(pr => pr.Order).ToDictionary(p => p.ID, p => p.Name);
+            return new GetPropertiesResponse(propertiesDictionary);
         }
 
         public void Store(StoreRequest request)
@@ -48,30 +47,26 @@ namespace AI_.Studmix.ApplicationServices.Services
                 propertyStates.Add(propertyState);
             }
 
-            //files
-            var contentFileFactory = new ContentFileFactory();
-            var contentFiles = new Collection<ContentFile>();
-            foreach (var fileInfo in request.PreviewContentFiles)
-            {
-                var contentFile = contentFileFactory.CreateContentFile(fileInfo.FileName, true);
-                contentFiles.Add(contentFile);
-                FileRepository.Store(contentFile, fileInfo.Stream);
-            }
-            foreach (var fileInfo in request.ContentFiles)
-            {
-                var contentFile = contentFileFactory.CreateContentFile(fileInfo.FileName, false);
-                contentFiles.Add(contentFile);
-                FileRepository.Store(contentFile, fileInfo.Stream);
-            }
-
             var factory = new ContentPackageFactory();
             var contentPackage = factory.CreateContentPackage(request.Caption,
                                                               request.Description,
                                                               owner,
                                                               request.Price,
-                                                              propertyStates,
-                                                              contentFiles);
+                                                              propertyStates);
 
+            //files
+            foreach (var fileInfo in request.PreviewContentFiles)
+            {
+                var contentFile = contentPackage.AddFile(fileInfo.FileName, true);
+                FileRepository.Store(contentFile, fileInfo.Stream);
+            }
+            foreach (var fileInfo in request.ContentFiles)
+            {
+                var contentFile = contentPackage.AddFile(fileInfo.FileName, false);
+                FileRepository.Store(contentFile, fileInfo.Stream);
+            }
+
+            
             var repository = UnitOfWork.GetRepository<ContentPackage>();
             repository.Insert(contentPackage);
 

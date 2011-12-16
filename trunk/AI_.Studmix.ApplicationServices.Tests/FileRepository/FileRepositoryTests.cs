@@ -49,7 +49,6 @@ namespace AI_.Studmix.ApplicationServices.Tests.FileRepository
             fileRepository.Store(contentFile, stream);
 
             // Assert
-            contentFile.GlobalID.Should().NotBeEmpty();
             FileSystemProvider.Verify(provider => provider.Write("dir/filename", stream));
         }
 

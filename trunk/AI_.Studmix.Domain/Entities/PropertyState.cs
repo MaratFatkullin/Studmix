@@ -14,5 +14,9 @@
             Value = value;
             Index = index;
         }
+
+        public PropertyState()
+        {
+        }
     }
 }

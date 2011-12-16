@@ -19,7 +19,7 @@
 					                    dataType: 'json',
 					                    success:
 					                        function (responseData) {
-					                            element.attr("data-autocomplete-states", responseData);
+					                            element.attr("data-autocomplete-states", responseData.join("|"));
 
 					                            var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
 					                            response(element.attr("data-autocomplete-states").split("|").map(function (state) {

@@ -76,24 +76,21 @@ namespace AI_.Studmix.Infrastructure.Database
                                                                       marat,
                                                                       70,
                                                                       new Collection<PropertyState>
-                                                                      {russia, moscow},
-                                                                      new Collection<ContentFile>());
+                                                                      {russia, moscow});
 
             var contentPackage2 = packageFactory.CreateContentPackage("",
                                                                       "",
                                                                       marat,
                                                                       100,
                                                                       new Collection<PropertyState>
-                                                                      {russia, kazan},
-                                                                      new Collection<ContentFile>());
+                                                                      {russia, kazan});
 
             var contentPackage3 = packageFactory.CreateContentPackage("",
                                                                       "",
                                                                       admin,
                                                                       100,
                                                                       new Collection<PropertyState>
-                                                                      {czech, prague},
-                                                                      new Collection<ContentFile>());
+                                                                      {czech, prague});
 
             context.Set<ContentPackage>().Add(contentPackage1);
             context.Set<ContentPackage>().Add(contentPackage2);

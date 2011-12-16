@@ -3,12 +3,14 @@ using System.Data.Entity;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AI_.Studmix.ApplicationServices.FileRepository;
 using AI_.Studmix.ApplicationServices.Services;
 using AI_.Studmix.ApplicationServices.Services.Abstractions;
 using AI_.Studmix.Domain.Repository;
 using AI_.Studmix.Domain.Services;
 using AI_.Studmix.Domain.Services.Abstractions;
 using AI_.Studmix.Infrastructure.Database;
+using AI_.Studmix.Infrastructure.FileSystem;
 using AI_.Studmix.Infrastructure.Repository;
 using AI_.Studmix.WebApplication.Infrastructure;
 using AI_.Studmix.WebApplication.Infrastructure.Authentication;
@@ -37,7 +39,7 @@ namespace AI_.Studmix.WebApplication
                 // Route name
                 "{controller}/{action}/{id}",
                 // URL with parameters
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                new {controller = "Home", action = "Index", id = UrlParameter.Optional} // Parameter defaults
                 );
         }
 
@@ -59,7 +61,7 @@ namespace AI_.Studmix.WebApplication
 
         private void RegisterModelBinders()
         {
-            ModelBinders.Binders.Add(typeof(Dictionary<int, string>), new DefaultDictionaryBinder());
+            ModelBinders.Binders.Add(typeof (Dictionary<int, string>), new DefaultDictionaryBinder());
         }
 
         private void RegisterDependencyResolver()
@@ -76,12 +78,19 @@ namespace AI_.Studmix.WebApplication
             container.RegisterType<IViewPageActivator, ViewPageActivator>();
             container.RegisterType<ModelMetadataProvider, DataAnnotationsModelMetadataProvider>();
 
-            container.RegisterType<IUnitOfWork, EntityFrameworkUnitOfWork<DataContext>>(new PerResolveLifetimeManager());
+            container.RegisterType<IUnitOfWork, EntityFrameworkUnitOfWork<DataContext>>(
+                new PerResolveLifetimeManager());
 
             container.RegisterType<IFinanceService, FinanceService>();
+            container.RegisterType<IContentService, ContentService>();
+            container.RegisterType<ISearchService, SearchService>();
+            container.RegisterType<ISearchService, SearchService>();
             container.RegisterType<IMembershipService, MembershipService>();
             container.RegisterType<IMembershipConfiguration, MembershipConfiguration>();
             container.RegisterType<IAuthenticationProvider, AuthenticationProvider>();
+            container.RegisterType<IFileRepository, FileRepository>();
+            container.RegisterType<IFileSystemLocator, FileSystemLocator>();
+            container.RegisterType<IFileSystemProvider, FileSystemProvider>();
         }
     }
 }

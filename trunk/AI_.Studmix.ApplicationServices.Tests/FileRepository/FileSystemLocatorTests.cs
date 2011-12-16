@@ -23,8 +23,8 @@ namespace AI_.Studmix.ApplicationServices.Tests.FileRepository
         public void GetLocation_Simple_FolderNameCombinedFromPropertiIdAndStateIndex()
         {
             // Arrange
-            var contentFile = CreateContentFile("file.txt", globalId: Guid.NewGuid());
-            var contentPackage = CreateContentPackage(new Collection<ContentFile> { contentFile });
+            var contentPackage = CreateContentPackage();
+            var contentFile = contentPackage.AddFile("file.txt", false);
             var property1 = CreateProperty(id: 1);
 
             property1.GetState("state1");
@@ -44,8 +44,8 @@ namespace AI_.Studmix.ApplicationServices.Tests.FileRepository
         public void GetLocation_PropertiesUnordered_PathCombinedFromOrderedPropertyStates()
         {
             // Arrange
-            var contentFile = CreateContentFile("file.txt", globalId: Guid.NewGuid());
-            var contentPackage = CreateContentPackage(new Collection<ContentFile> { contentFile });
+            var contentPackage = CreateContentPackage();
+            var contentFile = contentPackage.AddFile("file.txt", false);
             var property1 = CreateProperty(id: 1, order: 2);
             var property2 = CreateProperty(id: 2, order: 1);
             contentPackage.PropertyStates.Add(property1.GetState("state"));
@@ -64,8 +64,8 @@ namespace AI_.Studmix.ApplicationServices.Tests.FileRepository
         public void GetLocation_ThereIsUnspecifiedPropertyState_PathContainsDefaultFolderName()
         {
             // Arrange
-            var contentFile = CreateContentFile("file.txt",globalId:Guid.NewGuid());
-            var contentPackage = CreateContentPackage(new Collection<ContentFile> { contentFile });
+            var contentPackage = CreateContentPackage();
+            var contentFile = contentPackage.AddFile("file.txt", false);
             var property1 = CreateProperty(id: 1, order: 1);
             var property2 = CreateProperty(id: 2, order: 4);
             contentPackage.PropertyStates.Add(property1.GetState("state"));
@@ -85,8 +85,8 @@ namespace AI_.Studmix.ApplicationServices.Tests.FileRepository
         public void GetLocation_PropertyStateListEmpty_PathContainsOnlyFileName()
         {
             // Arrange
-            var contentFile = CreateContentFile("file.txt",globalId: Guid.NewGuid());
-            var contentPackage = CreateContentPackage(new Collection<ContentFile> { contentFile });
+            var contentPackage = CreateContentPackage();
+            var contentFile = contentPackage.AddFile("file.txt",false);
 
             var fileSystemLocator = CreateSut();
 
