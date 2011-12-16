@@ -46,28 +46,28 @@
     <Compile Include="FileRepository\IFileRepository.cs" />
     <Compile Include="FileRepository\IFileSystemLocator.cs" />
     <Compile Include="FileRepository\IFileSystemProvider.cs" />
-    <Compile Include="Services\DataTransferObjects\ContentService\Responses\GetPropertiesResponse.cs" />
-    <Compile Include="Services\ContentService.cs" />
-    <Compile Include="Services\DataTransferObjects\ContentService\Requests\StoreRequest.cs" />
+    <Compile Include="Services\ContentService\Responses\GetPropertiesResponse.cs" />
+    <Compile Include="Services\ContentService\ContentService.cs" />
+    <Compile Include="Services\ContentService\Requests\StoreRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Abstractions\IContentService.cs" />
-    <Compile Include="Services\Abstractions\IMembershipConfiguration.cs" />
-    <Compile Include="Services\Abstractions\IMembershipService.cs" />
-    <Compile Include="Services\Abstractions\ISearchService.cs" />
-    <Compile Include="Services\DataTransferObjects\MembershipService\Requests\ChangePasswordRequest.cs" />
-    <Compile Include="Services\DataTransferObjects\MembershipService\Responses\ChangePasswordResponse.cs" />
-    <Compile Include="Services\DataTransferObjects\MembershipService\Responses\ValidateUserResponce.cs" />
-    <Compile Include="Services\DataTransferObjects\MembershipService\Requests\ValidateUserRequest.cs" />
-    <Compile Include="Services\DataTransferObjects\MembershipService\Requests\CreateUserRequest.cs" />
-    <Compile Include="Services\DataTransferObjects\MembershipService\Responses\CreateUserResponse.cs" />
-    <Compile Include="Services\DataTransferObjects\SearchService\Requests\GetBoundedStatesRequest.cs" />
-    <Compile Include="Services\DataTransferObjects\SearchService\Responses\GetBoundedStatesResponse.cs" />
-    <Compile Include="Services\MembershipConfiguration.cs" />
+    <Compile Include="Services\ContentService\IContentService.cs" />
+    <Compile Include="Services\MembershipService\IMembershipConfiguration.cs" />
+    <Compile Include="Services\MembershipService\IMembershipService.cs" />
+    <Compile Include="Services\SearchService\ISearchService.cs" />
+    <Compile Include="Services\MembershipService\Requests\ChangePasswordRequest.cs" />
+    <Compile Include="Services\MembershipService\Responses\ChangePasswordResponse.cs" />
+    <Compile Include="Services\MembershipService\Responses\ValidateUserResponce.cs" />
+    <Compile Include="Services\MembershipService\Requests\ValidateUserRequest.cs" />
+    <Compile Include="Services\MembershipService\Requests\CreateUserRequest.cs" />
+    <Compile Include="Services\MembershipService\Responses\CreateUserResponse.cs" />
+    <Compile Include="Services\SearchService\Requests\GetBoundedStatesRequest.cs" />
+    <Compile Include="Services\SearchService\Responses\GetBoundedStatesResponse.cs" />
+    <Compile Include="Services\MembershipService\MembershipConfiguration.cs" />
     <Compile Include="Specifications\GetUserByUserName.cs" />
-    <Compile Include="Services\MembershipService.cs" />
-    <Compile Include="Services\DataTransferObjects\SearchService\Requests\FindPackagesByPropertyStatesRequest.cs" />
-    <Compile Include="Services\DataTransferObjects\SearchService\Responses\FindPackagesByPropertyStatesResponse.cs" />
-    <Compile Include="Services\SearchService.cs" />
+    <Compile Include="Services\MembershipService\MembershipService.cs" />
+    <Compile Include="Services\SearchService\Requests\FindPackagesByPropertyStatesRequest.cs" />
+    <Compile Include="Services\SearchService\Responses\FindPackagesByPropertyStatesResponse.cs" />
+    <Compile Include="Services\SearchService\SearchService.cs" />
     <Compile Include="Specifications\GetRoleByRoleName.cs" />
     <Compile Include="Specifications\GetStateByPropertyIdAndStateValue.cs" />
   </ItemGroup>
@@ -78,8 +78,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\DataTransferObjects\someService\Requests\" />
-    <Folder Include="Services\DataTransferObjects\someService\Responses\" />
+    <Folder Include="Services\someService\Requests\" />
+    <Folder Include="Services\someService\Responses\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
