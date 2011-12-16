@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
-using AI_.Studmix.ApplicationServices.Services.Abstractions;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Requests;
+using AI_.Studmix.ApplicationServices.Services.MembershipService;
+using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
 using AI_.Studmix.WebApplication.Infrastructure.Authentication;
 using AI_.Studmix.WebApplication.ViewModels.Account;
 

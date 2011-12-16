@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AI_.Studmix.ApplicationServices.Services.DataTransferObjects.SearchService.Responses
+namespace AI_.Studmix.ApplicationServices.Services.SearchService.Responses
 {
     public class GetBoundedStatesResponse
     {

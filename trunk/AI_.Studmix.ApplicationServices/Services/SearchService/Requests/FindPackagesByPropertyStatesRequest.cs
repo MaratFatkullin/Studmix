@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AI_.Studmix.ApplicationServices.Services.DataTransferObjects.SearchService.Requests
+namespace AI_.Studmix.ApplicationServices.Services.SearchService.Requests
 {
     public class FindPackagesByPropertyStatesRequest
     {

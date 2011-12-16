@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Security;
-using AI_.Studmix.ApplicationServices.Services;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Requests;
+using AI_.Studmix.ApplicationServices.Services.MembershipService;
+using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
 using AI_.Studmix.ApplicationServices.Tests.Mocks;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Tests;

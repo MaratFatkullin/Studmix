@@ -1,7 +1,7 @@
-﻿using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.SearchService.Requests;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.SearchService.Responses;
+﻿using AI_.Studmix.ApplicationServices.Services.SearchService.Requests;
+using AI_.Studmix.ApplicationServices.Services.SearchService.Responses;
 
-namespace AI_.Studmix.ApplicationServices.Services.Abstractions
+namespace AI_.Studmix.ApplicationServices.Services.SearchService
 {
     public interface ISearchService
     {

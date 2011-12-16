@@ -1,12 +1,11 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Infrastructure.Database;
 using AI_.Studmix.Infrastructure.Repository;
-using Xunit;
 using FluentAssertions;
+using Xunit;
 
 namespace AI_.Studmix.IntegrationTests
 {
@@ -53,7 +52,7 @@ namespace AI_.Studmix.IntegrationTests
                 Trace.WriteLine(package.CreateDate);
             }
 
-            contentPackages.Should().Match(r=>r.Any(s=>true),"");
+            contentPackages.Should().Match(r => r.Any(s => true), "");
         }
     }
 }

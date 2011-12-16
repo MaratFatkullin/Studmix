@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AI_.Studmix.Domain.Entities;
 using FluentAssertions;
 using Xunit;
 
 namespace AI_.Studmix.Domain.Tests.Enitities
 {
-    public class PropertyTestsFixture :TestFixtureBase
+    public class PropertyTestsFixture : TestFixtureBase
     {
         protected Property Property;
 
@@ -45,7 +44,6 @@ namespace AI_.Studmix.Domain.Tests.Enitities
 
             //Assert
             propertyState.Should().Be(existingState);
-
         }
 
         [Fact]

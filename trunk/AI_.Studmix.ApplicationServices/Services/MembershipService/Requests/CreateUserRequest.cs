@@ -1,4 +1,4 @@
-namespace AI_.Studmix.ApplicationServices.Services.DataTransferObjects.MembershipService.Requests
+namespace AI_.Studmix.ApplicationServices.Services.MembershipService.Requests
 {
     public class CreateUserRequest
     {

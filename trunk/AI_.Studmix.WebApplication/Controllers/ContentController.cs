@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using AI_.Studmix.ApplicationServices.Services.Abstractions;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.ContentService.Requests;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.SearchService.Requests;
+using AI_.Studmix.ApplicationServices.Services.ContentService;
+using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
+using AI_.Studmix.ApplicationServices.Services.SearchService;
+using AI_.Studmix.ApplicationServices.Services.SearchService.Requests;
 using AI_.Studmix.WebApplication.ViewModels.Content;
 
 namespace AI_.Studmix.WebApplication.Controllers

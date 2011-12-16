@@ -1,6 +1,4 @@
-﻿using AI_.Studmix.ApplicationServices.Services.Abstractions;
-
-namespace AI_.Studmix.ApplicationServices.Services
+﻿namespace AI_.Studmix.ApplicationServices.Services.MembershipService
 {
     public class MembershipConfiguration : IMembershipConfiguration
     {

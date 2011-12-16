@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AI_.Studmix.ApplicationServices.Services.DataTransferObjects.ContentService.Responses
+namespace AI_.Studmix.ApplicationServices.Services.ContentService.Responses
 {
     public class GetPropertiesResponse
     {

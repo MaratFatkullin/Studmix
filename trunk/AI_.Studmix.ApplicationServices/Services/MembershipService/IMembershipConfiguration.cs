@@ -1,4 +1,4 @@
-namespace AI_.Studmix.ApplicationServices.Services.Abstractions
+namespace AI_.Studmix.ApplicationServices.Services.MembershipService
 {
     public interface IMembershipConfiguration
     {

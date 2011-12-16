@@ -2,8 +2,8 @@
 using System.IO;
 using System.Linq;
 using AI_.Studmix.ApplicationServices.FileRepository;
-using AI_.Studmix.ApplicationServices.Services;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.ContentService.Requests;
+using AI_.Studmix.ApplicationServices.Services.ContentService;
+using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
 using AI_.Studmix.ApplicationServices.Tests.Mocks;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Tests;
@@ -100,8 +100,10 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             var request = new StoreRequest
                           {
                               OwnerUserName = user.UserName,
-                              ContentFiles = new List<ContentFileInfo> {new ContentFileInfo("file1", CreateStream())},
-                              PreviewContentFiles = new List<ContentFileInfo> {new ContentFileInfo("file2", CreateStream())},
+                              ContentFiles =
+                                  new List<ContentFileInfo> {new ContentFileInfo("file1", CreateStream())},
+                              PreviewContentFiles =
+                                  new List<ContentFileInfo> {new ContentFileInfo("file2", CreateStream())},
                           };
 
             var service = CreateService();
@@ -134,8 +136,10 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
                           {
                               OwnerUserName = user.UserName,
                               States = new List<StateInfo> {new StateInfo(1, "state1")},
-                              ContentFiles = new List<ContentFileInfo> {new ContentFileInfo("filename1", stream1)},
-                              PreviewContentFiles = new List<ContentFileInfo> {new ContentFileInfo("filename2", stream2)}
+                              ContentFiles =
+                                  new List<ContentFileInfo> {new ContentFileInfo("filename1", stream1)},
+                              PreviewContentFiles =
+                                  new List<ContentFileInfo> {new ContentFileInfo("filename2", stream2)}
                           };
 
             var service = CreateService();
@@ -145,11 +149,13 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
 
             // Assert
             FileRepository.Verify(r => r.Store(
-                It.Is<ContentFile>(f=>f.Name == "filename1" && f.ContentPackage.PropertyStates.Single() == propertyState),
+                It.Is<ContentFile>(
+                    f => f.Name == "filename1" && f.ContentPackage.PropertyStates.Single() == propertyState),
                 stream1));
 
             FileRepository.Verify(r => r.Store(
-                It.Is<ContentFile>(f => f.Name == "filename2" && f.ContentPackage.PropertyStates.Single() == propertyState),
+                It.Is<ContentFile>(
+                    f => f.Name == "filename2" && f.ContentPackage.PropertyStates.Single() == propertyState),
                 stream2));
         }
 

@@ -1,10 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using AI_.Studmix.ApplicationServices.FileRepository;
 using AI_.Studmix.Domain.Entities;
 
-namespace AI_.Studmix.Infrastructure.FileSystem
+namespace AI_.Studmix.ApplicationServices.FileRepository
 {
     public class FileSystemLocator : IFileSystemLocator
     {

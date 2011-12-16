@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using AI_.Studmix.ApplicationServices.Services;
-using AI_.Studmix.ApplicationServices.Services.DataTransferObjects.SearchService.Requests;
+using AI_.Studmix.ApplicationServices.Services.SearchService;
+using AI_.Studmix.ApplicationServices.Services.SearchService.Requests;
 using AI_.Studmix.ApplicationServices.Tests.Mocks;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Tests;
+using FluentAssertions;
 using Xunit;
 using Xunit.Extensions;
-using FluentAssertions;
 
 namespace AI_.Studmix.ApplicationServices.Tests.Services
 {
@@ -79,9 +79,9 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
         public void GetBoundedStates_Simple_BounedeStatesReturned()
         {
             // Arrange
-            var property1 = CreateProperty("property1",1);
-            var property2 = CreateProperty("property2",2);
-            var property3 = CreateProperty("property3",3);
+            var property1 = CreateProperty("property1", 1);
+            var property2 = CreateProperty("property2", 2);
+            var property3 = CreateProperty("property3", 3);
 
             UnitOfWork.GetRepository<Property>().Insert(property1);
             UnitOfWork.GetRepository<Property>().Insert(property2);
