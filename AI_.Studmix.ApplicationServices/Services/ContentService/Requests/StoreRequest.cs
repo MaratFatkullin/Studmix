@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using AI_.Studmix.ApplicationServices.DataTransferObjects;
 
 namespace AI_.Studmix.ApplicationServices.Services.ContentService.Requests
 {
@@ -8,11 +9,11 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService.Requests
         /// <summary>
         ///   Словарь пары ID свойства - состояние.
         /// </summary>
-        public IEnumerable<StateInfo> States { get; set; }
+        public IEnumerable<PropertyStateDto> States { get; set; }
 
-        public IEnumerable<ContentFileInfo> ContentFiles { get; set; }
+        public IEnumerable<File> ContentFiles { get; set; }
 
-        public IEnumerable<ContentFileInfo> PreviewContentFiles { get; set; }
+        public IEnumerable<File> PreviewContentFiles { get; set; }
 
         public string Caption { get; set; }
 
@@ -25,35 +26,25 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService.Requests
 
         public StoreRequest()
         {
-            States = new List<StateInfo>();
-            ContentFiles = new List<ContentFileInfo>();
-            PreviewContentFiles = new List<ContentFileInfo>();
+            States = new List<PropertyStateDto>();
+            ContentFiles = new List<File>();
+            PreviewContentFiles = new List<File>();
         }
-    }
 
+        #region Nested type: File
 
-    public class StateInfo
-    {
-        public int Key { get; set; }
-        public string Value { get; set; }
-
-        public StateInfo(int key, string value)
+        public class File
         {
-            Key = key;
-            Value = value;
+            public string FileName { get; set; }
+            public Stream Stream { get; set; }
+
+            public File(string key, Stream value)
+            {
+                FileName = key;
+                Stream = value;
+            }
         }
-    }
 
-
-    public class ContentFileInfo
-    {
-        public string FileName { get; set; }
-        public Stream Stream { get; set; }
-
-        public ContentFileInfo(string key, Stream value)
-        {
-            FileName = key;
-            Stream = value;
-        }
+        #endregion
     }
 }

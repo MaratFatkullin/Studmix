@@ -4,11 +4,16 @@ namespace AI_.Studmix.ApplicationServices.Services.SearchService.Responses
 {
     public class GetBoundedStatesResponse
     {
-        public IList<PropertyStateInfo> States { get; set; }
+        public IEnumerable<string> States { get; set; }
 
         public GetBoundedStatesResponse()
         {
-            States = new List<PropertyStateInfo>();
+            States = new List<string>();
+        }
+
+        public GetBoundedStatesResponse(IEnumerable<string> states)
+        {
+            States = states;
         }
     }
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
+using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.Services.ContentService;
 using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
 using AI_.Studmix.ApplicationServices.Services.ContentService.Responses;
@@ -31,21 +31,13 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
     public class ContentControllerTests : ContentControllerTestFixture
     {
         [Fact]
-        public void UpdateStates_Simple_StatesForSpecifiedPropertyReturned()
+        public void UpdateStates_Simple_StatesReturned()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>();
-            var response = new GetBoundedStatesResponse
-                           {
-                               States = new Collection<PropertyStateInfo>
-                                        {
-                                            new PropertyStateInfo(1, "val1"),
-                                            new PropertyStateInfo(2, "val2")
-                                        }
-                           };
             SearchService.Setup(s => s.GetBoundedStates(
                 It.Is<GetBoundedStatesRequest>(r => r.States == dictionary)))
-                .Returns(response);
+                .Returns(new GetBoundedStatesResponse(new List<string> {"val1", "val2"}));
 
             var controller = CreateSut();
 
@@ -54,7 +46,8 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
 
             // Assert
             var states = (IEnumerable<string>) result.Data;
-            states.Single().Should().Be("val2");
+            states.Should().Contain("val1");
+            states.Should().Contain("val2");
         }
 
         [Fact]
@@ -116,6 +109,74 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
                                          && r.States.Single().Key == 2
                                          && r.States.Single().Value == "state"
                     )));
+        }
+
+        [Fact]
+        public void Search_Simple_PropertiesPassed()
+        {
+            // Arrange
+            var properties = new Dictionary<int, string>();
+            ContentService.Setup(s => s.GetProperties())
+                .Returns(new GetPropertiesResponse(properties));
+
+            var controller = CreateSut();
+
+            // Act
+            var result = controller.Search();
+
+            // Assert
+            var viewModel = (SearchViewModel) result.Model;
+            viewModel.Properties.Equals(properties).Should().BeTrue();
+        }
+
+        [Fact]
+        public void Search_Simple_PackagesPassed()
+        {
+            // Arrange
+            var properties = new Dictionary<int, string>();
+            ContentService.Setup(s => s.GetProperties())
+                .Returns(new GetPropertiesResponse(properties));
+
+            var states = new Dictionary<int, string>();
+            var contentPackageInfos = new List<ContentPackageDto>();
+            SearchService.Setup(s => s.FindPackagesByPropertyStates(
+                It.Is<FindPackagesByPropertyStatesRequest>(r => r.PropertyStates == states)))
+                .Returns(new FindPackagesByPropertyStatesResponse {Packages = contentPackageInfos});
+
+            var viewModel = new SearchViewModel {States = states};
+
+            var controller = CreateSut();
+
+            // Act
+            var result = controller.Search(viewModel);
+
+            // Assert
+            var resultViewModel = (SearchViewModel) result.Model;
+            resultViewModel.Packages.Should().Equal(contentPackageInfos);
+        }
+
+        [Fact]
+        public void Details_Simple_DetailsProvided()
+        {
+            // Arrange
+            var properties = new Dictionary<int, string>();
+            var package = new ContentPackageDto();
+
+            ContentService.Setup(s => s.GetProperties())
+                .Returns(new GetPropertiesResponse(properties));
+
+            ContentService.Setup(s => s.GetPackageByID(It.Is<GetPackageByIDRequest>(r => r.ID == 3)))
+                .Returns(new GetPackageByIDResponse(package));
+
+            var controller = CreateSut();
+
+            // Act
+            var result = controller.Details(3);
+
+            // Assert
+            var viewModel = (DetailsViewModel)result.Model;
+            viewModel.Package.Should().Be(package);
+            viewModel.Properties.Should().Equal(properties);
         }
     }
 }

@@ -18,12 +18,12 @@
                     <legend>Параметры поиска</legend>
                     @foreach (var property in Model.Properties)
                     {
-                        Model.States[property.ID] = null;
+                        Model.States[property.Key] = null;
                         <div class="editor-label">
-                            <span>@property.Name</span>
+                            <span>@property.Value</span>
                         </div>
                         <div class="editor-field">
-                            @Html.CombBoxFor(x => x.States[property.ID], "/Content/UpdateStates/" + property.ID, true)
+                            @Html.CombBoxFor(x => x.States[property.Key], "/Content/UpdateStates/" + property.Key, true)
                         </div>
                     }
                 </fieldset>

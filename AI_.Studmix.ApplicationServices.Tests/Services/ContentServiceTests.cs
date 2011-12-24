@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.FileRepository;
 using AI_.Studmix.ApplicationServices.Services.ContentService;
 using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
@@ -24,7 +25,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             FileRepository = new Mock<IFileRepository>();
         }
 
-        public ContentService CreateService()
+        public ContentService CreateSut()
         {
             return new ContentService(UnitOfWork, FileRepository.Object);
         }
@@ -48,7 +49,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             repository.Insert(CreateProperty("prop1", 1));
             UnitOfWork.Save();
 
-            var service = CreateService();
+            var service = CreateSut();
 
             // Act
             var response = service.GetProperties();
@@ -75,7 +76,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
                               Price = 100,
                           };
 
-            var service = CreateService();
+            var service = CreateSut();
 
             // Act
             service.Store(request);
@@ -101,12 +102,14 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
                           {
                               OwnerUserName = user.UserName,
                               ContentFiles =
-                                  new List<ContentFileInfo> {new ContentFileInfo("file1", CreateStream())},
+                                  new List<StoreRequest.File>
+                                  {new StoreRequest.File("file1", CreateStream())},
                               PreviewContentFiles =
-                                  new List<ContentFileInfo> {new ContentFileInfo("file2", CreateStream())},
+                                  new List<StoreRequest.File>
+                                  {new StoreRequest.File("file2", CreateStream())},
                           };
 
-            var service = CreateService();
+            var service = CreateSut();
 
             // Act
             service.Store(request);
@@ -135,14 +138,14 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             var request = new StoreRequest
                           {
                               OwnerUserName = user.UserName,
-                              States = new List<StateInfo> {new StateInfo(1, "state1")},
+                              States = new List<PropertyStateDto> {new PropertyStateDto(1, "state1")},
                               ContentFiles =
-                                  new List<ContentFileInfo> {new ContentFileInfo("filename1", stream1)},
+                                  new List<StoreRequest.File> {new StoreRequest.File("filename1", stream1)},
                               PreviewContentFiles =
-                                  new List<ContentFileInfo> {new ContentFileInfo("filename2", stream2)}
+                                  new List<StoreRequest.File> {new StoreRequest.File("filename2", stream2)}
                           };
 
-            var service = CreateService();
+            var service = CreateSut();
 
             // Act
             service.Store(request);
@@ -176,14 +179,14 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             var request = new StoreRequest
                           {
                               OwnerUserName = user.UserName,
-                              States = new List<StateInfo>
+                              States = new List<PropertyStateDto>
                                        {
-                                           new StateInfo(1, "state1"),
-                                           new StateInfo(2, "state2")
+                                           new PropertyStateDto(1, "state1"),
+                                           new PropertyStateDto(2, "state2")
                                        },
                           };
 
-            var service = CreateService();
+            var service = CreateSut();
 
             // Act
             service.Store(request);
@@ -217,10 +220,12 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             var request = new StoreRequest
                           {
                               OwnerUserName = user.UserName,
-                              States = new List<StateInfo> {new StateInfo(1, existingPropertyState.Value)},
+                              States =
+                                  new List<PropertyStateDto>
+                                  {new PropertyStateDto(1, existingPropertyState.Value)},
                           };
 
-            var service = CreateService();
+            var service = CreateSut();
 
             // Act
             service.Store(request);
@@ -228,6 +233,44 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             // Assert
             var package = UnitOfWork.GetRepository<ContentPackage>().Get().Single();
             package.PropertyStates.Single().Should().Be(existingPropertyState);
+        }
+
+        [Fact]
+        public void GetPackageByID_PackageExists_PackageReturned()
+        {
+            // Arrange
+            var package = CreateContentPackage();
+            package.AddFile("filename", false);
+            UnitOfWork.GetRepository<ContentPackage>().Insert(package);
+            UnitOfWork.Save();
+
+            var service = CreateSut();
+
+            // Act
+            var response = service.GetPackageByID(new GetPackageByIDRequest(package.ID));
+
+            // Assert
+            response.ContentPackage.Caption.Should().Be(package.Caption);
+            response.ContentPackage.ShouldHave().Properties(p => p.Caption,
+                                                            p => p.ID,
+                                                            p => p.CreateDate,
+                                                            p => p.Description,
+                                                            p => p.Price).EqualTo(package);
+            response.ContentPackage.PropertyStates.Should().HaveCount(package.PropertyStates.Count);
+            response.ContentPackage.Files.Should().HaveCount(package.Files.Count);
+        }
+
+        [Fact]
+        public void GetPackageByID_PackageNotExists_NullReturned()
+        {
+            // Arrange
+            var service = CreateSut();
+
+            // Act
+            var response = service.GetPackageByID(new GetPackageByIDRequest(1));
+
+            // Assert
+            response.ContentPackage.Should().BeNull();
         }
     }
 }

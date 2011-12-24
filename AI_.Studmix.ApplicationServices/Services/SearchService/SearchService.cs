@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.Services.SearchService.Requests;
 using AI_.Studmix.ApplicationServices.Services.SearchService.Responses;
 using AI_.Studmix.Domain.Entities;
@@ -20,32 +21,20 @@ namespace AI_.Studmix.ApplicationServices.Services.SearchService
 
         public GetBoundedStatesResponse GetBoundedStates(GetBoundedStatesRequest request)
         {
-            List<PropertyState> states = ConvertToPropertyStates(request.States);
-            var response = new GetBoundedStatesResponse();
 
-            var properties = UnitOfWork.GetRepository<Property>().Get();
-            var foundedPackages = SearchPackages(request.States);
-            foreach (var property in properties)
-            {
-                IEnumerable<PropertyState> filtredPropertyStates;
-                var constrPropState = GetLimitingPropertyState(states, property);
-                if (constrPropState == null)
-                {
-                    filtredPropertyStates = property.States;
-                }
-                else
-                {
-                    filtredPropertyStates = foundedPackages
-                        .Where(p => p.PropertyStates.Contains(constrPropState))
-                        .Aggregate(new List<PropertyState>().AsEnumerable(),
-                                   (acc, elem) =>
-                                   acc.Concat(elem.PropertyStates.Where(st => st.Property == property)));
-                }
+            var targetProperty = UnitOfWork.GetRepository<Property>().GetByID(request.PropertyID);
+            var propertyStates = ConvertToPropertyStates(request.States);
 
-                AddToResponce(response, filtredPropertyStates);
-            }
+            var filtredStates = propertyStates
+                .Where(s => s.Property.Order < targetProperty.Order)
+                .ToDictionary(s => s.Property.ID, s => s.Value);
+            var foundedPackages = SearchPackages(filtredStates);
 
-            return response;
+            var boundedStates = targetProperty.States
+                .Where(st => foundedPackages.Any(p => p.PropertyStates.Contains(st)))
+                .Select(st => st.Value).ToList();
+
+            return new GetBoundedStatesResponse(boundedStates);
         }
 
         public FindPackagesByPropertyStatesResponse FindPackagesByPropertyStates(
@@ -53,17 +42,17 @@ namespace AI_.Studmix.ApplicationServices.Services.SearchService
 
         {
             IEnumerable<ContentPackage> contentPackages = SearchPackages(request.PropertyStates);
-            var dictionary = contentPackages.ToDictionary(p => p.ID, p => p.Caption);
+            //todo: использовать AutoMapper
+            var dictionary = contentPackages.Select(cp => new ContentPackageDto
+                                                          {
+                                                              ID = cp.ID,
+                                                              Caption = cp.Caption,
+                                                              CreateDate = cp.CreateDate
+                                                          });
             return new FindPackagesByPropertyStatesResponse {Packages = dictionary};
         }
 
         #endregion
-
-        private PropertyState GetLimitingPropertyState(IEnumerable<PropertyState> states, Property property)
-        {
-            var ordered = states.OrderByDescending(st => st.Property.Order);
-            return ordered.FirstOrDefault(state => state.Property.Order < property.Order);
-        }
 
         private List<PropertyState> ConvertToPropertyStates(IDictionary<int, string> states)
         {
@@ -79,14 +68,6 @@ namespace AI_.Studmix.ApplicationServices.Services.SearchService
             return response;
         }
 
-
-        private void AddToResponce(GetBoundedStatesResponse response,
-                                   IEnumerable<PropertyState> propertyStates)
-        {
-            var propertyStateInfos = propertyStates.Select(
-                ps => new PropertyStateInfo(ps.Property.ID, ps.Value));
-            response.States = response.States.Concat(propertyStateInfos).ToList();
-        }
 
         private IEnumerable<ContentPackage> SearchPackages(IDictionary<int, string> propertyStateInfos)
         {

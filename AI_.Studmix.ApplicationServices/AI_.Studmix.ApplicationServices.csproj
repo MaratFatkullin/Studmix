@@ -41,11 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTransferObjects\ContentPackageDto.cs" />
+    <Compile Include="DataTransferObjects\ContentFileDto.cs" />
+    <Compile Include="DataTransferObjects\PropertyDto.cs" />
     <Compile Include="FileRepository\FileRepository.cs" />
     <Compile Include="FileRepository\FileSystemLocator.cs" />
     <Compile Include="FileRepository\IFileRepository.cs" />
     <Compile Include="FileRepository\IFileSystemLocator.cs" />
     <Compile Include="FileRepository\IFileSystemProvider.cs" />
+    <Compile Include="DataTransferObjects\PropertyStateDto.cs" />
+    <Compile Include="Services\ContentService\Requests\GetPackageByIDRequest.cs" />
+    <Compile Include="Services\ContentService\Responses\GetPackageByIDResponse.cs" />
     <Compile Include="Services\ContentService\Responses\GetPropertiesResponse.cs" />
     <Compile Include="Services\ContentService\ContentService.cs" />
     <Compile Include="Services\ContentService\Requests\StoreRequest.cs" />

@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
+using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.FileRepository;
 using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
 using AI_.Studmix.ApplicationServices.Services.ContentService.Responses;
@@ -65,11 +66,35 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService
                 FileRepository.Store(contentFile, fileInfo.Stream);
             }
 
-            
+
             var repository = UnitOfWork.GetRepository<ContentPackage>();
             repository.Insert(contentPackage);
 
             UnitOfWork.Save();
+        }
+
+        public GetPackageByIDResponse GetPackageByID(GetPackageByIDRequest request)
+        {
+            var repository = UnitOfWork.GetRepository<ContentPackage>();
+            var contentPackage = repository.GetByID(request.ID);
+
+            if (contentPackage == null)
+                return new GetPackageByIDResponse(null);
+
+            //todo: Использовать automapper.
+            var contentPackageDto = new ContentPackageDto
+                                    {
+                                        ID = contentPackage.ID,
+                                        Caption = contentPackage.Caption,
+                                        Price = contentPackage.Price,
+                                        Description = contentPackage.Description,
+                                        CreateDate = contentPackage.CreateDate,
+                                        Files =
+                                            contentPackage.Files.Select(f => new ContentFileDto(f.ID, f.Name,f.IsPreview)),
+                                        PropertyStates = contentPackage.PropertyStates
+                                            .Select(ps => new PropertyStateDto(ps.Property.ID, ps.Value))
+                                    };
+            return new GetPackageByIDResponse(contentPackageDto);
         }
 
         #endregion
