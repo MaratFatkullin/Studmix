@@ -71,26 +71,26 @@ namespace AI_.Studmix.Infrastructure.Database
             #region Packages
 
             var packageFactory = new ContentPackageFactory();
-            var contentPackage1 = packageFactory.CreateContentPackage("",
-                                                                      "",
-                                                                      marat,
-                                                                      70,
-                                                                      new Collection<PropertyState>
-                                                                      {russia, moscow});
+            var contentPackage1 = packageFactory.CreateContentPackage(
+                "",
+                "",
+                marat,
+                70,
+                new Collection<PropertyState> {russia, moscow});
 
-            var contentPackage2 = packageFactory.CreateContentPackage("",
-                                                                      "",
-                                                                      marat,
-                                                                      100,
-                                                                      new Collection<PropertyState>
-                                                                      {russia, kazan});
+            var contentPackage2 = packageFactory.CreateContentPackage(
+                "",
+                "",
+                marat,
+                100,
+                new Collection<PropertyState> {russia, kazan});
 
-            var contentPackage3 = packageFactory.CreateContentPackage("",
-                                                                      "",
-                                                                      admin,
-                                                                      100,
-                                                                      new Collection<PropertyState>
-                                                                      {czech, prague});
+            var contentPackage3 = packageFactory.CreateContentPackage(
+                "",
+                "",
+                admin,
+                100,
+                new Collection<PropertyState> {czech, prague});
 
             context.Set<ContentPackage>().Add(contentPackage1);
             context.Set<ContentPackage>().Add(contentPackage2);

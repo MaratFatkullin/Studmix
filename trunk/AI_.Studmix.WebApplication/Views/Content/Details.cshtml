@@ -22,14 +22,14 @@
                 <legend>Свойства</legend>
                 @foreach (var property in Model.Properties)
                 {
-                    var propertyState = Model.Package.PropertyStates.FirstOrDefault(s => s.Property.ID == property.ID);
+                    var propertyState = Model.Package.PropertyStates.FirstOrDefault(s => s.Key == property.Key);
                     var propertyValue = propertyState != null ? propertyState.Value : string.Empty;
 
                     <div class="editor-label">
-                        <span>@property.Name</span>
+                        <span>@property.Value</span>
                     </div>
                     <div class="editor-field">
-                        <input type="text" value="@propertyValue" disabled="disabled"></input>
+                        <input type="text" value="@propertyValue" disabled="disabled"/>
                     </div>
                 }
             </fieldset>

@@ -38,6 +38,10 @@ namespace AI_.Studmix.Infrastructure.Database
             modelBuilder.Entity<PropertyState>()
                 .HasRequired<Property>(state => state.Property)
                 .WithMany(property => property.States);
+
+            modelBuilder.Entity<PropertyState>()
+                .HasMany<ContentPackage>(ps=>ps.Packages)
+                .WithMany(p=>p.PropertyStates);
         }
     }
 }

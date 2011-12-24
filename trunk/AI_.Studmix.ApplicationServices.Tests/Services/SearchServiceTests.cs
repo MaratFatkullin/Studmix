@@ -6,7 +6,6 @@ using AI_.Studmix.ApplicationServices.Tests.Mocks;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Tests;
 using FluentAssertions;
-using Xunit;
 using Xunit.Extensions;
 
 namespace AI_.Studmix.ApplicationServices.Tests.Services
@@ -75,8 +74,15 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             response.Packages.Should().HaveCount(count);
         }
 
-        [Fact]
-        public void GetBoundedStates_Simple_BounedeStatesReturned()
+
+        [Theory]
+        [InlineData(1, 1, "11")]
+        [InlineData(2, 2, "21")]
+        [InlineData(2, 2, "22")]
+        [InlineData(3, 1, "32")]
+        public void GetBoundedStates_Simple_BounedeStatesReturned(int propertyId,
+                                                                  int boundedStatesCount,
+                                                                  string expectedState)
         {
             // Arrange
             var property1 = CreateProperty("property1", 1);
@@ -87,19 +93,24 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             UnitOfWork.GetRepository<Property>().Insert(property2);
             UnitOfWork.GetRepository<Property>().Insert(property3);
 
-            property1.GetState("11");
+            var state11 = property1.GetState("11");
             var state12 = property1.GetState("12");
             var state21 = property2.GetState("21");
-            property2.GetState("22");
-            property3.GetState("31");
+            var state22 = property2.GetState("22");
+            var state31 = property3.GetState("31");
             var state32 = property3.GetState("32");
 
-            var propertyStates = new Collection<PropertyState> {state12, state21, state32};
-            var contentPackage = CreateContentPackage(propertyStates);
-            UnitOfWork.GetRepository<ContentPackage>().Insert(contentPackage);
+            var contentPackage1 =
+                CreateContentPackage(new Collection<PropertyState> {state11, state21, state32});
+            var contentPackage2 =
+                CreateContentPackage(new Collection<PropertyState> {state11, state22, state31});
+            UnitOfWork.GetRepository<ContentPackage>().Insert(contentPackage1);
+            UnitOfWork.GetRepository<ContentPackage>().Insert(contentPackage2);
             UnitOfWork.Save();
+
             var request = new GetBoundedStatesRequest();
             request.States[2] = "21";
+            request.PropertyID = propertyId;
 
             var searchService = CreateService();
 
@@ -107,12 +118,8 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             var response = searchService.GetBoundedStates(request);
 
             // Assert
-            response.States.Should().HaveCount(5);
-            response.States.Should().Contain(ps => ps.Value == "11");
-            response.States.Should().Contain(ps => ps.Value == "12");
-            response.States.Should().Contain(ps => ps.Value == "21");
-            response.States.Should().Contain(ps => ps.Value == "22");
-            response.States.Should().Contain(ps => ps.Value == "32");
+            response.States.Should().HaveCount(boundedStatesCount);
+            response.States.Should().Contain(expectedState);
         }
     }
 }
