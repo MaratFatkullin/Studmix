@@ -4,7 +4,7 @@ namespace AI_.Studmix.Domain.Entities
 {
     public class PropertyState : ValueObject
     {
-        public Property Property { get; protected set; }
+        public virtual Property Property { get; protected set; }
 
         public string Value { get; protected set; }
 

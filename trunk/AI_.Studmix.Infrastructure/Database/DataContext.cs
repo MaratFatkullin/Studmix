@@ -35,13 +35,13 @@ namespace AI_.Studmix.Infrastructure.Database
             //    .WithMany(state => state.ContentPackages);
             //.Map(mapping => mapping.ToTable("ContentPackagePropertyStates"));
 
-            modelBuilder.Entity<PropertyState>()
-                .HasRequired<Property>(state => state.Property)
-                .WithMany(property => property.States);
+            //modelBuilder.Entity<PropertyState>()
+            //    .HasRequired<Property>(state => state.Property)
+            //    .WithMany(property => property.States);
 
-            modelBuilder.Entity<PropertyState>()
-                .HasMany<ContentPackage>(ps=>ps.Packages)
-                .WithMany(p=>p.PropertyStates);
+            //modelBuilder.Entity<PropertyState>()
+            //    .HasMany<ContentPackage>(ps=>ps.Packages)
+            //    .WithMany(p=>p.PropertyStates);
         }
     }
 }
