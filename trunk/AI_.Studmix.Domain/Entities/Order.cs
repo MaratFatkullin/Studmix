@@ -8,6 +8,10 @@
             ContentPackage = package;
         }
 
+        public Order()
+        {
+        }
+
         public ContentPackage ContentPackage { get; set; }
 
         public User User { get; set; }

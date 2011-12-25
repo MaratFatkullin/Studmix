@@ -7,27 +7,31 @@ using AI_.Studmix.ApplicationServices.Services.ContentService;
 using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
 using AI_.Studmix.ApplicationServices.Tests.Mocks;
 using AI_.Studmix.Domain.Entities;
+using AI_.Studmix.Domain.Services.Abstractions;
 using AI_.Studmix.Domain.Tests;
 using FluentAssertions;
 using Moq;
 using Xunit;
+using Xunit.Extensions;
 
 namespace AI_.Studmix.ApplicationServices.Tests.Services
 {
     public class ContentServiceTestFixture : TestFixtureBase
     {
         protected Mock<IFileRepository> FileRepository;
+        protected Mock<IPermissionService> PermissionService;
         protected UnitOfWorkMock UnitOfWork;
 
         public ContentServiceTestFixture()
         {
             UnitOfWork = new UnitOfWorkMock();
             FileRepository = new Mock<IFileRepository>();
+            PermissionService = new Mock<IPermissionService>();
         }
 
         public ContentService CreateSut()
         {
-            return new ContentService(UnitOfWork, FileRepository.Object);
+            return new ContentService(UnitOfWork, FileRepository.Object, PermissionService.Object);
         }
 
         public Stream CreateStream()
@@ -102,11 +106,11 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
                           {
                               OwnerUserName = user.UserName,
                               ContentFiles =
-                                  new List<StoreRequest.File>
-                                  {new StoreRequest.File("file1", CreateStream())},
+                                  new List<FileStreamDto>
+                                  {new FileStreamDto("file1", CreateStream())},
                               PreviewContentFiles =
-                                  new List<StoreRequest.File>
-                                  {new StoreRequest.File("file2", CreateStream())},
+                                  new List<FileStreamDto>
+                                  {new FileStreamDto("file2", CreateStream())},
                           };
 
             var service = CreateSut();
@@ -140,9 +144,9 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
                               OwnerUserName = user.UserName,
                               States = new List<PropertyStateDto> {new PropertyStateDto(1, "state1")},
                               ContentFiles =
-                                  new List<StoreRequest.File> {new StoreRequest.File("filename1", stream1)},
+                                  new List<FileStreamDto> {new FileStreamDto("filename1", stream1)},
                               PreviewContentFiles =
-                                  new List<StoreRequest.File> {new StoreRequest.File("filename2", stream2)}
+                                  new List<FileStreamDto> {new FileStreamDto("filename2", stream2)}
                           };
 
             var service = CreateSut();
@@ -235,19 +239,26 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             package.PropertyStates.Single().Should().Be(existingPropertyState);
         }
 
-        [Fact]
-        public void GetPackageByID_PackageExists_PackageReturned()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void GetPackageByID_PackageExists_PackageReturned(bool accessGranted)
         {
             // Arrange
+            var user = CreateUser();
             var package = CreateContentPackage();
             package.AddFile("filename", false);
             UnitOfWork.GetRepository<ContentPackage>().Insert(package);
+            UnitOfWork.GetRepository<User>().Insert(user);
             UnitOfWork.Save();
+
+            PermissionService.Setup(s => s.UserHasPermissions(user, package))
+                .Returns(accessGranted);
 
             var service = CreateSut();
 
             // Act
-            var response = service.GetPackageByID(new GetPackageByIDRequest(package.ID));
+            var response = service.GetPackageByID(new GetPackageByIDRequest(package.ID,user.UserName));
 
             // Assert
             response.ContentPackage.Caption.Should().Be(package.Caption);
@@ -258,6 +269,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
                                                             p => p.Price).EqualTo(package);
             response.ContentPackage.PropertyStates.Should().HaveCount(package.PropertyStates.Count);
             response.ContentPackage.Files.Should().HaveCount(package.Files.Count);
+            response.IsFullAccessGranted.Should().Be(accessGranted);
         }
 
         [Fact]
@@ -267,10 +279,69 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             var service = CreateSut();
 
             // Act
-            var response = service.GetPackageByID(new GetPackageByIDRequest(1));
+            var response = service.GetPackageByID(new GetPackageByIDRequest(1,"username"));
 
             // Assert
             response.ContentPackage.Should().BeNull();
+        }
+
+        [Fact]
+        public void DownloadFile_UserHasPermissions_FileStreamProvided()
+        {
+            // Arrange
+            var stream = CreateStream();
+            var user = CreateUser();
+            var package = CreateContentPackage(user);
+            var file = package.AddFile("filename", false);
+            UnitOfWork.GetRepository<User>().Insert(user);
+            UnitOfWork.GetRepository<ContentPackage>().Insert(package);
+            UnitOfWork.GetRepository<ContentFile>().Insert(file);
+            UnitOfWork.Save();
+
+            PermissionService.Setup(s => s.UserHasPermissions(user, package))
+                .Returns(true);
+
+            FileRepository.Setup(r => r.GetFileStream(file))
+                .Returns(stream);
+
+            var service = CreateSut();
+            var request = new DownloadRequest(1, user.UserName);
+
+            // Act
+            var response = service.DownloadFile(request);
+
+            // Assert
+            response.File.Stream.Should().Be(stream);
+            response.IsAccessGranted.Should().BeTrue();
+        }
+
+        [Fact]
+        public void DownloadFile_UserHasNoPermissions_FileStreamNotProvided()
+        {
+            // Arrange
+            var user = CreateUser();
+            var package = CreateContentPackage(user);
+            var file = package.AddFile("filename", false);
+            UnitOfWork.GetRepository<User>().Insert(user);
+            UnitOfWork.GetRepository<ContentPackage>().Insert(package);
+            UnitOfWork.GetRepository<ContentFile>().Insert(file);
+            UnitOfWork.Save();
+
+            PermissionService.Setup(s => s.UserHasPermissions(user, package))
+                .Returns(false);
+
+            FileRepository.Setup(r => r.GetFileStream(file))
+                .Returns(CreateStream());
+
+            var service = CreateSut();
+            var request = new DownloadRequest(1, user.UserName);
+
+            // Act
+            var response = service.DownloadFile(request);
+
+            // Assert
+            response.File.Should().BeNull();
+            response.IsAccessGranted.Should().BeFalse();
         }
     }
 }

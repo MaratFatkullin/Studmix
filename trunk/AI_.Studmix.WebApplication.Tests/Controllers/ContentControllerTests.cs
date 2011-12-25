@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.Services.ContentService;
 using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
@@ -13,6 +14,7 @@ using AI_.Studmix.WebApplication.ViewModels.Content;
 using FluentAssertions;
 using Moq;
 using Xunit;
+using Xunit.Extensions;
 
 namespace AI_.Studmix.WebApplication.Tests.Controllers
 {
@@ -155,8 +157,10 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
             resultViewModel.Packages.Should().Equal(contentPackageInfos);
         }
 
-        [Fact]
-        public void Details_Simple_DetailsProvided()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Details_Simple_DetailsProvided(bool accessGranted)
         {
             // Arrange
             var properties = new List<PropertyDto>();
@@ -165,18 +169,59 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
             ContentService.Setup(s => s.GetProperties())
                 .Returns(new GetPropertiesResponse(properties));
 
-            ContentService.Setup(s => s.GetPackageByID(It.Is<GetPackageByIDRequest>(r => r.ID == 3)))
-                .Returns(new GetPackageByIDResponse(package));
+            ContentService.Setup(s => s.GetPackageByID(
+                It.Is<GetPackageByIDRequest>(r => r.ID == 3
+                                                  && r.UserName == "username")))
+                .Returns(new GetPackageByIDResponse(package, accessGranted));
 
             var controller = CreateSut();
+            controller.ControllerContext = CreateContext("username");
 
             // Act
             var result = controller.Details(3);
 
             // Assert
-            var viewModel = (DetailsViewModel)result.Model;
+            var viewModel = (DetailsViewModel) result.Model;
             viewModel.Package.Should().Be(package);
             viewModel.Properties.Should().Equal(properties);
+            viewModel.IsFullAccessGranted.Should().Be(accessGranted);
+        }
+
+        [Fact]
+        public void Download_AccessGranted_FileStreamProvided()
+        {
+            // Arrange
+            var stream = CreateStream();
+            ContentService.Setup(
+                s => s.DownloadFile(It.Is<DownloadRequest>(r => r.FileID == 5 && r.UserName == "username")))
+                .Returns(new DownloadResponse(new FileStreamDto("filename", stream)));
+
+            var controller = CreateSut();
+            controller.ControllerContext = CreateContext("username");
+
+            // Act
+            var result = controller.Download(5);
+
+            // Assert
+            var fileStreamResult = (FileStreamResult) result;
+            fileStreamResult.FileStream.Should().Be(stream);
+        }
+
+        [Fact]
+        public void Download_AccessDenied_ErrorMessageShown()
+        {
+            // Arrange
+            ContentService.Setup(s => s.DownloadFile(It.IsAny<DownloadRequest>()))
+                .Returns(new DownloadResponse());
+            var controller = CreateSut();
+            controller.ControllerContext = CreateContext("username");
+
+            // Act
+            var result = controller.Download(5);
+
+            // Assert
+            var viewResult = (ViewResult) result;
+            viewResult.ViewName.Should().Be("ApplicationError");
         }
     }
 }

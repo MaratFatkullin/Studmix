@@ -4,9 +4,12 @@
     {
         public int ID { get; set; }
 
-        public GetPackageByIDRequest(int id)
+        public string UserName { get; set; }
+
+        public GetPackageByIDRequest(int id, string username)
         {
             ID = id;
+            UserName = username;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
@@ -8,11 +7,12 @@ using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
 using AI_.Studmix.ApplicationServices.Services.SearchService;
 using AI_.Studmix.ApplicationServices.Services.SearchService.Requests;
 using AI_.Studmix.WebApplication.ViewModels.Content;
+using AI_.Studmix.WebApplication.ViewModels.Shared;
 
 namespace AI_.Studmix.WebApplication.Controllers
 {
     [Authorize]
-    public class ContentController : Controller
+    public class ContentController : ControllerBase
     {
         protected IContentService ContentService { get; set; }
         protected ISearchService SearchService { get; set; }
@@ -56,26 +56,28 @@ namespace AI_.Studmix.WebApplication.Controllers
                                   viewModel.States.Select(s => new PropertyStateDto(s.Key, s.Value)).ToList(),
                               ContentFiles = viewModel.ContentFiles
                                   .Where(f => f != null)
-                                  .Select(f => new StoreRequest.File(f.FileName, f.InputStream)),
+                                  .Select(f => new FileStreamDto(f.FileName, f.InputStream)),
                               PreviewContentFiles = viewModel.PreviewContentFiles
                                   .Where(f => f != null)
-                                  .Select(f => new StoreRequest.File(f.FileName, f.InputStream))
+                                  .Select(f => new FileStreamDto(f.FileName, f.InputStream))
                           };
 
             ContentService.Store(request);
 
-            return RedirectToAction("Index", "Home");
+            return InformationView("Загрузка завершена",
+                                   "Контент успешно загружен. Благодарим за использование нашего ресурса.",
+                                   new ActionLinkInfo("Content", "Upload", "Вернуться"));
         }
 
         [HttpGet]
         public ViewResult Details(int id)
         {
-            var response = ContentService.GetPackageByID(new GetPackageByIDRequest(id));
+            var response = ContentService.GetPackageByID(new GetPackageByIDRequest(id,User.Identity.Name));
             var getPropertiesResponse = ContentService.GetProperties();
             var viewModel = new DetailsViewModel
                             {
                                 Package = response.ContentPackage,
-                                IsFullAccessGranted = false,
+                                IsFullAccessGranted = response.IsFullAccessGranted,
                                 Properties = getPropertiesResponse.Properties
                             };
             return View(viewModel);
@@ -106,7 +108,15 @@ namespace AI_.Studmix.WebApplication.Controllers
 
         public ActionResult Download(int id)
         {
-            throw new NotImplementedException();
+            var response = ContentService.DownloadFile(new DownloadRequest(id, User.Identity.Name));
+            if (response.IsAccessGranted)
+            {
+                return new FileStreamResult(response.File.Stream, "image/jpeg");
+            }
+            else
+            {
+                return ErrorView("Ошибка доступа", "Доступ к скачиванию файла закрыт.");
+            }
         }
     }
 }
