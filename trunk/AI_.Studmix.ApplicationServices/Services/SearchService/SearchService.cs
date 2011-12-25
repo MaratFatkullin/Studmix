@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.DataTransferObjects.Mapper;
 using AI_.Studmix.ApplicationServices.Services.SearchService.Requests;
 using AI_.Studmix.ApplicationServices.Services.SearchService.Responses;
@@ -41,7 +42,7 @@ namespace AI_.Studmix.ApplicationServices.Services.SearchService
 
         {
             IEnumerable<ContentPackage> contentPackages = SearchPackages(request.PropertyStates);
-            var packageDtos = DtoMapper.Map(contentPackages);
+            var packageDtos = DtoMapper.MapSequence<ContentPackageDto>(contentPackages);
             return new FindPackagesByPropertyStatesResponse {Packages = packageDtos};
         }
 

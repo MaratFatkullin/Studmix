@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
@@ -30,7 +29,7 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService
         {
             var properties = UnitOfWork.GetRepository<Property>().Get();
 
-            var propertyDtos = DtoMapper.Map(properties.OrderBy(pr => pr.Order));
+            var propertyDtos = DtoMapper.MapSequence<PropertyDto>(properties.OrderBy(pr => pr.Order));
             return new GetPropertiesResponse(propertyDtos);
         }
 
@@ -84,7 +83,7 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService
             if (contentPackage == null)
                 return new GetPackageByIDResponse(null);
 
-            var contentPackageDto = DtoMapper.Map(contentPackage);
+            var contentPackageDto = DtoMapper.Map<ContentPackageDto>(contentPackage);
 
             return new GetPackageByIDResponse(contentPackageDto);
         }
