@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.2.0.0\lib\net40-client\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -41,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTransferObjects\Mapper\DtoMapper.cs" />
     <Compile Include="DataTransferObjects\ContentPackageDto.cs" />
     <Compile Include="DataTransferObjects\ContentFileDto.cs" />
     <Compile Include="DataTransferObjects\PropertyDto.cs" />
@@ -86,6 +90,9 @@
   <ItemGroup>
     <Folder Include="Services\someService\Requests\" />
     <Folder Include="Services\someService\Responses\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

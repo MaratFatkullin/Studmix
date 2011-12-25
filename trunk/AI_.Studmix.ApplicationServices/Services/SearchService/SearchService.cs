@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AI_.Studmix.ApplicationServices.DataTransferObjects;
+using AI_.Studmix.ApplicationServices.DataTransferObjects.Mapper;
 using AI_.Studmix.ApplicationServices.Services.SearchService.Requests;
 using AI_.Studmix.ApplicationServices.Services.SearchService.Responses;
 using AI_.Studmix.Domain.Entities;
@@ -21,7 +21,6 @@ namespace AI_.Studmix.ApplicationServices.Services.SearchService
 
         public GetBoundedStatesResponse GetBoundedStates(GetBoundedStatesRequest request)
         {
-
             var targetProperty = UnitOfWork.GetRepository<Property>().GetByID(request.PropertyID);
             var propertyStates = ConvertToPropertyStates(request.States);
 
@@ -42,19 +41,13 @@ namespace AI_.Studmix.ApplicationServices.Services.SearchService
 
         {
             IEnumerable<ContentPackage> contentPackages = SearchPackages(request.PropertyStates);
-            //todo: использовать AutoMapper
-            var dictionary = contentPackages.Select(cp => new ContentPackageDto
-                                                          {
-                                                              ID = cp.ID,
-                                                              Caption = cp.Caption,
-                                                              CreateDate = cp.CreateDate
-                                                          });
-            return new FindPackagesByPropertyStatesResponse {Packages = dictionary};
+            var packageDtos = DtoMapper.Map(contentPackages);
+            return new FindPackagesByPropertyStatesResponse {Packages = packageDtos};
         }
 
         #endregion
 
-        private List<PropertyState> ConvertToPropertyStates(IDictionary<int, string> states)
+        private IEnumerable<PropertyState> ConvertToPropertyStates(IDictionary<int, string> states)
         {
             var response = new List<PropertyState>();
             var properties = UnitOfWork.GetRepository<Property>().Get();
@@ -62,8 +55,8 @@ namespace AI_.Studmix.ApplicationServices.Services.SearchService
             {
                 var property = properties.Where(p => p.ID == state.Key).Single();
                 var propertyState = property.States.SingleOrDefault(s => s.Value == state.Value);
-                if(propertyState!=null)
-                response.Add(propertyState);
+                if (propertyState != null)
+                    response.Add(propertyState);
             }
             return response;
         }
