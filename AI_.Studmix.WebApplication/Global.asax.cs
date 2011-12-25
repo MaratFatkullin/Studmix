@@ -83,6 +83,7 @@ namespace AI_.Studmix.WebApplication
                 new PerResolveLifetimeManager());
 
             container.RegisterType<IFinanceService, FinanceService>();
+            container.RegisterType<IPermissionService, PermissionService>();
             container.RegisterType<IContentService, ContentService>();
             container.RegisterType<ISearchService, SearchService>();
             container.RegisterType<ISearchService, SearchService>();

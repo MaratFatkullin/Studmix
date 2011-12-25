@@ -8,5 +8,6 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService
         GetPropertiesResponse GetProperties();
         void Store(StoreRequest request);
         GetPackageByIDResponse GetPackageByID(GetPackageByIDRequest request);
+        DownloadResponse DownloadFile(DownloadRequest request);
     }
 }

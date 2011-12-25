@@ -58,5 +58,10 @@ namespace AI_.Studmix.Domain.Tests
             contentFile.GlobalID = globalId;
             return contentFile;
         }
+
+        protected Role CreateRole(string rolename)
+        {
+            return new Role {RoleName = rolename};
+        }
     }
 }

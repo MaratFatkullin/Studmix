@@ -11,6 +11,9 @@ namespace AI_.Studmix.Domain.Services
             if (package.Owner == user)
                 return true;
 
+            if (user.IsInRole("admin"))
+                return true;
+
             return UserHasOrder(user, package);
         }
 

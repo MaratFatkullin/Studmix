@@ -23,7 +23,7 @@ namespace AI_.Studmix.Domain.Tests.Services
         }
     }
 
-    public class PermissionServiceTestTests : PermissionServiceTestFixture
+    public class PermissionServiceTests : PermissionServiceTestFixture
     {
         [Fact]
         public void UserHasPermissions_UserIsOwner_UserHasPermissions()
@@ -52,7 +52,7 @@ namespace AI_.Studmix.Domain.Tests.Services
         }
 
         [Fact]
-        public void UserHasPermissions_UserNotOrderedPackage_UserHasPermissions()
+        public void UserHasPermissions_UserNotOrderedPackage_UserHasNoPermissions()
         {
             // Arrange
             Package.Owner = CreateUser();
@@ -62,6 +62,20 @@ namespace AI_.Studmix.Domain.Tests.Services
 
             // Assert
             userHasPermissions.Should().BeFalse();
+        }
+
+        [Fact]
+        public void UserHasPermissions_UserIsAdmin_UserHasPermissions()
+        {
+            // Arrange
+            Package.Owner = CreateUser();
+            User.Roles.Add(CreateRole("admin"));
+
+            // Act
+            var userHasPermissions = PermissionService.UserHasPermissions(User, Package);
+
+            // Assert
+            userHasPermissions.Should().BeTrue();
         }
 
     }

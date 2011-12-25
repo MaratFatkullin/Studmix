@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
 
 namespace AI_.Studmix.ApplicationServices.Services.ContentService.Requests
@@ -11,9 +10,9 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService.Requests
         /// </summary>
         public IEnumerable<PropertyStateDto> States { get; set; }
 
-        public IEnumerable<File> ContentFiles { get; set; }
+        public IEnumerable<FileStreamDto> ContentFiles { get; set; }
 
-        public IEnumerable<File> PreviewContentFiles { get; set; }
+        public IEnumerable<FileStreamDto> PreviewContentFiles { get; set; }
 
         public string Caption { get; set; }
 
@@ -27,24 +26,8 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService.Requests
         public StoreRequest()
         {
             States = new List<PropertyStateDto>();
-            ContentFiles = new List<File>();
-            PreviewContentFiles = new List<File>();
+            ContentFiles = new List<FileStreamDto>();
+            PreviewContentFiles = new List<FileStreamDto>();
         }
-
-        #region Nested type: File
-
-        public class File
-        {
-            public string FileName { get; set; }
-            public Stream Stream { get; set; }
-
-            public File(string key, Stream value)
-            {
-                FileName = key;
-                Stream = value;
-            }
-        }
-
-        #endregion
     }
 }

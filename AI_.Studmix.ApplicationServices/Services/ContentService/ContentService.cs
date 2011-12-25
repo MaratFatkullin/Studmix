@@ -9,6 +9,7 @@ using AI_.Studmix.ApplicationServices.Specifications;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Factories;
 using AI_.Studmix.Domain.Repository;
+using AI_.Studmix.Domain.Services.Abstractions;
 
 namespace AI_.Studmix.ApplicationServices.Services.ContentService
 {
@@ -16,11 +17,15 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService
     {
         protected IUnitOfWork UnitOfWork { get; set; }
         protected IFileRepository FileRepository { get; set; }
+        protected IPermissionService PermissionService { get; set; }
 
-        public ContentService(IUnitOfWork unitOfWork, IFileRepository fileRepository)
+        public ContentService(IUnitOfWork unitOfWork,
+                              IFileRepository fileRepository,
+                              IPermissionService permissionService)
         {
             UnitOfWork = unitOfWork;
             FileRepository = fileRepository;
+            PermissionService = permissionService;
         }
 
         #region IContentService Members
@@ -81,11 +86,30 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService
             var contentPackage = repository.GetByID(request.ID);
 
             if (contentPackage == null)
-                return new GetPackageByIDResponse(null);
+                return new GetPackageByIDResponse(null, false);
+
+            var user = UnitOfWork.GetRepository<User>().Get(new GetUserByUserName(request.UserName)).Single();
+            var userHasPermissions = PermissionService.UserHasPermissions(user, contentPackage);
 
             var contentPackageDto = DtoMapper.Map<ContentPackageDto>(contentPackage);
 
-            return new GetPackageByIDResponse(contentPackageDto);
+            return new GetPackageByIDResponse(contentPackageDto, userHasPermissions);
+        }
+
+        public DownloadResponse DownloadFile(DownloadRequest request)
+        {
+            var contentFile = UnitOfWork.GetRepository<ContentFile>().GetByID(request.FileID);
+            var user = UnitOfWork.GetRepository<User>().Get(new GetUserByUserName(request.UserName)).Single();
+            var userHasPermissions = PermissionService.UserHasPermissions(user, contentFile.ContentPackage);
+            if (userHasPermissions)
+            {
+                var stream = FileRepository.GetFileStream(contentFile);
+                return new DownloadResponse(new FileStreamDto(contentFile.Name, stream));
+            }
+            else
+            {
+                return new DownloadResponse();
+            }
         }
 
         #endregion
