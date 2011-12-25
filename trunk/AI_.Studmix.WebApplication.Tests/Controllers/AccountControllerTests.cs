@@ -150,6 +150,23 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
         }
 
         [Fact]
+        public void Register_Simple_MinRequiredPasswordLengthPassed()
+        {
+            // Arrange
+            MembershipService.SetupGet(s => s.Configuration.MinRequiredPasswordLength)
+                .Returns(3);
+
+            var controller = CreateSut();
+
+            // Act
+            var result = controller.Register();
+
+            // Assert
+            var viewModel = (RegisterViewModel)result.Model;
+            viewModel.MinRequiredPasswordLength.Should().Be(3);
+        }
+
+        [Fact]
         public void ChangePassword_PasswordChanged_RedirectedToSeccessView()
         {
             // Arrange

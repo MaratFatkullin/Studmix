@@ -11,13 +11,16 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
     public class MembershipService : IMembershipService
     {
         protected IUnitOfWork UnitOfWork { get; set; }
-        protected IMembershipConfiguration Configuration { get; set; }
 
         public MembershipService(IUnitOfWork unitOfWork, IMembershipConfiguration configuration)
         {
             UnitOfWork = unitOfWork;
             Configuration = configuration;
         }
+
+        #region IMembershipService Members
+
+        public IMembershipConfiguration Configuration { get; set; }
 
         public CreateUserResponse CreateUser(CreateUserRequest request)
         {
@@ -97,6 +100,8 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
             user.Password = request.NewPassword;
             return new ChangePasswordResponse(true);
         }
+
+        #endregion
 
         private bool ValidatingPassword(string password)
         {
