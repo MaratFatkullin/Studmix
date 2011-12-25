@@ -8,5 +8,6 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
         CreateUserResponse CreateUser(CreateUserRequest request);
         ValidateUserResponce ValidateUser(ValidateUserRequest request);
         ChangePasswordResponse ChangePassword(ChangePasswordRequest request);
+        IMembershipConfiguration Configuration { get; set; }
     }
 }

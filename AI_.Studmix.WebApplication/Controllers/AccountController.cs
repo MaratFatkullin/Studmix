@@ -73,9 +73,11 @@ namespace AI_.Studmix.WebApplication.Controllers
         //
         // GET: /Account/Register
 
-        public ActionResult Register()
+        public ViewResult Register()
         {
-            return View();
+            var viewModel = new RegisterViewModel();
+            viewModel.MinRequiredPasswordLength = MembershipService.Configuration.MinRequiredPasswordLength;
+            return View(viewModel);
         }
 
         //
