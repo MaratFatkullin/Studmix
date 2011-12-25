@@ -5,9 +5,9 @@ namespace AI_.Studmix.ApplicationServices.DataTransferObjects
         public int Key { get; set; }
         public string Value { get; set; }
 
-        public PropertyStateDto(int key, string value)
+        public PropertyStateDto(int propertyID, string value)
         {
-            Key = key;
+            Key = propertyID;
             Value = value;
         }
     }
