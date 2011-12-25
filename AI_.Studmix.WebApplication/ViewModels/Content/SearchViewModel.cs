@@ -5,7 +5,7 @@ namespace AI_.Studmix.WebApplication.ViewModels.Content
 {
     public class SearchViewModel
     {
-        public Dictionary<int, string> Properties { get; set; }
+        public IEnumerable<PropertyDto> Properties { get; set; }
 
         public Dictionary<int, string> States { get; set; }
 

@@ -55,7 +55,7 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
         {
             // Arrange
             ContentService.Setup(s => s.GetProperties())
-                .Returns(new GetPropertiesResponse(new Dictionary<int, string> {{1, "st1"}}));
+                .Returns(new GetPropertiesResponse(new List<PropertyDto> {new PropertyDto(1, "st1")}));
             var controller = CreateSut();
 
             // Act
@@ -63,7 +63,7 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
 
             // Assert
             var model = (UploadViewModel) result.Model;
-            model.Properties.Values.Single().Should().Be("st1");
+            model.Properties.Single().Name.Should().Be("st1");
             result.ViewName.Should().BeEmpty();
         }
 
@@ -115,7 +115,7 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
         public void Search_Simple_PropertiesPassed()
         {
             // Arrange
-            var properties = new Dictionary<int, string>();
+            var properties = new List<PropertyDto>();
             ContentService.Setup(s => s.GetProperties())
                 .Returns(new GetPropertiesResponse(properties));
 
@@ -133,7 +133,7 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
         public void Search_Simple_PackagesPassed()
         {
             // Arrange
-            var properties = new Dictionary<int, string>();
+            var properties = new List<PropertyDto>();
             ContentService.Setup(s => s.GetProperties())
                 .Returns(new GetPropertiesResponse(properties));
 
@@ -159,7 +159,7 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
         public void Details_Simple_DetailsProvided()
         {
             // Arrange
-            var properties = new Dictionary<int, string>();
+            var properties = new List<PropertyDto>();
             var package = new ContentPackageDto();
 
             ContentService.Setup(s => s.GetProperties())

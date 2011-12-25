@@ -2,12 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using AI_.Studmix.ApplicationServices.DataTransferObjects;
 
 namespace AI_.Studmix.WebApplication.ViewModels.Content
 {
     public class UploadViewModel : IValidatableObject
     {
-        public Dictionary<int, string> Properties { get; set; }
+        public IEnumerable<PropertyDto> Properties { get; set; }
 
         /// <summary>
         ///   Словарь пары ID свойства - состояние.

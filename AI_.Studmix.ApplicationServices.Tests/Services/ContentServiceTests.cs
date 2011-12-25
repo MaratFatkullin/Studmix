@@ -55,9 +55,9 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             var response = service.GetProperties();
 
             // Assert
-            response.Properties.First().Value.Should().Be("prop1");
-            response.Properties.Last().Value.Should().Be("prop2");
-            response.Properties.Count.Should().Be(2);
+            response.Properties.First().Name.Should().Be("prop1");
+            response.Properties.Last().Name.Should().Be("prop2");
+            response.Properties.Count().Should().Be(2);
         }
 
         [Fact]

@@ -55,8 +55,10 @@ namespace AI_.Studmix.WebApplication.Controllers
                               States =
                                   viewModel.States.Select(s => new PropertyStateDto(s.Key, s.Value)).ToList(),
                               ContentFiles = viewModel.ContentFiles
+                                  .Where(f => f != null)
                                   .Select(f => new StoreRequest.File(f.FileName, f.InputStream)),
                               PreviewContentFiles = viewModel.PreviewContentFiles
+                                  .Where(f => f != null)
                                   .Select(f => new StoreRequest.File(f.FileName, f.InputStream))
                           };
 

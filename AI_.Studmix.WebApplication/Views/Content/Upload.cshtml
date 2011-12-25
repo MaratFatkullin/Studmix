@@ -18,12 +18,12 @@
                     <input type="button" value="по умолчанию" id="btnDefault"/>
                     @foreach (var property in Model.Properties)
                     {
-                        Model.States[property.Key] = null;
+                        Model.States[property.ID] = null;
                         <div class="editor-label">
-                            <span>@property.Value</span>
+                            <span>@property.Name</span>
                         </div>
                         <div class="editor-field">
-                            @Html.CombBoxFor(x => x.States[property.Key], "/Content/UpdateStates/" + property.Key)
+                            @Html.CombBoxFor(x => x.States[property.ID], "/Content/UpdateStates/" + property.ID)
                         </div>
                     }
                 </fieldset>

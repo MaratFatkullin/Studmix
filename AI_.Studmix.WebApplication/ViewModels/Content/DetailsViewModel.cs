@@ -7,7 +7,7 @@ namespace AI_.Studmix.WebApplication.ViewModels.Content
     {
         public ContentPackageDto Package { get; set; }
 
-        public IDictionary<int,string> Properties { get; set; }
+        public IEnumerable<PropertyDto> Properties { get; set; }
 
         public bool IsFullAccessGranted { get; set; }
     }
