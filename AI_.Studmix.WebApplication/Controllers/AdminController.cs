@@ -6,7 +6,7 @@ using AI_.Studmix.WebApplication.ViewModels.Shared;
 
 namespace AI_.Studmix.WebApplication.Controllers
 {
-    //[Authorize(Roles = "admin")]
+    [Authorize(Users = "admin")]
     public class AdminController : ControllerBase
     {
         private const int PAGE_SIZE = 20;
