@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Security;
+using AI_.Studmix.ApplicationServices.DataTransferObjects;
+using AI_.Studmix.ApplicationServices.DataTransferObjects.Mapper;
 using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
 using AI_.Studmix.ApplicationServices.Services.MembershipService.Responses;
 using AI_.Studmix.Domain.Entities;
@@ -99,6 +102,40 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
             }
             user.Password = request.NewPassword;
             return new ChangePasswordResponse(true);
+        }
+
+        public GetUserListResponse GetUserList(GetUserListRequest request)
+        {
+            var pageSize = request.PageSize;
+            var pageIndex = request.PageIndex - 1;
+            var repository = UnitOfWork.GetRepository<User>();
+            var users = repository.Get().Skip(pageSize * pageIndex).Take(pageSize);
+            return new GetUserListResponse(DtoMapper.MapSequence<UserDto>(users));
+        }
+
+        public GetUserResponse GetUser(GetUserRequest request)
+        {
+            var user = UnitOfWork.GetRepository<User>().GetByID(request.UserID);
+            return new GetUserResponse(DtoMapper.Map<UserDto>(user));
+        }
+
+        public UpdateUserResponse UpdateUser(UpdateUserRequest request)
+        {
+            var userDto = request.User;
+            var user = UnitOfWork.GetRepository<User>().GetByID(userDto.ID);
+
+            var delta = userDto.Balance - user.Balance;
+            if (delta > 0)
+            {
+                user.IncomeMoney(delta);
+            }
+            else
+            {
+                user.OutcomeMoney(delta);
+            }
+
+            UnitOfWork.Save();
+            return new UpdateUserResponse();
         }
 
         #endregion

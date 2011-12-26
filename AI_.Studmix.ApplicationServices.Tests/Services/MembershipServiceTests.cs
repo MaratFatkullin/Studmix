@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Security;
+using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.Services.MembershipService;
 using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
 using AI_.Studmix.ApplicationServices.Tests.Mocks;
@@ -7,6 +8,7 @@ using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Tests;
 using FluentAssertions;
 using Xunit;
+using Xunit.Extensions;
 
 namespace AI_.Studmix.ApplicationServices.Tests.Services
 {
@@ -332,6 +334,73 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
 
             // Assert
             response.ChangePasswordSucceeded.Should().BeFalse();
+        }
+
+        [Theory]
+        [InlineData(2,1,2)]
+        [InlineData(1,2,1)]
+        [InlineData(3,1,3)]
+        [InlineData(2,2,1)]
+        public void GetUserList_Simple_UsersProvided(int pageSize,int pageIndex,int actualCount)
+        {
+            // Arrange
+            var repository = UnitOfWork.GetRepository<User>();
+            repository.Insert(CreateUser());
+            repository.Insert(CreateUser());
+            repository.Insert(CreateUser());
+            UnitOfWork.Save();
+
+            var service = CreateSut();
+            var request = new GetUserListRequest(pageSize,pageIndex);
+
+            // Act
+            var response = service.GetUserList(request);
+
+            // Assert
+            response.Users.Should().HaveCount(actualCount);
+        }
+
+        [Fact]
+        public void GetUser_Simple_UserProvided()
+        {
+            // Arrange
+            var user = CreateUser();
+            UnitOfWork.GetRepository<User>().Insert(user);
+            UnitOfWork.Save();
+
+            var service = CreateSut();
+            var request = new GetUserRequest(user.ID);
+
+            // Act
+            var response = service.GetUser(request);
+
+            // Assert
+            response.User.ShouldHave().SharedProperties().EqualTo(user);
+        }
+
+        [Fact]
+        public void UpdateUser_Simple_UserUpdated()
+        {
+            // Arrange
+            var user = CreateUser();
+            UnitOfWork.GetRepository<User>().Insert(user);
+            UnitOfWork.Save();
+
+            var request = new UpdateUserRequest();
+            var userDto = new UserDto
+                          {
+                              ID = user.ID,
+                              Balance = 42,
+                          };
+            request.User = userDto;
+
+            var service = CreateSut();
+
+            // Act
+            service.UpdateUser(request);
+
+            // Assert
+            user.Balance.Should().Be(userDto.Balance);
         }
     }
 }

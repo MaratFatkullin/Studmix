@@ -1,8 +1,10 @@
-﻿namespace AI_.Studmix.WebApplication.ViewModels.Admin
+﻿using AI_.Studmix.ApplicationServices.DataTransferObjects;
+
+namespace AI_.Studmix.WebApplication.ViewModels.Admin
 {
     public class UserDetailsViewModel
     {
-        //public User User { get; set; }
+        public UserDto User { get; set; }
 
         //public UserProfile UserProfile { get; set; }
     }

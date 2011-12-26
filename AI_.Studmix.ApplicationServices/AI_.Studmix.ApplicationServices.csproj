@@ -48,6 +48,7 @@
     <Compile Include="DataTransferObjects\ContentPackageDto.cs" />
     <Compile Include="DataTransferObjects\ContentFileDto.cs" />
     <Compile Include="DataTransferObjects\PropertyDto.cs" />
+    <Compile Include="DataTransferObjects\UserDto.cs" />
     <Compile Include="FileRepository\FileRepository.cs" />
     <Compile Include="FileRepository\FileSystemLocator.cs" />
     <Compile Include="FileRepository\IFileRepository.cs" />
@@ -64,8 +65,14 @@
     <Compile Include="Services\ContentService\Requests\StoreRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ContentService\IContentService.cs" />
+    <Compile Include="Services\MembershipService\Requests\GetUserRequest.cs" />
+    <Compile Include="Services\MembershipService\Responses\GetUserResponse.cs" />
+    <Compile Include="Services\MembershipService\Requests\GetUserListRequest.cs" />
+    <Compile Include="Services\MembershipService\Responses\GetUserListResponse.cs" />
     <Compile Include="Services\MembershipService\IMembershipConfiguration.cs" />
     <Compile Include="Services\MembershipService\IMembershipService.cs" />
+    <Compile Include="Services\MembershipService\Requests\UpdateUserRequest.cs" />
+    <Compile Include="Services\MembershipService\Responses\UpdateUserResponse.cs" />
     <Compile Include="Services\SearchService\ISearchService.cs" />
     <Compile Include="Services\MembershipService\Requests\ChangePasswordRequest.cs" />
     <Compile Include="Services\MembershipService\Responses\ChangePasswordResponse.cs" />
