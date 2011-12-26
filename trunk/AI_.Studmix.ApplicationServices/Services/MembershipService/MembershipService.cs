@@ -131,7 +131,7 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
             }
             else
             {
-                user.OutcomeMoney(delta);
+                user.OutcomeMoney(Math.Abs(delta));
             }
 
             UnitOfWork.Save();
