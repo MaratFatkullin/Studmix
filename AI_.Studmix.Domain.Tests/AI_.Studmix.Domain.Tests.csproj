@@ -74,6 +74,7 @@
     <Compile Include="Enitities\UserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FinanceServiceTests.cs" />
+    <Compile Include="Services\PaymentServiceTests.cs" />
     <Compile Include="Services\PermissionServiceTests.cs" />
     <Compile Include="TestFixtureBase.cs" />
   </ItemGroup>

@@ -70,7 +70,10 @@
     <Compile Include="FileSystem\FileSystemProvider.cs" />
     <Compile Include="FileSystem\GuidProvider.cs" />
     <Compile Include="FileSystem\IGuidProvider.cs" />
+    <Compile Include="PaymentSystem\IPaymentSystmeProviderConfiguration.cs" />
+    <Compile Include="PaymentSystem\PaymentSystmeProviderConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PaymentSystem\QiwiInvoiceRepository.cs" />
     <Compile Include="Repository\EntityFrameworkRepository.cs" />
     <Compile Include="Repository\EntityFrameworkUnitOfWork.cs" />
   </ItemGroup>
