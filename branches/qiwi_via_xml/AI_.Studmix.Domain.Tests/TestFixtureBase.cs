@@ -63,5 +63,12 @@ namespace AI_.Studmix.Domain.Tests
         {
             return new Role {RoleName = rolename};
         }
+
+
+        protected Invoice CreateInvoice(User user, decimal amount)
+        {
+            var factory = new InvoiceFactory();
+            return factory.CreateInvoice(user, amount, "comment");
+        }
     }
 }

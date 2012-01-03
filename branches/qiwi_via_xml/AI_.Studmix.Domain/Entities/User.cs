@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AI_.Studmix.Domain.Repository;
+using AI_.Studmix.Domain.Services.Abstractions;
 
 namespace AI_.Studmix.Domain.Entities
 {
@@ -35,6 +37,7 @@ namespace AI_.Studmix.Domain.Entities
         public decimal Balance { get; protected set; }
 
         public string PhoneNumber { get; set; }
+        public ICollection<Invoice> Invoices { get; set; }
 
         public User()
         {

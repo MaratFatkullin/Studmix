@@ -55,7 +55,8 @@ namespace AI_.Studmix.Domain.Factories
                        PasswordQuestion = null,
                        PhoneNumber = phoneNumber,
                        Orders = new Collection<Order>(),
-                       Roles = new Collection<Role>()
+                       Roles = new Collection<Role>(),
+                       Invoices = new Collection<Invoice>()
                    };
         }
     }
