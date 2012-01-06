@@ -90,6 +90,10 @@
     <Compile Include="Services\MembershipService\IMembershipService.cs" />
     <Compile Include="Services\MembershipService\Requests\UpdateUserRequest.cs" />
     <Compile Include="Services\MembershipService\Responses\UpdateUserResponse.cs" />
+    <Compile Include="Services\OrderService\IOrderService.cs" />
+    <Compile Include="Services\OrderService\OrderService.cs" />
+    <Compile Include="Services\OrderService\Requests\ViewOrderRequest.cs" />
+    <Compile Include="Services\OrderService\Responses\ViewOrderResponse.cs" />
     <Compile Include="Services\SearchService\ISearchService.cs" />
     <Compile Include="Services\MembershipService\Requests\ChangePasswordRequest.cs" />
     <Compile Include="Services\MembershipService\Responses\ChangePasswordResponse.cs" />

@@ -8,11 +8,6 @@ namespace AI_.Studmix.Domain.Services
     {
         #region IFinanceService Members
 
-        public bool IsOrderAvailable(Order order)
-        {
-            return order.ContentPackage.Price <= order.User.Balance;
-        }
-
         public bool UserCanBuyPackage(User user, ContentPackage package)
         {
             return user.Balance >= package.Price;
