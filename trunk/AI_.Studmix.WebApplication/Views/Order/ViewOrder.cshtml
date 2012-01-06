@@ -1,11 +1,11 @@
 ﻿@using AI_.Studmix.WebApplication.ViewModels.Finance
-@model OrderViewModel
+@model ViewOrderViewModel
 
 @{
     ViewBag.Title = "Приобретение материала";
 }
 
-@using (Html.BeginForm("MakeOrder","Finance"))
+@using (Html.BeginForm("MakeOrder","Order"))
 {
     @Html.ValidationSummary()
     <fieldset>
@@ -25,7 +25,7 @@
         </div>
     </fieldset>
 
-    @Html.HiddenFor(m=>m.ContentPackageId)
+    @Html.HiddenFor(m=>m.ContentPackageID)
     
     if (ViewData.ModelState.IsValid)
     {
