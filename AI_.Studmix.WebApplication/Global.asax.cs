@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -62,6 +65,15 @@ namespace AI_.Studmix.WebApplication
             InitializeDatabase();
         }
 
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+            if (Request.IsAuthenticated)
+            {
+                var culture = new CultureInfo("ru-RU", false) {NumberFormat = {NumberDecimalSeparator = "."}};
+                Thread.CurrentThread.CurrentCulture = culture;
+            }
+        }
+
         private void RegisterModelBinders()
         {
             ModelBinders.Binders.Add(typeof (Dictionary<int, string>), new DefaultDictionaryBinder());
@@ -98,7 +110,6 @@ namespace AI_.Studmix.WebApplication
             container.RegisterType<IFileSystemLocator, FileSystemLocator>();
             container.RegisterType<IFileSystemProvider, FileSystemProvider>();
             container.RegisterType<IOrderService, OrderService>();
-
         }
     }
 }
