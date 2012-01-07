@@ -37,7 +37,7 @@ namespace AI_.Studmix.Domain.Entities
         public decimal Balance { get; protected set; }
 
         public string PhoneNumber { get; set; }
-        public ICollection<Invoice> Invoices { get; set; }
+        public virtual ICollection<Invoice> Invoices { get; set; }
 
         public User()
         {

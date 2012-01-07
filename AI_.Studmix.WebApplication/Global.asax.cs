@@ -13,6 +13,7 @@ using AI_.Studmix.Domain.Services;
 using AI_.Studmix.Domain.Services.Abstractions;
 using AI_.Studmix.Infrastructure.Database;
 using AI_.Studmix.Infrastructure.FileSystem;
+using AI_.Studmix.Infrastructure.PaymentSystem;
 using AI_.Studmix.Infrastructure.Repository;
 using AI_.Studmix.WebApplication.Infrastructure;
 using AI_.Studmix.WebApplication.Infrastructure.Authentication;
@@ -83,6 +84,8 @@ namespace AI_.Studmix.WebApplication
             container.RegisterType<IUnitOfWork, EntityFrameworkUnitOfWork<DataContext>>(
                 new PerResolveLifetimeManager());
             container.RegisterType<IAuthenticationProvider, AuthenticationProvider>();
+            container.RegisterType<IPaymentSystemInvoiceRepository, QiwiInvoiceRepository>();
+            container.RegisterType<IPaymentSystmeProviderConfiguration, PaymentSystmeProviderConfiguration>();
 
             container.RegisterType<IFinanceService, FinanceService>();
             container.RegisterType<IPermissionService, PermissionService>();
