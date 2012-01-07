@@ -6,6 +6,7 @@ using System.Web.Routing;
 using AI_.Studmix.ApplicationServices.FileRepository;
 using AI_.Studmix.ApplicationServices.Services.ContentService;
 using AI_.Studmix.ApplicationServices.Services.MembershipService;
+using AI_.Studmix.ApplicationServices.Services.OrderService;
 using AI_.Studmix.ApplicationServices.Services.SearchService;
 using AI_.Studmix.Domain.Repository;
 using AI_.Studmix.Domain.Services;
@@ -81,18 +82,20 @@ namespace AI_.Studmix.WebApplication
 
             container.RegisterType<IUnitOfWork, EntityFrameworkUnitOfWork<DataContext>>(
                 new PerResolveLifetimeManager());
+            container.RegisterType<IAuthenticationProvider, AuthenticationProvider>();
 
             container.RegisterType<IFinanceService, FinanceService>();
             container.RegisterType<IPermissionService, PermissionService>();
             container.RegisterType<IContentService, ContentService>();
             container.RegisterType<ISearchService, SearchService>();
-            container.RegisterType<ISearchService, SearchService>();
+
             container.RegisterType<IMembershipService, MembershipService>();
             container.RegisterType<IMembershipConfiguration, MembershipConfiguration>();
-            container.RegisterType<IAuthenticationProvider, AuthenticationProvider>();
             container.RegisterType<IFileRepository, FileRepository>();
             container.RegisterType<IFileSystemLocator, FileSystemLocator>();
             container.RegisterType<IFileSystemProvider, FileSystemProvider>();
+            container.RegisterType<IOrderService, OrderService>();
+
         }
     }
 }
