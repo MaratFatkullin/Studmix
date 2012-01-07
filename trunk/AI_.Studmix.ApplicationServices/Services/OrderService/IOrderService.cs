@@ -6,5 +6,6 @@ namespace AI_.Studmix.ApplicationServices.Services.OrderService
     public interface IOrderService
     {
         ViewOrderResponse ViewOrder(ViewOrderRequest request);
+        MakeOrderResponse MakeOrder(MakeOrderRequest request);
     }
 }

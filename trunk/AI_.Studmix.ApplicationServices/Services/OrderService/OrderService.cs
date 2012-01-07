@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AI_.Studmix.ApplicationServices.Services.OrderService.Requests;
 using AI_.Studmix.ApplicationServices.Services.OrderService.Responses;
 using AI_.Studmix.ApplicationServices.Specifications;
@@ -20,6 +19,8 @@ namespace AI_.Studmix.ApplicationServices.Services.OrderService
             FinanceService = financeService;
         }
 
+        #region IOrderService Members
+
         public ViewOrderResponse ViewOrder(ViewOrderRequest request)
         {
             var response = new ViewOrderResponse();
@@ -33,5 +34,18 @@ namespace AI_.Studmix.ApplicationServices.Services.OrderService
             response.OrderPrice = package.Price;
             return response;
         }
+
+        public MakeOrderResponse MakeOrder(MakeOrderRequest request)
+        {
+            var package = UnitOfWork.GetRepository<ContentPackage>().GetByID(request.ContentPackageID);
+            var user = UnitOfWork.GetRepository<User>().Get(new GetUserByUserName(request.UserName)).Single();
+
+            var order = FinanceService.MakeOrder(user, package);
+            UnitOfWork.GetRepository<Order>().Insert(order);
+            UnitOfWork.Save();
+            return new MakeOrderResponse();
+        }
+
+        #endregion
     }
 }
