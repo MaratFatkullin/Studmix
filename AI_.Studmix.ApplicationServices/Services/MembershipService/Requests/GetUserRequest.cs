@@ -2,11 +2,11 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService.Requests
 {
     public class GetUserRequest
     {
-        public int UserID { get; set; }
+        public string UserName { get; set; }
 
-        public GetUserRequest(int userID)
+        public GetUserRequest(string userName)
         {
-            UserID = userID;
+            UserName = userName;
         }
     }
 }
