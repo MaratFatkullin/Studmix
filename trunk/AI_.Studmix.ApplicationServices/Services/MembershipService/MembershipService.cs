@@ -5,6 +5,7 @@ using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.DataTransferObjects.Mapper;
 using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
 using AI_.Studmix.ApplicationServices.Services.MembershipService.Responses;
+using AI_.Studmix.ApplicationServices.Specifications;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Factories;
 using AI_.Studmix.Domain.Repository;
@@ -115,7 +116,11 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
 
         public GetUserResponse GetUser(GetUserRequest request)
         {
-            var user = UnitOfWork.GetRepository<User>().GetByID(request.UserID);
+            var user = UnitOfWork.GetRepository<User>().Get(new GetUserByUserName(request.UserName)).SingleOrDefault();
+            if (user == null)
+            {
+                throw new ApplicationException("Пользователь с указанным именем пользователя не существует.");
+            }
             return new GetUserResponse(DtoMapper.Map<UserDto>(user));
         }
 
