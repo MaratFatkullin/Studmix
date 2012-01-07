@@ -8,17 +8,22 @@ using AI_.Studmix.ApplicationServices.Services.MembershipService.Responses;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Factories;
 using AI_.Studmix.Domain.Repository;
+using AI_.Studmix.Domain.Services.Abstractions;
 
 namespace AI_.Studmix.ApplicationServices.Services.MembershipService
 {
     public class MembershipService : IMembershipService
     {
         protected IUnitOfWork UnitOfWork { get; set; }
+        protected IFinanceService FinanceService { get; set; }
 
-        public MembershipService(IUnitOfWork unitOfWork, IMembershipConfiguration configuration)
+        public MembershipService(IUnitOfWork unitOfWork,
+                                 IMembershipConfiguration configuration,
+                                 IFinanceService financeService)
         {
             UnitOfWork = unitOfWork;
             Configuration = configuration;
+            FinanceService = financeService;
         }
 
         #region IMembershipService Members
@@ -124,7 +129,7 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
             var userDto = request.User;
             var user = UnitOfWork.GetRepository<User>().GetByID(userDto.ID);
 
-            var delta = userDto.Balance - user.Balance;
+            var delta = userDto.Balance - FinanceService.GetActualBalance(user);
             if (delta > 0)
             {
                 user.IncomeMoney(delta);

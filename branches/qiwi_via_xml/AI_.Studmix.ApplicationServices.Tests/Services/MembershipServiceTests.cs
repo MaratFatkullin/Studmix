@@ -5,8 +5,10 @@ using AI_.Studmix.ApplicationServices.Services.MembershipService;
 using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
 using AI_.Studmix.ApplicationServices.Tests.Mocks;
 using AI_.Studmix.Domain.Entities;
+using AI_.Studmix.Domain.Services.Abstractions;
 using AI_.Studmix.Domain.Tests;
 using FluentAssertions;
+using Moq;
 using Xunit;
 using Xunit.Extensions;
 
@@ -16,6 +18,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
     {
         protected MembershipConfigurationMock MembershipConfiguration;
         protected UnitOfWorkMock UnitOfWork;
+        protected Mock<IFinanceService> FinanceService = new Mock<IFinanceService>();
 
         public MembershipServiceTestFixture()
         {
@@ -25,7 +28,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
 
         protected MembershipService CreateSut()
         {
-            return new MembershipService(UnitOfWork, MembershipConfiguration);
+            return new MembershipService(UnitOfWork, MembershipConfiguration,FinanceService.Object);
         }
 
         protected static CreateUserRequest CreateUserRequest(string username = "username",
@@ -385,6 +388,8 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             var user = CreateUser();
             UnitOfWork.GetRepository<User>().Insert(user);
             UnitOfWork.Save();
+
+            FinanceService.Setup(s => s.GetActualBalance(user)).Returns(user.Balance);
 
             var request = new UpdateUserRequest();
             var userDto = new UserDto

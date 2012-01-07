@@ -81,9 +81,7 @@
     <Compile Include="Services\Abstractions\IFinanceService.cs" />
     <Compile Include="Services\Abstractions\InvoiceStatus.cs" />
     <Compile Include="Services\Abstractions\IPermissionService.cs" />
-    <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Services\FinanceService.cs" />
-    <Compile Include="Services\Abstractions\IPaymentService.cs" />
     <Compile Include="Services\PermissionService.cs" />
     <Compile Include="ValueObject.cs" />
   </ItemGroup>
