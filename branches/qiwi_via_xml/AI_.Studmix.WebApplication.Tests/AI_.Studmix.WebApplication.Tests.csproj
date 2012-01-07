@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountControllerTests.cs" />
     <Compile Include="Controllers\AdminControllerTests.cs" />
+    <Compile Include="Controllers\OrderControllerTests.cs" />
     <Compile Include="Controllers\ContentControllerTests.cs" />
     <Compile Include="TestFixtureBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

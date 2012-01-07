@@ -2,14 +2,14 @@
 
 namespace AI_.Studmix.WebApplication.ViewModels.Finance
 {
-    public class OrderViewModel
+    public class ViewOrderViewModel
     {
         [DisplayName("Баланс пользователя")]
-        public int UserBalance { get; set; }
+        public decimal UserBalance { get; set; }
 
         [DisplayName("Общая стоимость заказа")]
-        public int OrderPrice { get; set; }
+        public decimal OrderPrice { get; set; }
 
-        public int ContentPackageId { get; set; }
+        public int ContentPackageID { get; set; }
     }
 }
