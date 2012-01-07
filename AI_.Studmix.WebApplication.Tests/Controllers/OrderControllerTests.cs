@@ -54,6 +54,7 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
             OrderService.Setup(s => s.ViewOrder(It.IsAny<ViewOrderRequest>()))
                 .Returns(new ViewOrderResponse {IsUserCanBuyPackage = false});
             var controller = CreateSut();
+            controller.ControllerContext = CreateContext("username");
 
             // Act
             var result = controller.ViewOrder(1);
@@ -69,6 +70,7 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
             OrderService.Setup(s => s.ViewOrder(It.IsAny<ViewOrderRequest>()))
                 .Returns(new ViewOrderResponse {IsUserCanBuyPackage = true});
             var controller = CreateSut();
+            controller.ControllerContext = CreateContext("username");
 
             // Act
             var result = controller.ViewOrder(1);

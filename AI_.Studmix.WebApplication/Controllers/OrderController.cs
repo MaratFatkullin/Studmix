@@ -1,12 +1,12 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using AI_.Studmix.ApplicationServices.Services.OrderService;
 using AI_.Studmix.ApplicationServices.Services.OrderService.Requests;
 using AI_.Studmix.WebApplication.ViewModels.Finance;
+using AI_.Studmix.WebApplication.ViewModels.Shared;
 
 namespace AI_.Studmix.WebApplication.Controllers
 {
-    public class OrderController : Controller
+    public class OrderController : ControllerBase
     {
         protected IOrderService OrderService { get; set; }
 
@@ -17,11 +17,11 @@ namespace AI_.Studmix.WebApplication.Controllers
 
         public ViewResult ViewOrder(int id)
         {
-            var request = new ViewOrderRequest {PackageID = id,UserName = User.Identity.Name};
+            var request = new ViewOrderRequest {PackageID = id, UserName = User.Identity.Name};
             var responses = OrderService.ViewOrder(request);
 
-            if(!responses.IsUserCanBuyPackage)
-                ModelState.AddModelError("","Для совершения заказа недостаточно средств на счету.");
+            if (!responses.IsUserCanBuyPackage)
+                ModelState.AddModelError("", "Для совершения заказа недостаточно средств на счету.");
 
             var viewModel = new ViewOrderViewModel();
             viewModel.ContentPackageID = id;
@@ -30,9 +30,21 @@ namespace AI_.Studmix.WebApplication.Controllers
             return View(viewModel);
         }
 
-        public ActionResult MakeOrder()
+        public ActionResult MakeOrder(ViewOrderViewModel viewModel)
         {
-            throw new NotImplementedException();
+            var request = new MakeOrderRequest
+                          {
+                              ContentPackageID = viewModel.ContentPackageID,
+                              UserName = User.Identity.Name
+                          };
+            OrderService.MakeOrder(request);
+
+            return InformationView("Покупка успешно произведена.",
+                                   string.Empty,
+                                   new ActionLinkInfo("Content",
+                                                      "Details",
+                                                      "Вернуться к просмотру",
+                                                      new {id = viewModel.ContentPackageID}));
         }
     }
 }

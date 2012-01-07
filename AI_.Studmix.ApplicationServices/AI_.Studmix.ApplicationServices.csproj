@@ -92,7 +92,9 @@
     <Compile Include="Services\MembershipService\Responses\UpdateUserResponse.cs" />
     <Compile Include="Services\OrderService\IOrderService.cs" />
     <Compile Include="Services\OrderService\OrderService.cs" />
+    <Compile Include="Services\OrderService\Requests\MakeOrderRequest.cs" />
     <Compile Include="Services\OrderService\Requests\ViewOrderRequest.cs" />
+    <Compile Include="Services\OrderService\Responses\MakeOrderResponse.cs" />
     <Compile Include="Services\OrderService\Responses\ViewOrderResponse.cs" />
     <Compile Include="Services\SearchService\ISearchService.cs" />
     <Compile Include="Services\MembershipService\Requests\ChangePasswordRequest.cs" />
