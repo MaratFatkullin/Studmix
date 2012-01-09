@@ -5,21 +5,25 @@ using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.DataTransferObjects.Mapper;
 using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
 using AI_.Studmix.ApplicationServices.Services.MembershipService.Responses;
-using AI_.Studmix.ApplicationServices.Specifications;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Factories;
 using AI_.Studmix.Domain.Repository;
+using AI_.Studmix.Domain.Services.Abstractions;
 
 namespace AI_.Studmix.ApplicationServices.Services.MembershipService
 {
     public class MembershipService : IMembershipService
     {
         protected IUnitOfWork UnitOfWork { get; set; }
+        protected IFinanceService FinanceService { get; set; }
 
-        public MembershipService(IUnitOfWork unitOfWork, IMembershipConfiguration configuration)
+        public MembershipService(IUnitOfWork unitOfWork,
+                                 IMembershipConfiguration configuration,
+                                 IFinanceService financeService)
         {
             UnitOfWork = unitOfWork;
             Configuration = configuration;
+            FinanceService = financeService;
         }
 
         #region IMembershipService Members
@@ -116,11 +120,7 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
 
         public GetUserResponse GetUser(GetUserRequest request)
         {
-            var user = UnitOfWork.GetRepository<User>().Get(new GetUserByUserName(request.UserName)).SingleOrDefault();
-            if (user == null)
-            {
-                throw new ApplicationException("Пользователь с указанным именем пользователя не существует.");
-            }
+            var user = UnitOfWork.GetRepository<User>().GetByID(request.UserID);
             return new GetUserResponse(DtoMapper.Map<UserDto>(user));
         }
 
@@ -129,7 +129,7 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
             var userDto = request.User;
             var user = UnitOfWork.GetRepository<User>().GetByID(userDto.ID);
 
-            var delta = userDto.Balance - user.Balance;
+            var delta = userDto.Balance - FinanceService.GetActualBalance(user);
             if (delta > 0)
             {
                 user.IncomeMoney(delta);

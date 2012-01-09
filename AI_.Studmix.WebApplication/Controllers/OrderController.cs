@@ -6,7 +6,6 @@ using AI_.Studmix.WebApplication.ViewModels.Shared;
 
 namespace AI_.Studmix.WebApplication.Controllers
 {
-    [Authorize]
     public class OrderController : ControllerBase
     {
         protected IOrderService OrderService { get; set; }
@@ -16,7 +15,6 @@ namespace AI_.Studmix.WebApplication.Controllers
             OrderService = orderService;
         }
 
-        [HttpGet]
         public ViewResult ViewOrder(int id)
         {
             var request = new ViewOrderRequest {PackageID = id, UserName = User.Identity.Name};
@@ -32,7 +30,6 @@ namespace AI_.Studmix.WebApplication.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
         public ActionResult MakeOrder(ViewOrderViewModel viewModel)
         {
             var request = new MakeOrderRequest

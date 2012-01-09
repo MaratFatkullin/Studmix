@@ -1,13 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Security;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.Services.MembershipService;
 using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
 using AI_.Studmix.ApplicationServices.Tests.Mocks;
 using AI_.Studmix.Domain.Entities;
+using AI_.Studmix.Domain.Services.Abstractions;
 using AI_.Studmix.Domain.Tests;
 using FluentAssertions;
+using Moq;
 using Xunit;
 using Xunit.Extensions;
 
@@ -17,6 +18,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
     {
         protected MembershipConfigurationMock MembershipConfiguration;
         protected UnitOfWorkMock UnitOfWork;
+        protected Mock<IFinanceService> FinanceService = new Mock<IFinanceService>();
 
         public MembershipServiceTestFixture()
         {
@@ -26,7 +28,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
 
         protected MembershipService CreateSut()
         {
-            return new MembershipService(UnitOfWork, MembershipConfiguration);
+            return new MembershipService(UnitOfWork, MembershipConfiguration,FinanceService.Object);
         }
 
         protected static CreateUserRequest CreateUserRequest(string username = "username",
@@ -362,7 +364,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
         }
 
         [Fact]
-        public void GetUser_UserExists_UserProvided()
+        public void GetUser_Simple_UserProvided()
         {
             // Arrange
             var user = CreateUser();
@@ -370,7 +372,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             UnitOfWork.Save();
 
             var service = CreateSut();
-            var request = new GetUserRequest(user.UserName);
+            var request = new GetUserRequest(user.ID);
 
             // Act
             var response = service.GetUser(request);
@@ -380,25 +382,14 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
         }
 
         [Fact]
-        public void GetUser_UserNotExists_UserProvided()
-        {
-            // Arrange
-            var user = CreateUser();
-
-            var service = CreateSut();
-            var request = new GetUserRequest(user.UserName);
-
-            // Act, Assert
-            service.Invoking(s=>s.GetUser(request)).ShouldThrow<ApplicationException>();
-        }
-
-        [Fact]
         public void UpdateUser_Simple_UserUpdated()
         {
             // Arrange
             var user = CreateUser();
             UnitOfWork.GetRepository<User>().Insert(user);
             UnitOfWork.Save();
+
+            FinanceService.Setup(s => s.GetActualBalance(user)).Returns(user.Balance);
 
             var request = new UpdateUserRequest();
             var userDto = new UserDto
