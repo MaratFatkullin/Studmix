@@ -13,8 +13,7 @@ namespace AI_.Studmix.ApplicationServices.Services.OrderService
         protected IUnitOfWork UnitOfWork { get; set; }
         protected IFinanceService FinanceService { get; set; }
 
-        public OrderService(IUnitOfWork unitOfWork,
-                            IFinanceService financeService)
+        public OrderService(IUnitOfWork unitOfWork, IFinanceService financeService)
         {
             UnitOfWork = unitOfWork;
             FinanceService = financeService;
@@ -30,7 +29,7 @@ namespace AI_.Studmix.ApplicationServices.Services.OrderService
             var user = UnitOfWork.GetRepository<User>().Get(new GetUserByUserName(request.UserName)).Single();
 
             response.IsUserCanBuyPackage = FinanceService.UserCanBuyPackage(user, package);
-            response.UserBalance = FinanceService.GetActualBalance(user);
+            response.UserBalance = user.Balance;
             response.OrderPrice = package.Price;
             return response;
         }

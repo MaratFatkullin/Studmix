@@ -6,6 +6,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AI_.Studmix.ApplicationServices;
 using AI_.Studmix.ApplicationServices.FileRepository;
 using AI_.Studmix.ApplicationServices.Services.ContentService;
 using AI_.Studmix.ApplicationServices.Services.MembershipService;
@@ -63,6 +64,9 @@ namespace AI_.Studmix.WebApplication
             RegisterDependencyResolver();
             RegisterModelBinders();
             InitializeDatabase();
+
+            var invoiceStatusDispatcher = DependencyResolver.Current.GetService<InvoiceStatusDispatcher>();
+            new Thread(invoiceStatusDispatcher.Start);
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
@@ -110,6 +114,8 @@ namespace AI_.Studmix.WebApplication
             container.RegisterType<IFileSystemLocator, FileSystemLocator>();
             container.RegisterType<IFileSystemProvider, FileSystemProvider>();
             container.RegisterType<IOrderService, OrderService>();
+
+            container.RegisterType<InvoiceStatusDispatcher>();
         }
     }
 }
