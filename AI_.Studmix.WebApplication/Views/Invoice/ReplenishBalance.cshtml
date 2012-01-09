@@ -1,0 +1,25 @@
+﻿@using AI_.Studmix.WebApplication.ViewModels.Invoice
+@model ReplenishBalanceViewModel
+
+@{
+    ViewBag.Title = "Пополнение баланса";
+}
+
+<p>
+    Укажите сумму в рублях, на которую Вы хотите пополнить свой баланс.
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    <fieldset>
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Amount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(m => m.Amount)
+        </div>
+    </fieldset>
+
+    <input type="submit" value="Отправить заявку"/>
+}
