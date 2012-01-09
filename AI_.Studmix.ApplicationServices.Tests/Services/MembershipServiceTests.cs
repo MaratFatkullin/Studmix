@@ -18,7 +18,6 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
     {
         protected MembershipConfigurationMock MembershipConfiguration;
         protected UnitOfWorkMock UnitOfWork;
-        protected Mock<IFinanceService> FinanceService = new Mock<IFinanceService>();
 
         public MembershipServiceTestFixture()
         {
@@ -28,7 +27,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
 
         protected MembershipService CreateSut()
         {
-            return new MembershipService(UnitOfWork, MembershipConfiguration,FinanceService.Object);
+            return new MembershipService(UnitOfWork, MembershipConfiguration);
         }
 
         protected static CreateUserRequest CreateUserRequest(string username = "username",
@@ -386,10 +385,9 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
         {
             // Arrange
             var user = CreateUser();
+            user.IncomeMoney(33);
             UnitOfWork.GetRepository<User>().Insert(user);
             UnitOfWork.Save();
-
-            FinanceService.Setup(s => s.GetActualBalance(user)).Returns(user.Balance);
 
             var request = new UpdateUserRequest();
             var userDto = new UserDto
