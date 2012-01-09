@@ -82,6 +82,7 @@
     <Compile Include="Services\ContentService\Requests\StoreRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ContentService\IContentService.cs" />
+    <Compile Include="InvoiceStatusDispatcher.cs" />
     <Compile Include="Services\MembershipService\Requests\GetUserRequest.cs" />
     <Compile Include="Services\MembershipService\Responses\GetUserResponse.cs" />
     <Compile Include="Services\MembershipService\Requests\GetUserListRequest.cs" />
