@@ -5,11 +5,22 @@
     ViewBag.Title = "Личный кабинет пользователя";
 }
 
+<p>
+    @Html.ActionLink("Пополнить баланс", "ReplenishBalance", "Invoice")
+</p>
+
 @using (@Html.BeginForm("UpdateUser", "Admin"))
 {
     @Html.HiddenFor(m => m.User.ID)
     <fieldset>
         <legend>Информация о учетной записи</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.User.Balance)
+        </div>
+        <div class="editor-field">
+            @Html.DisabledTextBoxFor(model => model.User.Balance)
+        </div>
 
         <div class="display-label">                
             @Html.LabelFor(model => model.User.Email)
@@ -71,13 +82,6 @@
         </div>
         <div class="display-field">
             @Html.DisabledTextBoxFor(model => model.User.CreateDate)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.User.Balance)
-        </div>
-        <div class="editor-field">
-            @Html.DisabledTextBoxFor(model => model.User.Balance)
         </div>
     </fieldset>
 }
