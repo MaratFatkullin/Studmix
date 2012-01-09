@@ -1,4 +1,7 @@
-﻿using AI_.Studmix.Domain.Entities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AI_.Studmix.Domain.Entities;
+using AI_.Studmix.Domain.Services.Abstractions;
 using AI_.Studmix.Infrastructure.PaymentSystem;
 using FluentAssertions;
 using Xunit;
@@ -14,46 +17,41 @@ namespace AI_.Studmix.IntegrationTests
     }
 
 
-    //public class PaymentSystemTests : IUseFixture<PaymentSystemTestFixture>
-    //{
-    //    protected PaymentSystemTestFixture Fixture { get; set; }
+    public class PaymentSystemTests : IUseFixture<PaymentSystemTestFixture>
+    {
+        protected PaymentSystemTestFixture Fixture { get; set; }
 
-    //    #region IUseFixture<PaymentSystemTestFixture> Members
+        #region IUseFixture<PaymentSystemTestFixture> Members
 
-    //    public void SetFixture(PaymentSystemTestFixture data)
-    //    {
-    //        Fixture = data;
-    //    }
+        public void SetFixture(PaymentSystemTestFixture data)
+        {
+            Fixture = data;
+        }
 
-    //    #endregion
+        #endregion
 
-    //    [Fact]
-    //    public void CreateBill_ServiceRespondWithSuccessCode()
-    //    {
-    //        // Arrange
-    //        var bill = new Invoice("9872854409", 100, "___Test operation___");
-    //        var paymentSystem = Fixture.CreateSut();
-
-    //        // Act
-    //        var result = paymentSystem.CreateBill(bill);
-
-    //        // Assert
-    //        result.Should().Be(0);
-    //    }
-
-    //    [Fact]
-    //    public void GetBillStatus_ServiceRespondWithActualStatusCode()
-    //    {
-    //        // Arrange
-    //        var bill = new Invoice("9872854409", 100, "___Test operation___");
-    //        var paymentSystem = Fixture.CreateSut();
-    //        paymentSystem.CreateBill(bill);
-
-    //        // Act
-    //        var result = paymentSystem.GetBillStatus(bill.TransactionID);
-
-    //        // Assert
-    //        result.Should().Be(50);
-    //    }
-    //}
+        [Fact]
+        public void GetBillStatus_ServiceRespondWithActualStatusCode()
+        {
+            // Arrange
+            var bill1 = new Invoice
+                        {
+                            ToAccount = "9872854409",
+                            Amount = 100,
+                            Comment = "___Test operation___"
+                        };
+            var bill2 = new Invoice
+                        {
+                            ToAccount = "9872854409",
+                            Amount = 100,
+                            Comment = "___Test operation___"
+                        };
+            var paymentSystem = Fixture.CreateSut();
+            paymentSystem.StoreInvoice(bill1);
+            paymentSystem.StoreInvoice(bill2);
+            var invoiceStatuses = paymentSystem.GetInvoiceStatuses(new List<Invoice> {bill1, bill2});
+            invoiceStatuses.First().Value.Should().Be(InvoiceStatus.Invoiced);
+            invoiceStatuses.Last().Value.Should().Be(InvoiceStatus.Invoiced);
+        }
+    }
 }

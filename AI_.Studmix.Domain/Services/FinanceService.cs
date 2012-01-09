@@ -20,7 +20,7 @@ namespace AI_.Studmix.Domain.Services
 
         public bool UserCanBuyPackage(User user, ContentPackage package)
         {
-            return GetActualBalance(user) >= package.Price;
+            return user.Balance >= package.Price;
         }
 
         public Order MakeOrder(User user, ContentPackage package)
@@ -36,20 +36,20 @@ namespace AI_.Studmix.Domain.Services
             return order;
         }
 
-        public decimal GetActualBalance(User user)
-        {
-            var unpaidInvoices = user.Invoices.Where(inv => inv.Status == InvoiceStatus.Invoiced);
-            foreach (var invoice in unpaidInvoices)
-            {
-                var status = Repository.GetInvoiceStatus(invoice);
-                invoice.Status = status;
-                if (status == InvoiceStatus.Paid)
-                {
-                    user.IncomeMoney(invoice.Amount);
-                }
-            }
-            return user.Balance;
-        }
+        //public decimal GetActualBalance(User user)
+        //{
+        //    var unpaidInvoices = user.Invoices.Where(inv => inv.Status == InvoiceStatus.Invoiced);
+        //    foreach (var invoice in unpaidInvoices)
+        //    {
+        //        var status = Repository.GetInvoiceStatus(invoice);
+        //        invoice.Status = status;
+        //        if (status == InvoiceStatus.Paid)
+        //        {
+        //            user.IncomeMoney(invoice.Amount);
+        //        }
+        //    }
+        //    return user.Balance;
+        //}
 
         public void SendInvoiceToUser(User user, decimal amount, string comment)
         {

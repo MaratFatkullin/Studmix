@@ -15,15 +15,12 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
     public class MembershipService : IMembershipService
     {
         protected IUnitOfWork UnitOfWork { get; set; }
-        protected IFinanceService FinanceService { get; set; }
 
         public MembershipService(IUnitOfWork unitOfWork,
-                                 IMembershipConfiguration configuration,
-                                 IFinanceService financeService)
+                                 IMembershipConfiguration configuration)
         {
             UnitOfWork = unitOfWork;
             Configuration = configuration;
-            FinanceService = financeService;
         }
 
         #region IMembershipService Members
@@ -129,7 +126,7 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
             var userDto = request.User;
             var user = UnitOfWork.GetRepository<User>().GetByID(userDto.ID);
 
-            var delta = userDto.Balance - FinanceService.GetActualBalance(user);
+            var delta = userDto.Balance - user.Balance;
             if (delta > 0)
             {
                 user.IncomeMoney(delta);

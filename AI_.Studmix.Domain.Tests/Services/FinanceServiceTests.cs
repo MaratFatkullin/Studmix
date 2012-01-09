@@ -82,48 +82,6 @@ namespace AI_.Studmix.Domain.Tests.Services
         }
 
         [Fact]
-        public void GetActualBalance_InvoicePaid_UserBalanceRecalculated()
-        {
-            // Arrange
-            var user = CreateUser();
-            var invoice = CreateInvoice(user, 100);
-            user.Invoices.Add(invoice);
-
-            PaymentSystemInvoiceRepository.Setup(r => r.GetInvoiceStatus(invoice))
-                .Returns(InvoiceStatus.Paid);
-
-            var service = CreateSut();
-
-            // Act
-            var balance = service.GetActualBalance(user);
-
-            // Assert
-            balance.Should().Be(100);
-        }
-
-        [Theory]
-        [InlineData(InvoiceStatus.Invoiced)]
-        [InlineData(InvoiceStatus.Canceled)]
-        public void GetActualBalance_InvoiceNotPaid_UserBalanceNotChanged(InvoiceStatus status)
-        {
-            // Arrange
-            var user = CreateUser();
-            var invoice = CreateInvoice(user, 100);
-            user.Invoices.Add(invoice);
-
-            PaymentSystemInvoiceRepository.Setup(r => r.GetInvoiceStatus(invoice))
-                .Returns(status);
-
-            var service = CreateSut();
-
-            // Act
-            var balance = service.GetActualBalance(user);
-
-            // Assert
-            balance.Should().Be(0);
-        }
-
-        [Fact]
         public void SendInvoiceToUser_Simple_IvoiceSended()
         {
             // Arrange

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration.Provider;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Xml.Linq;
@@ -36,11 +38,22 @@ namespace AI_.Studmix.Infrastructure.PaymentSystem
 
         public InvoiceStatus GetInvoiceStatus(Invoice invoice)
         {
-            var request = BuildGetBillStatusRequest(invoice.TransactionID);
+            var request = BuildGetBillStatusRequest(new List<Invoice> {invoice});
 
             var response = Post(request);
             var resultCode = response.Element("bills-list").Element("bill").Attribute("status").Value;
             return ConvertToStatus(int.Parse(resultCode));
+        }
+
+        public IDictionary<Guid, InvoiceStatus> GetInvoiceStatuses(IEnumerable<Invoice> invoices)
+        {
+            var request = BuildGetBillStatusRequest(invoices);
+
+            var response = Post(request);
+            var resultCode = response.Element("bills-list").Element("bill").Attribute("status").Value;
+            return response.Element("bills-list").Elements("bill")
+                .ToDictionary(e => Guid.Parse(e.Attribute("id").Value),
+                              e => ConvertToStatus(int.Parse(e.Attribute("status").Value)));
         }
 
         #endregion
@@ -77,7 +90,7 @@ namespace AI_.Studmix.Infrastructure.PaymentSystem
             return request;
         }
 
-        private XElement BuildGetBillStatusRequest(Guid transactionID)
+        private XElement BuildGetBillStatusRequest(IEnumerable<Invoice> invoices)
         {
             var request = new XElement("request");
             request.Add(new XElement("request-type", 33));
@@ -85,10 +98,12 @@ namespace AI_.Studmix.Infrastructure.PaymentSystem
             request.Add(GetExtraAttribute("password", Configuration.Password));
             var billList = new XElement("bills-list");
             request.Add(billList);
-            var billElement = new XElement("bill");
-            billElement.Add(new XAttribute("txn-id", transactionID));
-            billList.Add(billElement);
-
+            foreach (var invoice in invoices)
+            {
+                var billElement = new XElement("bill");
+                billElement.Add(new XAttribute("txn-id", invoice.TransactionID));
+                billList.Add(billElement);
+            }
             return request;
         }
 
