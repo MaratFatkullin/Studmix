@@ -25,7 +25,7 @@ namespace AI_.Studmix.WebApplication.Controllers
         [HttpPost]
         public ActionResult ReplenishBalance(ReplenishBalanceViewModel viewModel)
         {
-            var request = new ReplenishBalanceRequest {Amount = viewModel.Amount};
+            var request = new ReplenishBalanceRequest {Amount = viewModel.Amount,UserName = User.Identity.Name};
             InvoiceService.ReplenishBalance(request);
 
             return InformationView("Счет на пополнение баланса выставлен",

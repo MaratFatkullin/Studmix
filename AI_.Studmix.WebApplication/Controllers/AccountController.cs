@@ -93,7 +93,7 @@ namespace AI_.Studmix.WebApplication.Controllers
                 var request = new CreateUserRequest(viewModel.UserName,
                                                     viewModel.Password,
                                                     viewModel.Email,
-                                                    null,
+                                                    viewModel.PhoneNumber,
                                                     null,
                                                     null,
                                                     true);
@@ -162,6 +162,7 @@ namespace AI_.Studmix.WebApplication.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ViewResult ViewAccount()
         {
             var request = new GetUserRequest(User.Identity.Name);

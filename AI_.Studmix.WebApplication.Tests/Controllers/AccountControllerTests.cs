@@ -105,7 +105,7 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
                                                                                r.UserName == "username"
                                                                                && r.Password == "password"
                                                                                && r.Email == "email"
-                                                                               && r.PhoneNumber == null
+                                                                               && r.PhoneNumber == "5552200"
                                                                                && r.IsApproved)))
                 .Returns(new CreateUserResponse(MembershipCreateStatus.Success, "username"));
 
@@ -113,7 +113,8 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
                             {
                                 UserName = "username",
                                 Password = "password",
-                                Email = "email"
+                                Email = "email",
+                                PhoneNumber = "5552200"
                             };
 
             var controller = CreateSut();
