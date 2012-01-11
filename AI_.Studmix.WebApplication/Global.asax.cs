@@ -16,6 +16,7 @@ using AI_.Studmix.ApplicationServices.Services.SearchService;
 using AI_.Studmix.Domain.Repository;
 using AI_.Studmix.Domain.Services;
 using AI_.Studmix.Domain.Services.Abstractions;
+using AI_.Studmix.Infrastructure;
 using AI_.Studmix.Infrastructure.Database;
 using AI_.Studmix.Infrastructure.FileSystem;
 using AI_.Studmix.Infrastructure.PaymentSystem;
