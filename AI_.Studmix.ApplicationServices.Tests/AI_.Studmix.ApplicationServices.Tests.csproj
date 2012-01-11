@@ -75,6 +75,7 @@
     <Compile Include="FileRepository\FileRepositoryTests.cs" />
     <Compile Include="FileRepository\FileSystemLocatorTests.cs" />
     <Compile Include="Services\ContentServiceTests.cs" />
+    <Compile Include="Services\InvoiceServiceTests.cs" />
     <Compile Include="Services\MembershipServiceTests.cs" />
     <Compile Include="Mocks\MembershipConfigurationMock.cs" />
     <Compile Include="Mocks\RepositoryMock.cs" />
