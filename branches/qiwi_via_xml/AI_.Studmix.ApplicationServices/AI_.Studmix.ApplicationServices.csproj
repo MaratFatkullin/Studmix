@@ -74,6 +74,7 @@
     <Compile Include="FileRepository\IFileSystemLocator.cs" />
     <Compile Include="FileRepository\IFileSystemProvider.cs" />
     <Compile Include="DataTransferObjects\PropertyStateDto.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="Services\ContentService\Requests\DownloadRequest.cs" />
     <Compile Include="DataTransferObjects\FileStreamDto.cs" />
     <Compile Include="Services\ContentService\Requests\GetPackageByIDRequest.cs" />

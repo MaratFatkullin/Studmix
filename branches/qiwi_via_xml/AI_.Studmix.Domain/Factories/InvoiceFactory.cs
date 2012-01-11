@@ -12,7 +12,7 @@ namespace AI_.Studmix.Domain.Factories
                               User = user,
                               Amount = amount,
                               Comment = comment,
-                              Status = InvoiceStatus.Invoiced
+                              Status = (int) InvoiceStatus.Invoiced
                           };
             user.Invoices.Add(invoice);
             return invoice;
