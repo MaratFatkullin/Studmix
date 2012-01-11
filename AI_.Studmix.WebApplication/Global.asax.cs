@@ -6,16 +6,20 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AI_.Studmix.ApplicationServices;
 using AI_.Studmix.ApplicationServices.FileRepository;
 using AI_.Studmix.ApplicationServices.Services.ContentService;
+using AI_.Studmix.ApplicationServices.Services.InvoiceService;
 using AI_.Studmix.ApplicationServices.Services.MembershipService;
 using AI_.Studmix.ApplicationServices.Services.OrderService;
 using AI_.Studmix.ApplicationServices.Services.SearchService;
 using AI_.Studmix.Domain.Repository;
 using AI_.Studmix.Domain.Services;
 using AI_.Studmix.Domain.Services.Abstractions;
+using AI_.Studmix.Infrastructure;
 using AI_.Studmix.Infrastructure.Database;
 using AI_.Studmix.Infrastructure.FileSystem;
+using AI_.Studmix.Infrastructure.PaymentSystem;
 using AI_.Studmix.Infrastructure.Repository;
 using AI_.Studmix.WebApplication.Infrastructure;
 using AI_.Studmix.WebApplication.Infrastructure.Authentication;
@@ -62,6 +66,12 @@ namespace AI_.Studmix.WebApplication
             RegisterDependencyResolver();
             RegisterModelBinders();
             InitializeDatabase();
+
+            var logger = DependencyResolver.Current.GetService<ILogger>();
+            logger.Write("haha!","General",1);
+
+            var invoiceStatusDispatcher = DependencyResolver.Current.GetService<InvoiceStatusDispatcher>();
+            new Thread(invoiceStatusDispatcher.Start).Start();
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
@@ -94,7 +104,11 @@ namespace AI_.Studmix.WebApplication
 
             container.RegisterType<IUnitOfWork, EntityFrameworkUnitOfWork<DataContext>>(
                 new PerResolveLifetimeManager());
+            container.RegisterType<ILogger, Logger>();
+
             container.RegisterType<IAuthenticationProvider, AuthenticationProvider>();
+            container.RegisterType<IPaymentSystemInvoiceRepository, QiwiInvoiceRepository>();
+            container.RegisterType<IPaymentSystmeProviderConfiguration, PaymentSystmeProviderConfiguration>();
 
             container.RegisterType<IFinanceService, FinanceService>();
             container.RegisterType<IPermissionService, PermissionService>();
@@ -107,6 +121,9 @@ namespace AI_.Studmix.WebApplication
             container.RegisterType<IFileSystemLocator, FileSystemLocator>();
             container.RegisterType<IFileSystemProvider, FileSystemProvider>();
             container.RegisterType<IOrderService, OrderService>();
+            container.RegisterType<IInvoiceService, InvoiceService>();
+
+            container.RegisterType<InvoiceStatusDispatcher>();
         }
     }
 }

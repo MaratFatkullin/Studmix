@@ -6,8 +6,10 @@ using AI_.Studmix.ApplicationServices.Services.MembershipService;
 using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
 using AI_.Studmix.ApplicationServices.Tests.Mocks;
 using AI_.Studmix.Domain.Entities;
+using AI_.Studmix.Domain.Services.Abstractions;
 using AI_.Studmix.Domain.Tests;
 using FluentAssertions;
+using Moq;
 using Xunit;
 using Xunit.Extensions;
 
@@ -397,6 +399,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
         {
             // Arrange
             var user = CreateUser();
+            user.IncomeMoney(33);
             UnitOfWork.GetRepository<User>().Insert(user);
             UnitOfWork.Save();
 

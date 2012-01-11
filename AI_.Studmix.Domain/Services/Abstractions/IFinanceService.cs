@@ -6,5 +6,6 @@ namespace AI_.Studmix.Domain.Services.Abstractions
     {
         bool UserCanBuyPackage(User user, ContentPackage package);
         Order MakeOrder(User user, ContentPackage package);
+        void SendInvoiceToUser(User user, decimal amount, string comment);
     }
 }

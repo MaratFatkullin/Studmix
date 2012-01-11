@@ -9,6 +9,7 @@ using AI_.Studmix.ApplicationServices.Specifications;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Factories;
 using AI_.Studmix.Domain.Repository;
+using AI_.Studmix.Domain.Services.Abstractions;
 
 namespace AI_.Studmix.ApplicationServices.Services.MembershipService
 {
@@ -16,7 +17,8 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
     {
         protected IUnitOfWork UnitOfWork { get; set; }
 
-        public MembershipService(IUnitOfWork unitOfWork, IMembershipConfiguration configuration)
+        public MembershipService(IUnitOfWork unitOfWork,
+                                 IMembershipConfiguration configuration)
         {
             UnitOfWork = unitOfWork;
             Configuration = configuration;
