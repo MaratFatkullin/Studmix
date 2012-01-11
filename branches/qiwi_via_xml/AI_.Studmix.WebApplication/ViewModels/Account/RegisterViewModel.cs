@@ -27,7 +27,6 @@ namespace AI_.Studmix.WebApplication.ViewModels.Account
 
         [Required]
         [Display(Name = "Телефон")]
-        [StringLength(10, ErrorMessage = "Номер должен состоять из 10 цифр без \"8\" или \"+7\" в начале. Пример: 9057772233")]
         public string PhoneNumber { get; set; }
 
         public int MinRequiredPasswordLength { get; set; }

@@ -4,52 +4,42 @@ using System.Threading;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Repository;
 using AI_.Studmix.Domain.Services.Abstractions;
-using System.Linq;
 
 namespace AI_.Studmix.ApplicationServices
 {
     public class InvoiceStatusDispatcher
     {
-        protected IUnitOfWork UnitOfWork { get; set; }
-        protected IPaymentSystemInvoiceRepository Repository { get; set; }
-        protected ILogger Logger { get; set; }
+        public IUnitOfWork UnitOfWork { get; set; }
+        public IPaymentSystemInvoiceRepository Repository { get; set; }
 
-        public InvoiceStatusDispatcher(IUnitOfWork unitOfWork,
-                                       IPaymentSystemInvoiceRepository repository, ILogger logger)
+        public InvoiceStatusDispatcher(IUnitOfWork unitOfWork, IPaymentSystemInvoiceRepository repository)
         {
             UnitOfWork = unitOfWork;
             Repository = repository;
-            Logger = logger;
         }
 
         public void Start()
         {
-            IDictionary<Guid, InvoiceStatus> statuses;
+            IDictionary<Guid,InvoiceStatus> statuses;
             var repository = UnitOfWork.GetRepository<Invoice>();
             while (true)
             {
-                try
+                var expectedInvoices = repository.Get(i => i.Status == InvoiceStatus.Invoiced);
+                if (expectedInvoices.Count>0)
                 {
-                    var expectedInvoices = repository.Get(i => i.Status == (int)InvoiceStatus.Invoiced);
-                    if (expectedInvoices.Count > 0)
+                     statuses = Repository.GetInvoiceStatuses(expectedInvoices);
+                    foreach (var status in statuses)
                     {
-                        statuses = Repository.GetInvoiceStatuses(expectedInvoices);
-                        foreach (var status in statuses)
+                        if (status.Value != InvoiceStatus.Invoiced)
                         {
-                            if (status.Value != InvoiceStatus.Invoiced)
-                            {
-                                var invoice = repository.Get(i => i.TransactionID == status.Key).Single();
-                                invoice.MarkAsPaid();
-                            }
+                            var invoice = repository.GetByID(status.Key);
+                            invoice.Status = status.Value;
+                            invoice.UpdateDate = DateTime.Now;
                         }
-                        UnitOfWork.Save();
                     }
+                    UnitOfWork.Save();
+                    Thread.Sleep(60000 * 3);
                 }
-                catch (Exception e)
-                {
-                    Logger.Error(e);
-                }
-                Thread.Sleep((int) (new TimeSpan(0, 0, 10).TotalMilliseconds * 1));
             }
         }
     }

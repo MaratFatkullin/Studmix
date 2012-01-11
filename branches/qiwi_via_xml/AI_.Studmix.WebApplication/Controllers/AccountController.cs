@@ -93,7 +93,7 @@ namespace AI_.Studmix.WebApplication.Controllers
                 var request = new CreateUserRequest(viewModel.UserName,
                                                     viewModel.Password,
                                                     viewModel.Email,
-                                                    viewModel.PhoneNumber,
+                                                    null,
                                                     null,
                                                     null,
                                                     true);
@@ -155,20 +155,9 @@ namespace AI_.Studmix.WebApplication.Controllers
         //
         // GET: /Account/ChangePasswordSuccess
 
-        [HttpGet]
         public ActionResult ChangePasswordSuccess()
         {
             return View();
-        }
-
-        [HttpGet]
-        [Authorize]
-        public ViewResult ViewAccount()
-        {
-            var request = new GetUserRequest(User.Identity.Name);
-            var response = MembershipService.GetUser(request);
-            var viewModel = new ViewAccountViewModel {User = response.User};
-            return View(viewModel);
         }
 
         #region Status Codes

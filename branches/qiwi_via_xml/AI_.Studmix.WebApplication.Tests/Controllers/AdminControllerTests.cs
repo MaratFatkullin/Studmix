@@ -50,16 +50,16 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
         {
             // Arrange
             var user = new UserDto();
-            MembershipService.Setup(s => s.GetUser(It.Is<GetUserRequest>(r => r.UserName == "username")))
+            MembershipService.Setup(s => s.GetUser(It.Is<GetUserRequest>(r => r.UserID == 2)))
                 .Returns(new GetUserResponse(user));
 
             var controller = CreateSut();
 
             // Act
-            var result = controller.UserDetails("username");
+            var result = controller.UserDetails(2);
 
             // Assert
-            var viewModel = (UserDetailsViewModel) result.Model;
+            var viewModel = (UserDetailsViewModel)result.Model;
             viewModel.User.Should().Be(user);
         }
 

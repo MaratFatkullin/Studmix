@@ -1,9 +1,6 @@
-﻿using System;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Infrastructure.Database;
 using AI_.Studmix.Infrastructure.Repository;
@@ -56,19 +53,6 @@ namespace AI_.Studmix.IntegrationTests
             }
 
             contentPackages.Should().Match(r => r.Any(s => true), "");
-        }
-
-        [Fact]
-        public void MethodName_StateUnderTest_ExpectedBehavior12()
-        {
-            // Arrange
-            Trace.WriteLine(new TimeSpan(0, 1, 0).TotalMilliseconds);
-
-            // Act
-
-
-            // Assert
-
         }
     }
 }

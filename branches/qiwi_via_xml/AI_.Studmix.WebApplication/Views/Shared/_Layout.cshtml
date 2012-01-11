@@ -23,24 +23,10 @@
             </div>
             <div id="menucontainer">
                 <ul id="menu">
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Главная", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Загрузка", "Upload", "Content")</li>
-                        <li>@Html.ActionLink("Поиск", "Search", "Content")</li>
-                        if (User.Identity.Name == "admin")
-                        {
-                            <li>@Html.ActionLink("Пользователи", "Users", "Admin")</li>
-                        }
-                        else
-                        {
-                            <li>@Html.ActionLink("Личный кабинет", "ViewAccount", "Account")</li>
-                        }
-                    }
+                    <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Загрузка", "Upload", "Content")</li>
+                    <li>@Html.ActionLink("Поиск", "Search", "Content")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
             </div>
         </div>
