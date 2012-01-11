@@ -27,7 +27,6 @@ namespace AI_.Studmix.ApplicationServices.Services.OrderService
 
             var package = UnitOfWork.GetRepository<ContentPackage>().GetByID(request.PackageID);
             var user = UnitOfWork.GetRepository<User>().Get(new GetUserByUserName(request.UserName)).Single();
-            new Order(user, package);
 
             response.IsUserCanBuyPackage = FinanceService.UserCanBuyPackage(user, package);
             response.UserBalance = user.Balance;

@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregationRoot.cs" />
+    <Compile Include="Entities\Invoice.cs" />
     <Compile Include="Entities\ContentFile.cs" />
     <Compile Include="Entities\ContentPackage.cs" />
     <Compile Include="Entities\Order.cs" />
@@ -70,14 +71,17 @@
     <Compile Include="Entity.cs" />
     <Compile Include="Factories\ContentFileFactory.cs" />
     <Compile Include="Factories\ContentPackageFactory.cs" />
+    <Compile Include="Factories\InvoiceFactory.cs" />
     <Compile Include="Factories\PropertyFactory.cs" />
     <Compile Include="Factories\UserFactory.cs" />
     <Compile Include="IIdentifiable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IPaymentSystemInvoiceRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\IUnitOfWork.cs" />
     <Compile Include="Repository\Specification.cs" />
     <Compile Include="Services\Abstractions\IFinanceService.cs" />
+    <Compile Include="Services\Abstractions\InvoiceStatus.cs" />
     <Compile Include="Services\Abstractions\IPermissionService.cs" />
     <Compile Include="Services\FinanceService.cs" />
     <Compile Include="Services\PermissionService.cs" />

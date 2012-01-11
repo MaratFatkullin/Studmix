@@ -19,7 +19,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
 
         public OrderService CreateSut()
         {
-            return new OrderService(UnitOfWork, FinanceService.Object);
+            return new OrderService(UnitOfWork,FinanceService.Object);
         }
     }
 
@@ -34,12 +34,13 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             // Arrange
             var user = CreateUser();
             user.IncomeMoney(33);
-            UnitOfWork.GetRepository<User>().Insert(user);
-
             var package = CreateContentPackage();
             package.Price = 30;
+
+            UnitOfWork.GetRepository<User>().Insert(user);
             UnitOfWork.GetRepository<ContentPackage>().Insert(package);
             UnitOfWork.Save();
+
             FinanceService.Setup(s => s.UserCanBuyPackage(user, package))
                 .Returns(canUserBuyPackage);
 
