@@ -28,7 +28,7 @@ namespace AI_.Studmix.WebApplication.Controllers
         }
 
         [HttpGet]
-        public ViewResult UserDetails(string id /*UserName*/)
+        public ViewResult UserDetails(int id /*userID*/)
         {
             var request = new GetUserRequest(id);
             var response = MembershipService.GetUser(request);

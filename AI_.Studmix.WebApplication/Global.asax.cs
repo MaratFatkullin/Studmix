@@ -9,7 +9,6 @@ using System.Web.Routing;
 using AI_.Studmix.ApplicationServices;
 using AI_.Studmix.ApplicationServices.FileRepository;
 using AI_.Studmix.ApplicationServices.Services.ContentService;
-using AI_.Studmix.ApplicationServices.Services.InvoiceService;
 using AI_.Studmix.ApplicationServices.Services.MembershipService;
 using AI_.Studmix.ApplicationServices.Services.OrderService;
 using AI_.Studmix.ApplicationServices.Services.SearchService;
@@ -66,11 +65,8 @@ namespace AI_.Studmix.WebApplication
             RegisterModelBinders();
             InitializeDatabase();
 
-            var logger = DependencyResolver.Current.GetService<ILogger>();
-            logger.Write("haha!","General",1);
-
             var invoiceStatusDispatcher = DependencyResolver.Current.GetService<InvoiceStatusDispatcher>();
-            new Thread(invoiceStatusDispatcher.Start).Start();
+            new Thread(invoiceStatusDispatcher.Start);
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
@@ -103,8 +99,6 @@ namespace AI_.Studmix.WebApplication
 
             container.RegisterType<IUnitOfWork, EntityFrameworkUnitOfWork<DataContext>>(
                 new PerResolveLifetimeManager());
-            container.RegisterType<ILogger, Logger>();
-
             container.RegisterType<IAuthenticationProvider, AuthenticationProvider>();
             container.RegisterType<IPaymentSystemInvoiceRepository, QiwiInvoiceRepository>();
             container.RegisterType<IPaymentSystmeProviderConfiguration, PaymentSystmeProviderConfiguration>();
@@ -120,7 +114,6 @@ namespace AI_.Studmix.WebApplication
             container.RegisterType<IFileSystemLocator, FileSystemLocator>();
             container.RegisterType<IFileSystemProvider, FileSystemProvider>();
             container.RegisterType<IOrderService, OrderService>();
-            container.RegisterType<IInvoiceService, InvoiceService>();
 
             container.RegisterType<InvoiceStatusDispatcher>();
         }

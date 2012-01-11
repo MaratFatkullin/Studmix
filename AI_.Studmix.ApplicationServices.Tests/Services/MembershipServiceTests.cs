@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Security;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.Services.MembershipService;
@@ -364,7 +363,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
         }
 
         [Fact]
-        public void GetUser_UserExists_UserProvided()
+        public void GetUser_Simple_UserProvided()
         {
             // Arrange
             var user = CreateUser();
@@ -372,26 +371,13 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             UnitOfWork.Save();
 
             var service = CreateSut();
-            var request = new GetUserRequest(user.UserName);
+            var request = new GetUserRequest(user.ID);
 
             // Act
             var response = service.GetUser(request);
 
             // Assert
             response.User.ShouldHave().SharedProperties().EqualTo(user);
-        }
-
-        [Fact]
-        public void GetUser_UserNotExists_UserProvided()
-        {
-            // Arrange
-            var user = CreateUser();
-
-            var service = CreateSut();
-            var request = new GetUserRequest(user.UserName);
-
-            // Act, Assert
-            service.Invoking(s=>s.GetUser(request)).ShouldThrow<ApplicationException>();
         }
 
         [Fact]

@@ -81,7 +81,7 @@ namespace AI_.Studmix.Infrastructure.PaymentSystem
             request.Add(new XElement("request-type", 30));
             request.Add(new XElement("terminal-id", Configuration.Login));
             request.Add(GetExtraAttribute("password", Configuration.Password));
-            request.Add(GetExtraAttribute("to-account", invoice.User.PhoneNumber));
+            request.Add(GetExtraAttribute("to-account", invoice.ToAccount));
             request.Add(GetExtraAttribute("amount", invoice.Amount.ToString()));
             request.Add(GetExtraAttribute("ALARM_SMS", "0"));
             request.Add(GetExtraAttribute("ACCEPT_CALL", "0"));
