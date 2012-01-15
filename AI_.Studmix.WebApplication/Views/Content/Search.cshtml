@@ -6,7 +6,7 @@
 }
 
 @Html.ValidationSummary()
-@using (Html.BeginForm())
+@using (Html.BeginForm("Search","Content"))
 {
     <p>
         <input type="submit" value="Поиск"/>
@@ -23,31 +23,48 @@
                             <span>@property.Name</span>
                         </div>
                         <div class="editor-field">
-                            @Html.CombBoxFor(x => x.States[property.ID], "/Content/UpdateStates/" + property.ID, true)
+                            @Html.CombBoxFor(x => x.States[property.ID], Url.Action("UpdateStates", new {id = property.ID}), false)
                         </div>
                     }
                 </fieldset>
             </td>
             <td>
-                <fieldset>
-                    <legend>Результат поиска</legend>
-                    <div>
-                        <ul>
-                            @if (Model.Packages != null)
-                            {
-                                foreach (var package in Model.Packages)
+                @if (Model.PackagesPagination != null)
+                {
+                    <fieldset>
+                        <legend>Результаты поиска</legend>
+                        <div>
+                            <ul>
+                            
+                                @foreach (var package in Model.PackagesPagination)
                                 {
                                     <li>
-                                        @Html.ActionLink(string.Format("{0}-{1}", package.Caption, package.CreateDate.ToShortDateString()),
-                                                           "Details",
-                                                           new { id = package.ID })
+                                        @Html.ActionLink(string.Format("{0}-{1}",
+                                            package.Caption,
+                                            package.CreateDate.ToShortDateString()),
+                                            "Details",
+                                             new { id = package.ID })
                                         
                                     </li>
                                 }
+                            </ul>
+                        </div>
+                        <div>
+                            @if (Model.PackagesPagination.HasPreviousPage)
+                            {
+                                <input type="submit" value="<<" class="pagination-button-left buttonAsLink"/>
                             }
-                        </ul>
-                    </div>
-                </fieldset>            
+                            @Model.PackagesPagination.PageNumber / @Model.PackagesPagination.TotalPages
+
+                            @if (Model.PackagesPagination.HasNextPage)
+                            {
+                                <input type="submit" value=">>" class="pagination-button-right buttonAsLink"/>
+                            }
+                        </div>
+                    </fieldset>
+                }
+                <input id="PageNumber" name="PageNumber" value="@Model.PageNumber" type="hidden"/>
+                @*@Html.HiddenFor(m=>m.PageNumber)*@
             </td>
         </tr>
     </table>
@@ -59,9 +76,18 @@
 }
 
 <script type="text/javascript">
-    $(function() {
-        $("[data-autocomplete-source-path]").each(function() {
+    $(function () {
+        $("[data-autocomplete-source-path]").each(function () {
             $(this).combobox();
+        });
+
+        $(".pagination-button-right").click(function () {
+            var val = $("#PageNumber").val();
+            $("#PageNumber").val(Math.floor(val) + 1);
+        });
+
+        $(".pagination-button-left").click(function () {
+            $("#PageNumber").val($("#PageNumber").val() - 1);
         });
     });
 </script>

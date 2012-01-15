@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
+using MvcContrib.Pagination;
 
 namespace AI_.Studmix.WebApplication.ViewModels.Content
 {
@@ -9,7 +10,9 @@ namespace AI_.Studmix.WebApplication.ViewModels.Content
 
         public Dictionary<int, string> States { get; set; }
 
-        public IEnumerable<ContentPackageDto> Packages { get; set; }
+        public IPagination<ContentPackageDto> PackagesPagination { get; set; }
+
+        public int? PageNumber { get; set; }
 
         public SearchViewModel()
         {
