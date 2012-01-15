@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{260C25
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Studmix", "..\studmixOld\Studmix.csproj", "{7F5B7E1A-F00C-4DB0-BD2D-1AEFE82C059E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,12 @@ Global
 		{727C5896-796D-4140-B739-F873AA953DD4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{727C5896-796D-4140-B739-F873AA953DD4}.TestStand|Any CPU.ActiveCfg = TestStand|Any CPU
 		{727C5896-796D-4140-B739-F873AA953DD4}.TestStand|Any CPU.Build.0 = TestStand|Any CPU
+		{7F5B7E1A-F00C-4DB0-BD2D-1AEFE82C059E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F5B7E1A-F00C-4DB0-BD2D-1AEFE82C059E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F5B7E1A-F00C-4DB0-BD2D-1AEFE82C059E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5B7E1A-F00C-4DB0-BD2D-1AEFE82C059E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F5B7E1A-F00C-4DB0-BD2D-1AEFE82C059E}.TestStand|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5B7E1A-F00C-4DB0-BD2D-1AEFE82C059E}.TestStand|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +114,7 @@ Global
 		{0255B48F-EE4F-43ED-B171-CFEF8BE2A7E3} = {96791463-FE20-40BD-B9A8-0DA119E90975}
 		{727C5896-796D-4140-B739-F873AA953DD4} = {96791463-FE20-40BD-B9A8-0DA119E90975}
 		{3E226B5B-B15F-4A58-8521-CF7522DD0568} = {BB068E99-47C5-48CB-98D0-15D26AA3419C}
+		{7F5B7E1A-F00C-4DB0-BD2D-1AEFE82C059E} = {BB068E99-47C5-48CB-98D0-15D26AA3419C}
 		{3521D496-4665-4234-81FB-A3D325C9A9CF} = {AB1FE349-5746-4CEB-AACA-E000B249F921}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

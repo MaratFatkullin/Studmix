@@ -154,7 +154,7 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
 
             // Assert
             var resultViewModel = (SearchViewModel) result.Model;
-            resultViewModel.Packages.Should().Equal(contentPackageInfos);
+            resultViewModel.PackagesPagination.Should().Equal(contentPackageInfos);
         }
 
         [Theory]

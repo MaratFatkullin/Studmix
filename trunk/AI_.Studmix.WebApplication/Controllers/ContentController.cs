@@ -8,6 +8,7 @@ using AI_.Studmix.ApplicationServices.Services.SearchService;
 using AI_.Studmix.ApplicationServices.Services.SearchService.Requests;
 using AI_.Studmix.WebApplication.ViewModels.Content;
 using AI_.Studmix.WebApplication.ViewModels.Shared;
+using MvcContrib.Pagination;
 
 namespace AI_.Studmix.WebApplication.Controllers
 {
@@ -72,7 +73,7 @@ namespace AI_.Studmix.WebApplication.Controllers
         [HttpGet]
         public ViewResult Details(int id)
         {
-            var response = ContentService.GetPackageByID(new GetPackageByIDRequest(id,User.Identity.Name));
+            var response = ContentService.GetPackageByID(new GetPackageByIDRequest(id, User.Identity.Name));
             var getPropertiesResponse = ContentService.GetProperties();
             var viewModel = new DetailsViewModel
                             {
@@ -98,10 +99,12 @@ namespace AI_.Studmix.WebApplication.Controllers
         {
             var getPropertiesResponse = ContentService.GetProperties();
             viewModel.Properties = getPropertiesResponse.Properties;
-
             var request = new FindPackagesByPropertyStatesRequest(viewModel.States);
             var response = SearchService.FindPackagesByPropertyStates(request);
-            viewModel.Packages = response.Packages;
+
+            if (viewModel.PageNumber == null)
+                viewModel.PageNumber = 1;
+            viewModel.PackagesPagination = response.Packages.AsPagination((int) viewModel.PageNumber, 20);
 
             return View(viewModel);
         }
