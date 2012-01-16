@@ -361,6 +361,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
 
             // Assert
             response.Users.Should().HaveCount(actualCount);
+            response.TotalUsers.Should().Be(3);
         }
 
         [Fact]

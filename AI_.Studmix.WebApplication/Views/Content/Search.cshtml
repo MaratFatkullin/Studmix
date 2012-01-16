@@ -52,13 +52,13 @@
                         <div>
                             @if (Model.PackagesPagination.HasPreviousPage)
                             {
-                                <input type="submit" value="<<" class="pagination-button-left buttonAsLink"/>
+                                <input type="submit" value="<<" class="pagination-button-left button-link"/>
                             }
                             @Model.PackagesPagination.PageNumber / @Model.PackagesPagination.TotalPages
 
                             @if (Model.PackagesPagination.HasNextPage)
                             {
-                                <input type="submit" value=">>" class="pagination-button-right buttonAsLink"/>
+                                <input type="submit" value=">>" class="pagination-button-right button-link"/>
                             }
                         </div>
                     </fieldset>

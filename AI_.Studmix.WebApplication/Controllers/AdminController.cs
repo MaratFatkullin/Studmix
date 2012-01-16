@@ -1,8 +1,10 @@
 ﻿using System.Web.Mvc;
+using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.Services.MembershipService;
 using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
 using AI_.Studmix.WebApplication.ViewModels.Admin;
 using AI_.Studmix.WebApplication.ViewModels.Shared;
+using MvcContrib.Pagination;
 
 namespace AI_.Studmix.WebApplication.Controllers
 {
@@ -23,7 +25,14 @@ namespace AI_.Studmix.WebApplication.Controllers
             var request = new GetUserListRequest(PAGE_SIZE, id);
             var response = MembershipService.GetUserList(request);
 
-            var viewModel = new UsersViewModel {PageSize = PAGE_SIZE, Users = response.Users};
+
+            var viewModel = new UsersViewModel
+                            {
+                                UsersPagination = new CustomPagination<UserDto>(response.Users,
+                                                                                id,
+                                                                                PAGE_SIZE,
+                                                                                2)
+                            };
             return View(viewModel);
         }
 
