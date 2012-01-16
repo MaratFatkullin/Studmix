@@ -112,13 +112,16 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
             var pageSize = request.PageSize;
             var pageIndex = request.PageIndex - 1;
             var repository = UnitOfWork.GetRepository<User>();
-            var users = repository.Get().Skip(pageSize * pageIndex).Take(pageSize);
-            return new GetUserListResponse(DtoMapper.MapSequence<UserDto>(users));
+            var allUsers = repository.Get();
+            var users = allUsers.Skip(pageSize * pageIndex).Take(pageSize);
+            return new GetUserListResponse(DtoMapper.MapSequence<UserDto>(users), allUsers.Count);
         }
 
         public GetUserResponse GetUser(GetUserRequest request)
         {
-            var user = UnitOfWork.GetRepository<User>().Get(new GetUserByUserName(request.UserName)).SingleOrDefault();
+            var user = UnitOfWork.GetRepository<User>()
+                .Get(new GetUserByUserName(request.UserName))
+                .SingleOrDefault();
             if (user == null)
             {
                 throw new ApplicationException("Пользователь с указанным именем пользователя не существует.");

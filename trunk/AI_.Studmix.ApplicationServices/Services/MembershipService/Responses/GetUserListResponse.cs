@@ -6,11 +6,14 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService.Responses
 {
     public class GetUserListResponse
     {
-        public GetUserListResponse(IEnumerable<UserDto> users)
+        public GetUserListResponse(IEnumerable<UserDto> users, int totalUsers)
         {
             Users = users;
+            TotalUsers = totalUsers;
         }
 
         public IEnumerable<UserDto> Users { get; set; }
+
+        public int TotalUsers { get; set; }
     }
 }

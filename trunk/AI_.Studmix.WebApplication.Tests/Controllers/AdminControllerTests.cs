@@ -31,8 +31,8 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
             var users = new List<UserDto>();
 
             MembershipService.Setup(s => s.GetUserList(
-                It.Is<GetUserListRequest>(r => r.PageIndex == 2 && r.PageSize == 20)))
-                .Returns(new GetUserListResponse(users));
+                It.Is<GetUserListRequest>(r => r.PageIndex == 2)))
+                .Returns(new GetUserListResponse(users, 60));
 
             var controller = CreateSut();
 
@@ -41,8 +41,7 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
 
             // Assert
             var viewModel = (UsersViewModel) result.Model;
-            viewModel.Users.Should().Equal(users);
-            viewModel.PageSize.Should().Be(20);
+            viewModel.UsersPagination.Should().Equal(users);
         }
 
         [Fact]

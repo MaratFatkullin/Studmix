@@ -1,4 +1,5 @@
 ﻿@using AI_.Studmix.WebApplication.ViewModels.Admin
+@using MvcContrib.UI.Pager
 @model UsersViewModel
 
 @{
@@ -10,7 +11,7 @@
         <th>Список пользователей системы</th>
     </tr>
 
-@foreach (var user in Model.Users) {
+@foreach (var user in Model.UsersPagination) {
     <tr>
         <td>
             <div>Логин: <strong>@user.UserName</strong> </div>
@@ -21,3 +22,12 @@
 }
 
 </table>
+<p>
+    @(Html.Pager(Model.UsersPagination)
+           .QueryParam("id")
+           .Format("{0} - {1} / {2}")
+           .Next(">>")
+           .First("")
+           .Last("")
+           .Previous("<<"))
+</p>
