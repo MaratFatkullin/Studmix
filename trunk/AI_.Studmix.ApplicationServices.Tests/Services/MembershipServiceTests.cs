@@ -388,25 +388,27 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             response.User.States.Single().Key.Should().Be(property.ID);
         }
 
-        [Fact]
-        public void GetUser_Simple_PropertiesProvided()
+        [Theory]
+        [InlineData(true, 3)]
+        [InlineData(false, 2)]
+        public void GetUser_Simple_PropertiesProvided(bool needAllProperties, int properiesCount)
         {
             // Arrange
             var user = CreateUser();
             UnitOfWork.GetRepository<User>().Insert(user);
             UnitOfWork.GetRepository<Property>().Insert(CreateProperty());
-            UnitOfWork.GetRepository<Property>().Insert(CreateProperty(isUserProperty:true));
+            UnitOfWork.GetRepository<Property>().Insert(CreateProperty(isUserProperty: true));
             UnitOfWork.GetRepository<Property>().Insert(CreateProperty(isUserProperty: true));
             UnitOfWork.Save();
 
             var service = CreateSut();
-            var request = new GetUserRequest(user.UserName);
+            var request = new GetUserRequest(user.UserName, needAllProperties);
 
             // Act
             var response = service.GetUser(request);
 
             // Assert
-            response.Properties.Should().HaveCount(2);
+            response.Properties.Should().HaveCount(properiesCount);
         }
 
         [Fact]
