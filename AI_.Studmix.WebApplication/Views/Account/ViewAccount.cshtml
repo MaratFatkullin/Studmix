@@ -9,79 +9,116 @@
     @Html.ActionLink("Пополнить баланс", "ReplenishBalance", "Invoice")
 </p>
 
-@using (@Html.BeginForm("UpdateUser", "Admin"))
+@using (@Html.BeginForm("UpdateUser","Account"))
 {
     @Html.HiddenFor(m => m.User.ID)
-    <fieldset>
-        <legend>Информация о учетной записи</legend>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.User.Balance)
-        </div>
-        <div class="editor-field">
-            @Html.DisabledTextBoxFor(model => model.User.Balance)
-        </div>
+    <table>
+        <tr class="top">
+            <td>
+                <fieldset>
+                    <legend>Информация о учетной записи</legend>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.User.Balance)
+                    </div>
+                    <div class="editor-field">
+                        @Html.DisabledTextBoxFor(model => model.User.Balance)
+                    </div>
 
-        <div class="display-label">                
-            @Html.LabelFor(model => model.User.Email)
-        </div>
-        <div class="display-field">
-            @Html.DisabledTextBoxFor(model => model.User.Email)
-        </div>
+                    <div class="display-label">                
+                        @Html.LabelFor(model => model.User.Email)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisabledTextBoxFor(model => model.User.Email)
+                    </div>
 
-        <div class="display-label">
-            @Html.LabelFor(model => model.User.PhoneNumber)
-        </div>
-        <div class="display-field">
-            @Html.DisabledTextBoxFor(model => model.User.PhoneNumber)
-        </div>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.User.PhoneNumber)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisabledTextBoxFor(model => model.User.PhoneNumber)
+                    </div>
 
-        <div class="display-label">
-            @Html.LabelFor(model => model.User.PasswordQuestion)
-        </div>
-        <div class="display-field">
-            @Html.DisabledTextBoxFor(model => model.User.PasswordQuestion)
-        </div>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.User.PasswordQuestion)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisabledTextBoxFor(model => model.User.PasswordQuestion)
+                    </div>
 
-        <div class="display-label">
-            @Html.LabelFor(model => model.User.PasswordAnswer)
-        </div>
-        <div class="display-field">
-            @Html.DisabledTextBoxFor(model => model.User.PasswordAnswer)
-        </div>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.User.PasswordAnswer)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisabledTextBoxFor(model => model.User.PasswordAnswer)
+                    </div>
 
-        <div class="display-label">
-            @Html.LabelFor(model => model.User.LastActivityDate)</div>
-        <div class="display-field">
-            @Html.DisabledTextBoxFor(model => model.User.LastActivityDate)
-        </div>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.User.LastActivityDate)</div>
+                    <div class="display-field">
+                        @Html.DisabledTextBoxFor(model => model.User.LastActivityDate)
+                    </div>
 
-        <div class="display-label">
-            @Html.LabelFor(model => model.User.LastLoginDate)
-        </div>
-        <div class="display-field">
-            @Html.DisabledTextBoxFor(model => model.User.LastLoginDate)
-        </div>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.User.LastLoginDate)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisabledTextBoxFor(model => model.User.LastLoginDate)
+                    </div>
 
-        <div class="display-label">
-            @Html.LabelFor(model => model.User.LastLockoutDate)
-        </div>
-        <div class="display-field">
-            @Html.DisabledTextBoxFor(model => model.User.LastLockoutDate)
-        </div>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.User.LastLockoutDate)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisabledTextBoxFor(model => model.User.LastLockoutDate)
+                    </div>
 
-        <div class="display-label">
-            @Html.LabelFor(model => model.User.LastPasswordChangedDate)
-        </div>
-        <div class="display-field">
-            @Html.DisabledTextBoxFor(model => model.User.LastPasswordChangedDate)
-        </div>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.User.LastPasswordChangedDate)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisabledTextBoxFor(model => model.User.LastPasswordChangedDate)
+                    </div>
 
-        <div class="display-label">
-            @Html.LabelFor(model => model.User.CreateDate)
-        </div>
-        <div class="display-field">
-            @Html.DisabledTextBoxFor(model => model.User.CreateDate)
-        </div>
-    </fieldset>
+                    <div class="display-label">
+                        @Html.LabelFor(model => model.User.CreateDate)
+                    </div>
+                    <div class="display-field">
+                        @Html.DisabledTextBoxFor(model => model.User.CreateDate)
+                    </div>
+                </fieldset>
+            </td>
+            <td></td>
+            <td>
+                <fieldset>
+                    <legend>Информация о месте учебы</legend>
+                    @foreach (var property in Model.Properties)
+                    {
+                        <div class="editor-label">
+                            <span>@property.Name</span>
+                        </div>
+                        <div class="editor-field">
+                            @Html.CombBoxFor(x => x.States[property.ID], Url.Action("UpdateStates", "Content", new {id = property.ID}))
+                        </div>
+                    }
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+    <p>
+        <input type="submit" value="Сохранить"/>
+    </p>
 }
+
+@section scripts{
+    @Url.Script("jquery.ajax.form.js")
+    @Url.Script("ui.combobox.js")
+}
+
+<script type="text/javascript">
+    $(function() {
+        $("[data-autocomplete-source-path]").each(function() {
+            $(this).combobox();
+        });
+    });
+</script>

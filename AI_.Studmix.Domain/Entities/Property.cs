@@ -9,6 +9,8 @@ namespace AI_.Studmix.Domain.Entities
 
         public int Order { get; set; }
 
+        public bool IsUserProperty { get; set; }
+
         public virtual ICollection<PropertyState> States { get; set; }
 
         public PropertyState GetState(string value)

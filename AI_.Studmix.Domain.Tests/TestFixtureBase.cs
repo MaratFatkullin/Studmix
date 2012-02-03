@@ -21,10 +21,13 @@ namespace AI_.Studmix.Domain.Tests
             return factory.CreateUser("username", "password", "email", "phoneNumber");
         }
 
-        protected Property CreateProperty(string propertyName = "property", int order = 1, int id = 0)
+        protected Property CreateProperty(string propertyName = "property",
+                                          int order = 1,
+                                          int id = 0,
+                                          bool isUserProperty = false)
         {
             var factory = new PropertyFactory();
-            var property = factory.CreateProperty(propertyName, order);
+            var property = factory.CreateProperty(propertyName, order,isUserProperty);
             property.ID = id;
             return property;
         }

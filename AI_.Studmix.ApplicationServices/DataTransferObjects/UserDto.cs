@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace AI_.Studmix.ApplicationServices.DataTransferObjects
@@ -47,5 +49,12 @@ namespace AI_.Studmix.ApplicationServices.DataTransferObjects
 
         [DisplayName("Номер телефона")]
         public string PhoneNumber { get; set; }
+
+        public IEnumerable<PropertyStateDto> States { get; set; }
+
+        public UserDto()
+        {
+            States = new List<PropertyStateDto>();
+        }
     }
 }

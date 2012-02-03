@@ -6,6 +6,9 @@ using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.Services.ContentService;
 using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
 using AI_.Studmix.ApplicationServices.Services.ContentService.Responses;
+using AI_.Studmix.ApplicationServices.Services.MembershipService;
+using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
+using AI_.Studmix.ApplicationServices.Services.MembershipService.Responses;
 using AI_.Studmix.ApplicationServices.Services.SearchService;
 using AI_.Studmix.ApplicationServices.Services.SearchService.Requests;
 using AI_.Studmix.ApplicationServices.Services.SearchService.Responses;
@@ -22,10 +25,11 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
     {
         protected Mock<IContentService> ContentService = new Mock<IContentService>();
         protected Mock<ISearchService> SearchService = new Mock<ISearchService>();
+        protected Mock<IMembershipService> MembershipService = new Mock<IMembershipService>();
 
         public ContentController CreateSut()
         {
-            return new ContentController(ContentService.Object, SearchService.Object);
+            return new ContentController(ContentService.Object, SearchService.Object, MembershipService.Object);
         }
     }
 
@@ -118,17 +122,18 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
         {
             // Arrange
             var properties = new List<PropertyDto>();
-            ContentService.Setup(s => s.GetProperties())
-                .Returns(new GetPropertiesResponse(properties));
+            MembershipService.Setup(s => s.GetUser(It.Is<GetUserRequest>(r=>r.UserName=="user")))
+                .Returns(new GetUserResponse {Properties = properties});
 
             var controller = CreateSut();
+            controller.ControllerContext = CreateContext("user");
 
             // Act
             var result = controller.Search();
 
             // Assert
             var viewModel = (SearchViewModel) result.Model;
-            viewModel.Properties.Equals(properties).Should().BeTrue();
+            viewModel.Properties.Should().Equal(properties);
         }
 
         [Fact]
