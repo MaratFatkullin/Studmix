@@ -5,7 +5,7 @@ using AI_.Studmix.Domain.Factories;
 
 namespace AI_.Studmix.Infrastructure.Database
 {
-    public class TemporaryDatabaseInitializer : CreateDatabaseIfNotExists<DataContext>
+    public class TemporaryDatabaseInitializer : DropCreateDatabaseAlways<DataContext>
     {
         protected override void Seed(DataContext context)
         {
