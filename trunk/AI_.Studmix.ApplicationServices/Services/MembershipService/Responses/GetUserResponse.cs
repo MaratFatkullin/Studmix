@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
 
 namespace AI_.Studmix.ApplicationServices.Services.MembershipService.Responses
@@ -6,9 +7,6 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService.Responses
     {
         public UserDto User { get; set; }
 
-        public GetUserResponse(UserDto user)
-        {
-            User = user;
-        }
+        public IEnumerable<PropertyDto> Properties { get; set; }
     }
 }

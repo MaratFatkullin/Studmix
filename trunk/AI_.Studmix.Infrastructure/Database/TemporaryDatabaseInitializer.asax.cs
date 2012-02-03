@@ -41,20 +41,20 @@ namespace AI_.Studmix.Infrastructure.Database
 
             var propertyFactory = new PropertyFactory();
 
-            var countryProp = propertyFactory.CreateProperty("Страна", 1);
+            var countryProp = propertyFactory.CreateProperty("Страна", 1, true);
             context.Set<Property>().Add(countryProp);
-            var cityProp = propertyFactory.CreateProperty("Город", 2);
+            var cityProp = propertyFactory.CreateProperty("Город", 2, true);
             context.Set<Property>().Add(cityProp);
-            context.Set<Property>().Add(propertyFactory.CreateProperty("Вид", 3));
-            context.Set<Property>().Add(propertyFactory.CreateProperty("Наименование учереждения", 4));
-            context.Set<Property>().Add(propertyFactory.CreateProperty("Форма обучения", 5));
-            context.Set<Property>().Add(propertyFactory.CreateProperty("Факультет", 6));
-            context.Set<Property>().Add(propertyFactory.CreateProperty("Курс", 7));
-            context.Set<Property>().Add(propertyFactory.CreateProperty("Группа", 8));
-            context.Set<Property>().Add(propertyFactory.CreateProperty("Дисциплина", 9));
-            context.Set<Property>().Add(propertyFactory.CreateProperty("Учебник\\год вып.", 10));
-            context.Set<Property>().Add(propertyFactory.CreateProperty("Вариант", 11));
-            context.Set<Property>().Add(propertyFactory.CreateProperty("Данные\\кр.", 12));
+            context.Set<Property>().Add(propertyFactory.CreateProperty("Вид", 3, true));
+            context.Set<Property>().Add(propertyFactory.CreateProperty("Наименование учереждения", 4, true));
+            context.Set<Property>().Add(propertyFactory.CreateProperty("Форма обучения", 5, true));
+            context.Set<Property>().Add(propertyFactory.CreateProperty("Факультет", 6, true));
+            context.Set<Property>().Add(propertyFactory.CreateProperty("Курс", 7, true));
+            context.Set<Property>().Add(propertyFactory.CreateProperty("Группа", 8, true));
+            context.Set<Property>().Add(propertyFactory.CreateProperty("Дисциплина", 9, false));
+            context.Set<Property>().Add(propertyFactory.CreateProperty("Учебник\\год вып.", 10, false));
+            context.Set<Property>().Add(propertyFactory.CreateProperty("Вариант", 11, false));
+            context.Set<Property>().Add(propertyFactory.CreateProperty("Данные\\кр.", 12, false));
 
             var russia = countryProp.GetState("Россия");
             var czech = countryProp.GetState("Чешская республика");

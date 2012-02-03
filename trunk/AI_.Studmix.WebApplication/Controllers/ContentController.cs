@@ -4,8 +4,11 @@ using System.Web.Mvc;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.Services.ContentService;
 using AI_.Studmix.ApplicationServices.Services.ContentService.Requests;
+using AI_.Studmix.ApplicationServices.Services.MembershipService;
+using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
 using AI_.Studmix.ApplicationServices.Services.SearchService;
 using AI_.Studmix.ApplicationServices.Services.SearchService.Requests;
+using AI_.Studmix.WebApplication.Infrastructure;
 using AI_.Studmix.WebApplication.ViewModels.Content;
 using AI_.Studmix.WebApplication.ViewModels.Shared;
 using MvcContrib.Pagination;
@@ -17,11 +20,15 @@ namespace AI_.Studmix.WebApplication.Controllers
     {
         protected IContentService ContentService { get; set; }
         protected ISearchService SearchService { get; set; }
+        protected IMembershipService MembershipService { get; set; }
 
-        public ContentController(IContentService contentService, ISearchService searchService)
+        public ContentController(IContentService contentService,
+                                 ISearchService searchService,
+                                 IMembershipService membershipService)
         {
             ContentService = contentService;
             SearchService = searchService;
+            MembershipService = membershipService;
         }
 
         [HttpGet]
@@ -34,14 +41,6 @@ namespace AI_.Studmix.WebApplication.Controllers
                                 Properties = response.Properties
                             };
             return View(viewModel);
-        }
-
-        [HttpPost]
-        public JsonResult UpdateStates(Dictionary<int, string> states, int id)
-        {
-            var request = new GetBoundedStatesRequest {States = states, PropertyID = id};
-            var response = SearchService.GetBoundedStates(request);
-            return Json(response.States);
         }
 
         [HttpPost]
@@ -70,6 +69,14 @@ namespace AI_.Studmix.WebApplication.Controllers
                                    new ActionLinkInfo("Content", "Upload", "Вернуться"));
         }
 
+        [HttpPost]
+        public JsonResult UpdateStates(Dictionary<int, string> states, int id)
+        {
+            var request = new GetBoundedStatesRequest {States = states, PropertyID = id};
+            var response = SearchService.GetBoundedStates(request);
+            return Json(response.States);
+        }
+
         [HttpGet]
         public ViewResult Details(int id)
         {
@@ -87,18 +94,16 @@ namespace AI_.Studmix.WebApplication.Controllers
         [HttpGet]
         public ViewResult Search()
         {
-            var viewModel = new SearchViewModel();
-            var response = ContentService.GetProperties();
-            viewModel.Properties = response.Properties;
-
+            var response = MembershipService.GetUser(new GetUserRequest(User.Identity.Name));
+            var viewModel = ViewModelMapper.Map<SearchViewModel>(response);
             return View(viewModel);
         }
 
         [HttpPost]
         public ViewResult Search(SearchViewModel viewModel)
         {
-            var getPropertiesResponse = ContentService.GetProperties();
-            viewModel.Properties = getPropertiesResponse.Properties;
+            var getUserResponse = MembershipService.GetUser(new GetUserRequest(User.Identity.Name));
+            viewModel = ViewModelMapper.Map<SearchViewModel>(getUserResponse);
             var request = new FindPackagesByPropertyStatesRequest(viewModel.States);
             var response = SearchService.FindPackagesByPropertyStates(request);
 

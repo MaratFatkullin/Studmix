@@ -4,9 +4,12 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService.Requests
     {
         public string UserName { get; set; }
 
-        public GetUserRequest(string userName)
+        public bool NeedAllProperties { get; set; }
+
+        public GetUserRequest(string userName, bool needAllProperties = true)
         {
             UserName = userName;
+            NeedAllProperties = needAllProperties;
         }
     }
 }

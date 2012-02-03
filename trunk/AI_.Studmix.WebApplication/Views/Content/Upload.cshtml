@@ -23,7 +23,7 @@
                             <span>@property.Name</span>
                         </div>
                         <div class="editor-field">
-                            @Html.CombBoxFor(x => x.States[property.ID], "/Content/UpdateStates/" + property.ID)
+                            @Html.CombBoxFor(x => x.States[property.ID], Url.Action("UpdateStates", new {id = property.ID}))
                         </div>
                     }
                 </fieldset>

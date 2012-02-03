@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
@@ -364,6 +365,50 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             response.TotalUsers.Should().Be(3);
         }
 
+
+        [Fact]
+        public void GetUser_UserHasPropertyStates_PropertyStatesProvided()
+        {
+            // Arrange
+            var user = CreateUser();
+            var property = CreateProperty();
+            user.PropertyStates.Add(property.GetState("someVal"));
+            UnitOfWork.GetRepository<User>().Insert(user);
+            UnitOfWork.GetRepository<Property>().Insert(property);
+            UnitOfWork.Save();
+
+            var service = CreateSut();
+            var request = new GetUserRequest(user.UserName);
+
+            // Act
+            var response = service.GetUser(request);
+
+            // Assert
+            response.User.States.Single().Value.Should().Be("someVal");
+            response.User.States.Single().Key.Should().Be(property.ID);
+        }
+
+        [Fact]
+        public void GetUser_Simple_PropertiesProvided()
+        {
+            // Arrange
+            var user = CreateUser();
+            UnitOfWork.GetRepository<User>().Insert(user);
+            UnitOfWork.GetRepository<Property>().Insert(CreateProperty());
+            UnitOfWork.GetRepository<Property>().Insert(CreateProperty(isUserProperty:true));
+            UnitOfWork.GetRepository<Property>().Insert(CreateProperty(isUserProperty: true));
+            UnitOfWork.Save();
+
+            var service = CreateSut();
+            var request = new GetUserRequest(user.UserName);
+
+            // Act
+            var response = service.GetUser(request);
+
+            // Assert
+            response.Properties.Should().HaveCount(2);
+        }
+
         [Fact]
         public void GetUser_UserExists_UserProvided()
         {
@@ -383,7 +428,7 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
         }
 
         [Fact]
-        public void GetUser_UserNotExists_UserProvided()
+        public void GetUser_UserNotExists_ExceptionThrown()
         {
             // Arrange
             var user = CreateUser();
@@ -402,13 +447,16 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             var user = CreateUser();
             user.IncomeMoney(33);
             UnitOfWork.GetRepository<User>().Insert(user);
+            var property = CreateProperty();
+            UnitOfWork.GetRepository<Property>().Insert(property);
             UnitOfWork.Save();
 
             var request = new UpdateUserRequest();
+            var states = new List<PropertyStateDto> {new PropertyStateDto(property.ID, "someVal")};
             var userDto = new UserDto
                           {
                               ID = user.ID,
-                              Balance = 42,
+                              States = states
                           };
             request.User = userDto;
 
@@ -418,7 +466,8 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
             service.UpdateUser(request);
 
             // Assert
-            user.Balance.Should().Be(userDto.Balance);
+            user.PropertyStates.Single().Property.Should().Be(property);
+            user.PropertyStates.Single().Value.Should().Be("someVal");
         }
     }
 }

@@ -59,6 +59,9 @@
     <ExcludeApp_Data>true</ExcludeApp_Data>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=2.0.0.232, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.2.0.0\lib\net40-client\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="DataAnnotationsExtensions">
       <HintPath>..\packages\DataAnnotationsExtensions.1.0.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
     </Reference>
@@ -138,6 +141,7 @@
     <Compile Include="Infrastructure\Authentication\AuthenticationProvider.cs" />
     <Compile Include="Infrastructure\Authentication\IAuthenticationProvider.cs" />
     <Compile Include="Infrastructure\ControllerActivator.cs" />
+    <Compile Include="Infrastructure\ViewModelMapper.cs" />
     <Compile Include="Infrastructure\Filters\LogErrorAttribute.asax.cs" />
     <Compile Include="Infrastructure\ModelBinders\DefaultDictionaryBinder.cs" />
     <Compile Include="Infrastructure\UnityDependencyResolver.cs" />
@@ -224,9 +228,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AI_.Studmix.ApplicationServices\AI_.Studmix.ApplicationServices.csproj">

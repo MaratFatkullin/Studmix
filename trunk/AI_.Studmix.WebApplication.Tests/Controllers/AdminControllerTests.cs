@@ -50,7 +50,7 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
             // Arrange
             var user = new UserDto();
             MembershipService.Setup(s => s.GetUser(It.Is<GetUserRequest>(r => r.UserName == "username")))
-                .Returns(new GetUserResponse(user));
+                .Returns(new GetUserResponse {User = user});
 
             var controller = CreateSut();
 

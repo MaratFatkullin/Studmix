@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
@@ -126,7 +127,16 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
             {
                 throw new ApplicationException("Пользователь с указанным именем пользователя не существует.");
             }
-            return new GetUserResponse(DtoMapper.Map<UserDto>(user));
+            IEnumerable<Property> properties = UnitOfWork.GetRepository<Property>().Get();
+            if (!request.NeedAllProperties)
+            {
+                properties = properties.Where(p => p.IsUserProperty);
+            }
+            return new GetUserResponse
+                   {
+                       User = DtoMapper.Map<UserDto>(user),
+                       Properties = DtoMapper.MapSequence<PropertyDto>(properties)
+                   };
         }
 
         public UpdateUserResponse UpdateUser(UpdateUserRequest request)
@@ -134,14 +144,13 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
             var userDto = request.User;
             var user = UnitOfWork.GetRepository<User>().GetByID(userDto.ID);
 
-            var delta = userDto.Balance - user.Balance;
-            if (delta > 0)
+            var propertiesRepository = UnitOfWork.GetRepository<Property>();
+            user.PropertyStates.Clear();
+            foreach (var stateDto in request.User.States)
             {
-                user.IncomeMoney(delta);
-            }
-            else
-            {
-                user.OutcomeMoney(Math.Abs(delta));
+                var property = propertiesRepository.GetByID(stateDto.Key);
+                var state = property.GetState(stateDto.Value);
+                user.PropertyStates.Add(state);
             }
 
             UnitOfWork.Save();

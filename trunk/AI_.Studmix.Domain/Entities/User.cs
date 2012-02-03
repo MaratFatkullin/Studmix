@@ -34,9 +34,12 @@ namespace AI_.Studmix.Domain.Entities
 
         public virtual ICollection<Order> Orders { get; set; }
 
+        public virtual ICollection<PropertyState> PropertyStates { get; set; }
+
         public decimal Balance { get; protected set; }
 
         public string PhoneNumber { get; set; }
+
         public virtual ICollection<Invoice> Invoices { get; set; }
 
         public User()

@@ -1,13 +1,16 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using System.Web.Security;
+using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.Services.MembershipService;
 using AI_.Studmix.ApplicationServices.Services.MembershipService.Requests;
+using AI_.Studmix.WebApplication.Infrastructure;
 using AI_.Studmix.WebApplication.Infrastructure.Authentication;
 using AI_.Studmix.WebApplication.ViewModels.Account;
 
 namespace AI_.Studmix.WebApplication.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : ControllerBase
     {
         protected IMembershipService MembershipService { get; set; }
         protected IAuthenticationProvider AuthenticationProvider { get; set; }
@@ -165,10 +168,20 @@ namespace AI_.Studmix.WebApplication.Controllers
         [Authorize]
         public ViewResult ViewAccount()
         {
-            var request = new GetUserRequest(User.Identity.Name);
+            var request = new GetUserRequest(User.Identity.Name, false);
             var response = MembershipService.GetUser(request);
-            var viewModel = new ViewAccountViewModel {User = response.User};
+            var viewModel = ViewModelMapper.Map<ViewAccountViewModel>(response);
             return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public RedirectToRouteResult UpdateUser(ViewAccountViewModel viewModel)
+        {
+            var request = ViewModelMapper.Map<UpdateUserRequest>(viewModel);
+            MembershipService.UpdateUser(request);
+            SetMessage("Пользовательские данные успешно обновлены.");
+            return RedirectToAction("ViewAccount");
         }
 
         #region Status Codes

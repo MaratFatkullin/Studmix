@@ -15,19 +15,7 @@ namespace AI_.Studmix.Domain.Factories
             if (role == null)
                 throw new ArgumentNullException("role");
 
-            var userPrinciple = new User
-                                {
-                                    Email = email,
-                                    IsApproved = true,
-                                    IsLocked = false,
-                                    UserName = username,
-                                    Password = password,
-                                    PasswordAnswer = null,
-                                    PasswordQuestion = null,
-                                    PhoneNumber = phoneNumber,
-                                    Orders = new Collection<Order>(),
-                                    Roles = new Collection<Role>()
-                                };
+            var userPrinciple = InternalCreateUser(username, password, email, phoneNumber);
             userPrinciple.Roles.Add(role);
 
             return userPrinciple;
@@ -56,6 +44,7 @@ namespace AI_.Studmix.Domain.Factories
                        PhoneNumber = phoneNumber,
                        Orders = new Collection<Order>(),
                        Roles = new Collection<Role>(),
+                       PropertyStates = new Collection<PropertyState>(),
                        Invoices = new Collection<Invoice>()
                    };
         }
