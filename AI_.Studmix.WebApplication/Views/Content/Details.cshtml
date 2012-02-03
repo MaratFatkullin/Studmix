@@ -63,9 +63,11 @@
                 <ul>
                     @foreach (var file in Model.Package.Files.Where(f => f.IsPreview))
                     {
-                        <li>
-                            @Html.ActionLink(file.Name, "Download", new {id = file.ID})
-                        </li>
+                        <div>
+                            <a href='@Url.Action("Download", new {id = file.ID})'>
+                                <img src='@Url.Action("Preview", new {id = file.ID})' alt=""/>
+                            </a>
+                        </div>
                     }
                 </ul>
             </fieldset>

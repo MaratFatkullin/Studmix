@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.Services.ContentService;
@@ -89,6 +90,15 @@ namespace AI_.Studmix.WebApplication.Controllers
                                 Properties = getPropertiesResponse.Properties
                             };
             return View(viewModel);
+        }
+
+        public ActionResult Preview(int id)
+        {
+            var response = ContentService.DownloadFile(new DownloadRequest(id, User.Identity.Name));
+            var webImage = new WebImage(response.File.Stream);
+            var resizedImage = webImage.Resize(100, 100, true, false);
+
+            return File(resizedImage.GetBytes(), resizedImage.ImageFormat);
         }
 
         [HttpGet]
