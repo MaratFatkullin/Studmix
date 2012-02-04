@@ -26,7 +26,7 @@ namespace AI_.Studmix.Infrastructure.Database
             context.Set<Role>().Add(userRole);
 
             var userFactory = new UserFactory();
-            var marat = userFactory.CreateUser("marat", "123", "", "", userRole);
+            var marat = userFactory.CreateUser("marat", "123", "", "9872854409", userRole);
             var admin = userFactory.CreateUser("admin", "123", "", "", adminRole);
 
             marat.IncomeMoney(1000);

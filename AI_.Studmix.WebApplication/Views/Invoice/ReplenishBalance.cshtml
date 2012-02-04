@@ -1,12 +1,21 @@
-﻿@using AI_.Studmix.WebApplication.ViewModels.Invoice
-@model ReplenishBalanceViewModel
+﻿@model AI_.Studmix.WebApplication.ViewModels.Invoice.ReplenishBalanceViewModel
 
 @{
     ViewBag.Title = "Пополнение баланса";
 }
 
 <p>
-    Укажите сумму в рублях, на которую Вы хотите пополнить свой баланс.
+    Укажите сумму в рублях, на которую Вы хотите пополнить свой баланс. 
+    <br/>
+    После нажатия на кнопку "Выставить счет к оплате" на Qiwi-кошелек, соответсвующий Вашему номеру телефона будет выставлен счет, 
+    <br/>
+    после оплаты которого будет пополнен Ваш баланс.
+    <p>
+        Краткое руководство по использованию Qiwi-кошелька вы можете прочитать <a href='@Url.Action("QiwiInstructions")'>здесь</a>.
+    </p>
+</p>
+<p>
+    <img src='@Url.Content("~/Content/images/qiwi_logo_2.jpg")' width="200" alt="Qiwi"></img>
 </p>
 
 @using (Html.BeginForm())
@@ -21,5 +30,5 @@
         </div>
     </fieldset>
 
-    <input type="submit" value="Отправить заявку"/>
+    <input type="submit" value="Выставить счет к оплате"/>
 }

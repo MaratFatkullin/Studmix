@@ -33,5 +33,10 @@ namespace AI_.Studmix.WebApplication.Controllers
                                    "После оплаты счета Ваш балнс на STUDMIX будет пополнен на указаную сумму.",
                                    new ActionLinkInfo("Account", "ViewAccount", "Вернуться в личный кабинет"));
         }
+
+        public ViewResult QiwiInstructions()
+        {
+            return View();
+        }
     }
 }
