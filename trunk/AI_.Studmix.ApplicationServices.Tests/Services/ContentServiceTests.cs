@@ -107,10 +107,10 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
                               OwnerUserName = user.UserName,
                               ContentFiles =
                                   new List<FileStreamDto>
-                                  {new FileStreamDto("file1", CreateStream())},
+                                  {new FileStreamDto("file1", CreateStream(), true)},
                               PreviewContentFiles =
                                   new List<FileStreamDto>
-                                  {new FileStreamDto("file2", CreateStream())},
+                                  {new FileStreamDto("file2", CreateStream(), true)},
                           };
 
             var service = CreateSut();
@@ -144,9 +144,9 @@ namespace AI_.Studmix.ApplicationServices.Tests.Services
                               OwnerUserName = user.UserName,
                               States = new List<PropertyStateDto> {new PropertyStateDto(1, "state1")},
                               ContentFiles =
-                                  new List<FileStreamDto> {new FileStreamDto("filename1", stream1)},
+                                  new List<FileStreamDto> {new FileStreamDto("filename1", stream1, true)},
                               PreviewContentFiles =
-                                  new List<FileStreamDto> {new FileStreamDto("filename2", stream2)}
+                                  new List<FileStreamDto> {new FileStreamDto("filename2", stream2, true)}
                           };
 
             var service = CreateSut();

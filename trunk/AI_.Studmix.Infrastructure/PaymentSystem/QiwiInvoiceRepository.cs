@@ -85,6 +85,7 @@ namespace AI_.Studmix.Infrastructure.PaymentSystem
             request.Add(GetExtraAttribute("amount", invoice.Amount.ToString()));
             request.Add(GetExtraAttribute("ALARM_SMS", "0"));
             request.Add(GetExtraAttribute("ACCEPT_CALL", "0"));
+            request.Add(GetExtraAttribute("create-agt", "1"));
             request.Add(GetExtraAttribute("trm-id", invoice.TransactionID.ToString()));
             request.Add(GetExtraAttribute("comment", invoice.Comment));
             return request;

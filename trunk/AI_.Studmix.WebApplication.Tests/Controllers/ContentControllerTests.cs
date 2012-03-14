@@ -199,7 +199,7 @@ namespace AI_.Studmix.WebApplication.Tests.Controllers
             var stream = CreateStream();
             ContentService.Setup(
                 s => s.DownloadFile(It.Is<DownloadRequest>(r => r.FileID == 5 && r.UserName == "username")))
-                .Returns(new DownloadResponse(new FileStreamDto("filename", stream)));
+                .Returns(new DownloadResponse(new FileStreamDto("filename", stream, true)));
 
             var controller = CreateSut();
             controller.ControllerContext = CreateContext("username");
