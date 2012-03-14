@@ -101,10 +101,11 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService
             var contentFile = UnitOfWork.GetRepository<ContentFile>().GetByID(request.FileID);
             var user = UnitOfWork.GetRepository<User>().Get(new GetUserByUserName(request.UserName)).Single();
             var userHasPermissions = PermissionService.UserHasPermissions(user, contentFile.ContentPackage);
+            userHasPermissions |= contentFile.IsPreview;
             if (userHasPermissions)
             {
                 var stream = FileRepository.GetFileStream(contentFile);
-                return new DownloadResponse(new FileStreamDto(contentFile.Name, stream));
+                return new DownloadResponse(new FileStreamDto(contentFile.Name, stream, contentFile.IsImage));
             }
             else
             {

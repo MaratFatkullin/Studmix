@@ -1,0 +1,15 @@
+﻿@model AI_.Studmix.ApplicationServices.DataTransferObjects.ContentFileDto
+<div>
+    @if (Model.IsImage)
+    {
+        <a href='@Url.Action("Download", "Content", new {id = Model.ID})'>
+            <img src='@Url.Action("Preview", "Content", new {id = Model.ID})' alt=""/>
+        </a>
+    }
+    else
+    {
+        <li>
+            @Html.ActionLink(Model.Name, "Download", "Content", new {id = Model.ID}, null)
+        </li>
+    }
+</div>

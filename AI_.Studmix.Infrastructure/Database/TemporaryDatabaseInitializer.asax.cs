@@ -5,7 +5,7 @@ using AI_.Studmix.Domain.Factories;
 
 namespace AI_.Studmix.Infrastructure.Database
 {
-    public class TemporaryDatabaseInitializer : DropCreateDatabaseAlways<DataContext>
+    public class TemporaryDatabaseInitializer : CreateDatabaseIfNotExists<DataContext>
     {
         protected override void Seed(DataContext context)
         {
@@ -26,14 +26,17 @@ namespace AI_.Studmix.Infrastructure.Database
             context.Set<Role>().Add(userRole);
 
             var userFactory = new UserFactory();
-            var marat = userFactory.CreateUser("marat", "123", "", "9872854409", userRole);
+            var user1 = userFactory.CreateUser("user1", "123", "", "9872854409", userRole);
+            var user2 = userFactory.CreateUser("user2", "123", "", "9872854409", userRole);
             var admin = userFactory.CreateUser("admin", "123", "", "", adminRole);
 
-            marat.IncomeMoney(1000);
+            user1.IncomeMoney(1000);
+            user2.IncomeMoney(1000);
             admin.IncomeMoney(1000);
 
             context.Set<User>().Add(admin);
-            context.Set<User>().Add(marat);
+            context.Set<User>().Add(user1);
+            context.Set<User>().Add(user2);
 
             #endregion
 
@@ -74,14 +77,14 @@ namespace AI_.Studmix.Infrastructure.Database
             var contentPackage1 = packageFactory.CreateContentPackage(
                 "",
                 "",
-                marat,
+                user2,
                 70,
                 new Collection<PropertyState> {russia, moscow});
 
             var contentPackage2 = packageFactory.CreateContentPackage(
                 "",
                 "",
-                marat,
+                user2,
                 100,
                 new Collection<PropertyState> {russia, kazan});
 

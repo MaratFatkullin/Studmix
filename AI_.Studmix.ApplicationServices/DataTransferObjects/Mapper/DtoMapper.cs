@@ -8,7 +8,7 @@ namespace AI_.Studmix.ApplicationServices.DataTransferObjects.Mapper
         static DtoMapper()
         {
             AutoMapper.Mapper.CreateMap<ContentFile, ContentFileDto>()
-                .ConstructUsing(f => new ContentFileDto(f.ID, f.Name, f.IsPreview));
+                .ConstructUsing(f => new ContentFileDto(f.ID, f.Name, f.IsPreview,f.IsImage));
 
             AutoMapper.Mapper.CreateMap<ContentPackage, ContentPackageDto>();
 

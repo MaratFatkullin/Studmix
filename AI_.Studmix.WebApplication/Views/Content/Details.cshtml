@@ -63,11 +63,7 @@
                 <ul>
                     @foreach (var file in Model.Package.Files.Where(f => f.IsPreview))
                     {
-                        <div>
-                            <a href='@Url.Action("Download", new {id = file.ID})'>
-                                <img src='@Url.Action("Preview", new {id = file.ID})' alt=""/>
-                            </a>
-                        </div>
+                        Html.RenderPartial("ContentFile", file);
                     }
                 </ul>
             </fieldset>

@@ -57,10 +57,10 @@ namespace AI_.Studmix.WebApplication.Controllers
                                   viewModel.States.Select(s => new PropertyStateDto(s.Key, s.Value)).ToList(),
                               ContentFiles = viewModel.ContentFiles
                                   .Where(f => f != null)
-                                  .Select(f => new FileStreamDto(f.FileName, f.InputStream)),
+                                  .Select(f => new FileStreamDto(f.FileName, f.InputStream, true)),
                               PreviewContentFiles = viewModel.PreviewContentFiles
                                   .Where(f => f != null)
-                                  .Select(f => new FileStreamDto(f.FileName, f.InputStream))
+                                  .Select(f => new FileStreamDto(f.FileName, f.InputStream, true))
                           };
 
             ContentService.Store(request);
@@ -96,8 +96,7 @@ namespace AI_.Studmix.WebApplication.Controllers
         {
             var response = ContentService.DownloadFile(new DownloadRequest(id, User.Identity.Name));
             var webImage = new WebImage(response.File.Stream);
-            var resizedImage = webImage.Resize(100, 100, true, false);
-
+            var resizedImage = webImage.Resize(100, 100);
             return File(resizedImage.GetBytes(), resizedImage.ImageFormat);
         }
 
@@ -113,9 +112,9 @@ namespace AI_.Studmix.WebApplication.Controllers
         public ViewResult Search(SearchViewModel viewModel)
         {
             var getUserResponse = MembershipService.GetUser(new GetUserRequest(User.Identity.Name));
-            viewModel = ViewModelMapper.Map<SearchViewModel>(getUserResponse);
             var request = new FindPackagesByPropertyStatesRequest(viewModel.States);
             var response = SearchService.FindPackagesByPropertyStates(request);
+            viewModel = ViewModelMapper.Map<SearchViewModel>(getUserResponse);
 
             if (viewModel.PageNumber == null)
                 viewModel.PageNumber = 1;
@@ -129,7 +128,10 @@ namespace AI_.Studmix.WebApplication.Controllers
             var response = ContentService.DownloadFile(new DownloadRequest(id, User.Identity.Name));
             if (response.IsAccessGranted)
             {
-                return new FileStreamResult(response.File.Stream, "image/jpeg");
+                var contentType = "application/unknown";
+                if (response.File.IsImage)
+                    contentType = "image/jpeg";
+                return new FileStreamResult(response.File.Stream, contentType);
             }
             else
             {
