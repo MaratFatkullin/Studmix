@@ -36,7 +36,7 @@ namespace AI_.Studmix.ApplicationServices
                         statuses = Repository.GetInvoiceStatuses(expectedInvoices);
                         foreach (var status in statuses)
                         {
-                            if (status.Value != InvoiceStatus.Invoiced)
+                            if (status.Value == InvoiceStatus.Paid)
                             {
                                 var invoice = repository.Get(i => i.TransactionID == status.Key).Single();
                                 invoice.MarkAsPaid();
