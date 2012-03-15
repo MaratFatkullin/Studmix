@@ -126,16 +126,18 @@ namespace AI_.Studmix.WebApplication.Controllers
         public ActionResult Download(int id)
         {
             var response = ContentService.DownloadFile(new DownloadRequest(id, User.Identity.Name));
-            if (response.IsAccessGranted)
+            if (!response.IsAccessGranted)
             {
-                var contentType = "application/unknown";
-                if (response.File.IsImage)
-                    contentType = "image/jpeg";
-                return new FileStreamResult(response.File.Stream, contentType);
+                return ErrorView("Ошибка доступа", "Доступ к скачиванию файла закрыт.");
+            }
+            
+            if (response.File.IsImage)
+            {
+                return new FileStreamResult(response.File.Stream, "image/jpeg");
             }
             else
             {
-                return ErrorView("Ошибка доступа", "Доступ к скачиванию файла закрыт.");
+                return File(response.File.Stream, "application/unknown", response.File.FileName);
             }
         }
     }
