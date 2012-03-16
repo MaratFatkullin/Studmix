@@ -30,10 +30,10 @@
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Загрузка", "Upload", "Content")</li>
                         <li>@Html.ActionLink("Поиск", "Search", "Content")</li>
                         if (User.Identity.Name == "admin")
                         {
+                            <li>@Html.ActionLink("Загрузка", "Upload", "Content")</li>
                             <li>@Html.ActionLink("Пользователи", "Users", "Admin")</li>
                         }
                         else
