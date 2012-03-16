@@ -45,6 +45,7 @@ namespace AI_.Studmix.WebApplication.Controllers
         }
 
         [HttpPost]
+        [Authorize(Users = "admin")]
         public ActionResult Upload(UploadViewModel viewModel)
         {
             var request = new StoreRequest
