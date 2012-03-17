@@ -23,11 +23,14 @@ namespace AI_.Studmix.WebApplication.Controllers
             return View("ApplicationError", viewModel);
         }
 
-        public ViewResult InformationView(string title, string message, ActionLinkInfo link)
+        public ViewResult InformationView(string title, string message, params ActionLinkInfo[] links)
         {
             SetMessage(message);
             var viewModel = new InformationViewModel(title);
-            viewModel.ActionLinks.Add(link);
+            foreach (var link in links)
+            {
+                viewModel.ActionLinks.Add(link);
+            }
             return View("Information", viewModel);
         }
     }

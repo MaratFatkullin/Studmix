@@ -1,14 +1,13 @@
-﻿@using AI_.Studmix.WebApplication.ViewModels.Shared
-@model InformationViewModel
+﻿@model AI_.Studmix.WebApplication.ViewModels.Shared.InformationViewModel
 
 @{
     ViewBag.Title = Model.Title;
 }
-
-@foreach (var linkInfo in Model.ActionLinks)
-{
-    <p>
-        @Html.ActionLink(linkInfo.LinkText, linkInfo.ActionName,linkInfo.ControllerName,linkInfo.RouteData,null)    
-    </p>
-}
-
+<div>
+    @foreach (var linkInfo in Model.ActionLinks)
+    {
+        <p>
+            <a href="@linkInfo.Url">@linkInfo.LinkText</a>        
+        </p>
+    }
+</div>

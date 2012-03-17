@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Web.Mvc;
+using System.Web.Mvc.Html;
 
 namespace AI_.Studmix.WebApplication.ViewModels.Shared
 {
@@ -18,20 +20,13 @@ namespace AI_.Studmix.WebApplication.ViewModels.Shared
 
     public class ActionLinkInfo
     {
-        public string ControllerName { get; set; }
-        public string ActionName { get; set; }
         public string LinkText { get; set; }
-        public object RouteData { get; set; }
+        public string Url { get; protected set; }
 
-        public ActionLinkInfo(string controllerName,
-                              string actionName,
-                              string caption,
-                              object routeData = null)
+        public ActionLinkInfo(string url, string linkText)
         {
-            ControllerName = controllerName;
-            ActionName = actionName;
-            LinkText = caption;
-            RouteData = routeData;
+            LinkText = linkText;
+            Url = url;
         }
     }
 }

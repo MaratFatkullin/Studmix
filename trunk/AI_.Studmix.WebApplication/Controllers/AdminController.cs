@@ -52,7 +52,7 @@ namespace AI_.Studmix.WebApplication.Controllers
 
             return InformationView("Обновление завершено",
                                    "Изменение учетной записи прошло успешно.",
-                                   new ActionLinkInfo("admin", "Users", "К списку пользователей"));
+                                   new ActionLinkInfo(Url.Action("Users", "Admin"), "К списку пользователей"));
         }
     }
 }

@@ -68,7 +68,7 @@ namespace AI_.Studmix.WebApplication.Controllers
 
             return InformationView("Загрузка завершена",
                                    "Контент успешно загружен. Благодарим за использование нашего ресурса.",
-                                   new ActionLinkInfo("Content", "Upload", "Вернуться"));
+                                   new ActionLinkInfo(Url.Action("Upload", "Content"), "Вернуться"));
         }
 
         [HttpPost]
