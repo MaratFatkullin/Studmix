@@ -46,7 +46,7 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService
             //property states
             var propertyRepository = UnitOfWork.GetRepository<Property>();
             var propertyStates = new Collection<PropertyState>();
-            foreach (var state in request.States)
+            foreach (var state in request.States.Where(st=>!string.IsNullOrWhiteSpace(st.Value)))
             {
                 var property = propertyRepository.GetByID(state.Key);
                 var propertyState = property.GetState(state.Value);
