@@ -123,6 +123,8 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
             var user = UnitOfWork.GetRepository<User>()
                 .Get(new GetUserByUserName(request.UserName))
                 .SingleOrDefault();
+            var orders = UnitOfWork.GetRepository<Order>().Get(o => o.User.ID == user.ID, includeProperties: "ContentPackage");
+            var packages = orders.Select(o => o.ContentPackage).ToList();
             if (user == null)
             {
                 throw new ApplicationException("Пользователь с указанным именем пользователя не существует.");
@@ -135,6 +137,7 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService
             return new GetUserResponse
                    {
                        User = DtoMapper.Map<UserDto>(user),
+                       BoughtPackages = DtoMapper.MapSequence<ContentPackageDto>(packages),
                        Properties = DtoMapper.MapSequence<PropertyDto>(properties)
                    };
         }

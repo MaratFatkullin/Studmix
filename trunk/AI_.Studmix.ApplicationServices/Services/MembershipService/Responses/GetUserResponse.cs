@@ -8,5 +8,7 @@ namespace AI_.Studmix.ApplicationServices.Services.MembershipService.Responses
         public UserDto User { get; set; }
 
         public IEnumerable<PropertyDto> Properties { get; set; }
+
+        public IEnumerable<ContentPackageDto> BoughtPackages { get; set; }
     }
 }

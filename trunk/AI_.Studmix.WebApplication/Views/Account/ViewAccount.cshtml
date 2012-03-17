@@ -103,6 +103,23 @@
                     }
                 </fieldset>
             </td>
+            <td>
+                <fieldset>
+                    <legend>Приобретенные материалы</legend>
+                    <div>
+                        <ul>
+                            
+                            @foreach (var package in Model.BoughtPackages)
+                            {
+                                <li>
+                                    @Html.ActionLink(string.Format("{0}-{1}", package.Caption, package.CreateDate.ToShortDateString()),
+                                       "Details", "Content", new {id = package.ID}, null)
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </fieldset>
+            </td>
         </tr>
     </table>
     <p>
