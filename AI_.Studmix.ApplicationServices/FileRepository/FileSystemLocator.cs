@@ -28,7 +28,6 @@ namespace AI_.Studmix.ApplicationServices.FileRepository
                 return path;
 
             var maxOrder = propertyStates
-                .Where(ps => !string.IsNullOrWhiteSpace(ps.Value))
                 .Max(ps => ps.Property.Order);
             for (int i = 1; i <= maxOrder; i++)
             {
