@@ -42,12 +42,11 @@ namespace AI_.Studmix.WebApplication.Controllers
                           };
             OrderService.MakeOrder(request);
 
-            return InformationView("Покупка успешно произведена.",
-                                   string.Empty,
-                                   new ActionLinkInfo("Content",
-                                                      "Details",
-                                                      "Вернуться к просмотру",
-                                                      new {id = viewModel.ContentPackageID}));
+            return InformationView(
+                "Покупка успешно произведена.",
+                string.Empty,
+                new ActionLinkInfo(Url.Action("Details", "Content", new {id = viewModel.ContentPackageID}),
+                                   "Вернуться к просмотру"));
         }
     }
 }

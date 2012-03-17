@@ -31,7 +31,9 @@ namespace AI_.Studmix.WebApplication.Controllers
             return InformationView("Счет на пополнение баланса выставлен",
                                    "На Ваш Qiwi-аккаунт выставлен счет к оплате.\n" +
                                    "После оплаты счета Ваш балнс на STUDMIX будет пополнен на указаную сумму.",
-                                   new ActionLinkInfo("Account", "ViewAccount", "Вернуться в личный кабинет"));
+                                   new ActionLinkInfo("https://w.qiwi.ru/", "Перейти к оплате счета"),
+                                   new ActionLinkInfo(Url.Action("QiwiInstructions", "Invoice"),"Прочитать руководство по использованию Qiwi-кошелька"),
+                                   new ActionLinkInfo(Url.Action("ViewAccount", "Account"), "Вернуться в личный кабинет"));
         }
 
         public ViewResult QiwiInstructions()
