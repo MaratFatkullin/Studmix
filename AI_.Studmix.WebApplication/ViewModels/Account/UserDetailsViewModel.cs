@@ -8,6 +8,7 @@ namespace AI_.Studmix.WebApplication.ViewModels.Account
         public UserDto User { get; set; }
 
         public IEnumerable<PropertyDto> Properties { get; set; }
+        public IEnumerable<ContentPackageDto> BoughtPackages { get; set; }
 
         /// <summary>
         ///   Словарь пары ID свойства - состояние.

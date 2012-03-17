@@ -44,9 +44,9 @@ namespace AI_.Studmix.WebApplication.Controllers
 
             return InformationView(
                 "Покупка успешно произведена.",
-                string.Empty,
-                new ActionLinkInfo(Url.Action("Details", "Content", new {id = viewModel.ContentPackageID}),
-                                   "Вернуться к просмотру"));
+                "Благодарим за использование ресурса. Приобретенный материал доступен через поиск или в личном кабинете.",
+                new ActionLinkInfo(Url.Action("Details", "Content", new {id = viewModel.ContentPackageID}),"Вернуться к просмотру"),
+                new ActionLinkInfo(Url.Action("ViewAccount", "Account"),"Перейти к личному кабинету"));
         }
     }
 }
