@@ -141,5 +141,11 @@ namespace AI_.Studmix.WebApplication.Controllers
                 return File(response.File.Stream, "application/unknown", response.File.FileName);
             }
         }
+
+        public ActionResult DownloadZip(int id)
+        {
+            var response = ContentService.DownloadZip(new DownloadZipRequest(id));
+            return File(response.File.Stream, "application/zip", response.File.FileName);
+        }
     }
 }

@@ -10,11 +10,16 @@
         Доступ ограничен просмотром превью файлов.
         <br/>
         Для полного доступа 
-        @Html.ActionLink("Преобретите", "ViewOrder", "Order", new {id = Model.Package.ID}, null)
+        @Html.ActionLink("Преобретите", "ViewOrder", "Order", new { id = Model.Package.ID }, null)
         этот материал.
     </p>
 }
-
+else
+{
+    <p>
+        @Html.ActionLink("Скачать архивом", "DownloadZip", new {id = Model.Package.ID})
+    </p>
+}
 <table>
     <tr class="top">
         <td>
