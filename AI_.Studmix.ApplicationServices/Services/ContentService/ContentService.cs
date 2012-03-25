@@ -1,4 +1,6 @@
+using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.DataTransferObjects.Mapper;
@@ -10,6 +12,7 @@ using AI_.Studmix.Domain.Entities;
 using AI_.Studmix.Domain.Factories;
 using AI_.Studmix.Domain.Repository;
 using AI_.Studmix.Domain.Services.Abstractions;
+using Ionic.Zip;
 
 namespace AI_.Studmix.ApplicationServices.Services.ContentService
 {
@@ -110,6 +113,24 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService
             else
             {
                 return new DownloadResponse();
+            }
+        }
+
+        public DownloadZipResponse DownloadZip(DownloadZipRequest request)
+        {
+            var package = UnitOfWork.GetRepository<ContentPackage>().GetByID(request.PackageID);
+            using (var zip = new ZipFile())
+            {
+                foreach (var file in package.Files)
+                {
+                    zip.AddEntry(file.Name, FileRepository.GetFileStream(file));
+                }
+
+                var zipStream = new MemoryStream();
+                zipStream.Position = 0;
+                zip.Save(zipStream);
+                zipStream.Seek(0, SeekOrigin.Begin);
+                return new DownloadZipResponse(new FileStreamDto(package.Caption + "Arch", zipStream, false));
             }
         }
 

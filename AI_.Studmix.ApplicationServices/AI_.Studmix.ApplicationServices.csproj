@@ -53,6 +53,9 @@
     <Reference Include="AutoMapper">
       <HintPath>..\packages\AutoMapper.2.0.0\lib\net40-client\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -75,9 +78,11 @@
     <Compile Include="FileRepository\IFileSystemProvider.cs" />
     <Compile Include="DataTransferObjects\PropertyStateDto.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="Services\ContentService\Requests\DownloadZipRequest.cs" />
     <Compile Include="Services\ContentService\Requests\DownloadRequest.cs" />
     <Compile Include="DataTransferObjects\FileStreamDto.cs" />
     <Compile Include="Services\ContentService\Requests\GetPackageByIDRequest.cs" />
+    <Compile Include="Services\ContentService\Responses\DownloadZipResponse.cs" />
     <Compile Include="Services\ContentService\Responses\DownloadResponse.cs" />
     <Compile Include="Services\ContentService\Responses\GetPackageByIDResponse.cs" />
     <Compile Include="Services\ContentService\Responses\GetPropertiesResponse.cs" />
@@ -133,7 +138,9 @@
     <Folder Include="Services\someService\Responses\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
