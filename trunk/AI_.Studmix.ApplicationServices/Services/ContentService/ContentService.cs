@@ -13,6 +13,7 @@ using AI_.Studmix.Domain.Factories;
 using AI_.Studmix.Domain.Repository;
 using AI_.Studmix.Domain.Services.Abstractions;
 using Ionic.Zip;
+using Ionic.Zlib;
 
 namespace AI_.Studmix.ApplicationServices.Services.ContentService
 {
@@ -128,9 +129,10 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService
 
                 var zipStream = new MemoryStream();
                 zipStream.Position = 0;
+                zip.CompressionLevel = CompressionLevel.Level2;
                 zip.Save(zipStream);
                 zipStream.Seek(0, SeekOrigin.Begin);
-                return new DownloadZipResponse(new FileStreamDto(package.Caption + "Arch", zipStream, false));
+                return new DownloadZipResponse(new FileStreamDto(package.Caption + "_arch.zip", zipStream, false));
             }
         }
 
