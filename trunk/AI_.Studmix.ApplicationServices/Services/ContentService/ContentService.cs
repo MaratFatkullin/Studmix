@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using AI_.Studmix.ApplicationServices.DataTransferObjects;
 using AI_.Studmix.ApplicationServices.DataTransferObjects.Mapper;
 using AI_.Studmix.ApplicationServices.FileRepository;
@@ -120,7 +121,7 @@ namespace AI_.Studmix.ApplicationServices.Services.ContentService
         public DownloadZipResponse DownloadZip(DownloadZipRequest request)
         {
             var package = UnitOfWork.GetRepository<ContentPackage>().GetByID(request.PackageID);
-            using (var zip = new ZipFile())
+            using (var zip = new ZipFile(Encoding.GetEncoding("cp866")))
             {
                 foreach (var file in package.Files)
                 {
