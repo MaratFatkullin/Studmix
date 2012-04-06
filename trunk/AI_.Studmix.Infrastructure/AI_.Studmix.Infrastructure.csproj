@@ -70,7 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessObject.cs" />
-    <Compile Include="Database\TemporaryDatabaseInitializer.asax.cs" />
+    <Compile Include="Database\ProductionDatabaseInitializer.asax.cs" />
+    <Compile Include="Database\DevelopmentDatabaseInitializer.asax.cs" />
     <Compile Include="Database\DataContext.cs" />
     <Compile Include="FileSystem\FileSystemProvider.cs" />
     <Compile Include="FileSystem\GuidProvider.cs" />

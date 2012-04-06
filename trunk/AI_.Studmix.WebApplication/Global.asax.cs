@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Globalization;
 using System.Threading;
@@ -54,7 +55,10 @@ namespace AI_.Studmix.WebApplication
 
         private static void InitializeDatabase()
         {
-            Database.SetInitializer(new TemporaryDatabaseInitializer());
+            if (ConfigurationManager.AppSettings["Debug"] == "true")
+                Database.SetInitializer(new DevelopmentDatabaseInitializer());
+            else
+                Database.SetInitializer(new ProductionDatabaseInitializer());
         }
 
         protected void Application_Start()
