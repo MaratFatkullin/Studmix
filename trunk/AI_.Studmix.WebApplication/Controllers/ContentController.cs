@@ -112,11 +112,13 @@ namespace AI_.Studmix.WebApplication.Controllers
         [HttpPost]
         public ViewResult Search(SearchViewModel viewModel)
         {
+            var pageNumber = viewModel.PageNumber;
             var getUserResponse = MembershipService.GetUser(new GetUserRequest(User.Identity.Name));
             var request = new FindPackagesByPropertyStatesRequest(viewModel.States);
             var response = SearchService.FindPackagesByPropertyStates(request);
             viewModel = ViewModelMapper.Map<SearchViewModel>(getUserResponse);
 
+            viewModel.PageNumber = pageNumber;
             if (viewModel.PageNumber == null)
                 viewModel.PageNumber = 1;
             viewModel.PackagesPagination = response.Packages.AsPagination((int) viewModel.PageNumber, 20);
